@@ -1,0 +1,17 @@
+# depslib dependency file v1.0
+1511938151 source:e:\sw\basic\d&a\d&a基础例程\1.顺序表\main.c
+	<stdio.h>
+	<stdlib.h>
+	"sys.h"
+	"order_storage.h"
+
+1510921882 e:\sw\basic\d&a\d&a基础例程\1.顺序表\sys.h
+
+1512526996 e:\sw\basic\d&a\d&a基础例程\1.顺序表\order_storage.h
+
+1581912997 source:e:\sw\basic\d&a\d&a基础例程\1.顺序表\order_storage.c
+	<stdio.h>
+	<stdlib.h>
+	<malloc.h>
+	"order_storage.h"
+

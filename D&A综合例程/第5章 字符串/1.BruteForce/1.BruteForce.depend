@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1513433664 source:e:\sw\软件基础例程\d&a综合例程\第5章 字符串\1.bruteforce\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+

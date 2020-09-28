@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1512723850 source:e:\sw\软件基础例程\d&a综合例程\第一章 线性表\7.约瑟夫问题\main.c
+	<stdio.h>
+	<stdlib.h>
+	<malloc.h>
+

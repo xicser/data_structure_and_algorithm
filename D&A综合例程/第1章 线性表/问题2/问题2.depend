@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1512033827 source:e:\sw\软件基础例程\d&a综合练习\第一章 线性表\问题2\main.c
+	<stdio.h>
+	<stdlib.h>
+	<malloc.h>
+

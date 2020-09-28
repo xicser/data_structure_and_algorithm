@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1512994252 source:e:\sw\软件基础例程\d&a综合例程\第二章 栈\4.逆波兰式求值\main.c
+	<stdio.h>
+	<stdlib.h>
+	<ctype.h>
+

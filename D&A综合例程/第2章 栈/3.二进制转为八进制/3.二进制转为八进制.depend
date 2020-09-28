@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1512804493 source:e:\sw\软件基础例程\d&a综合例程\第二章 栈\3.二进制转为八进制\main.c
+	<stdio.h>
+	<stdlib.h>
+	<malloc.h>
+	<math.h>
+

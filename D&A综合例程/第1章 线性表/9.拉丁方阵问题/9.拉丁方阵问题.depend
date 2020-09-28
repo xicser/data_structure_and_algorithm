@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1512738932 source:e:\sw\软件基础例程\d&a综合例程\第一章 线性表\9.拉丁方阵问题\main.c
+	<stdio.h>
+	<stdlib.h>
+	<malloc.h>
+

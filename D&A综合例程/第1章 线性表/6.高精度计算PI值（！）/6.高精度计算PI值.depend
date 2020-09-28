@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1189868556 source:f:\sw\软件基础例程\d&a综合练习\第一章 线性表\6.高精度计算pi值\main.c
+	<stdio.h>
+	<stdlib.h>
+

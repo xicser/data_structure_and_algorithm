@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1513164241 source:e:\sw\软件基础例程\d&a综合例程\第3章 递归\1.斐波那契数列\main.c
+	<stdio.h>
+	<stdlib.h>
+

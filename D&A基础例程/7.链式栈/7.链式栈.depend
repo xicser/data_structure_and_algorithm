@@ -1,0 +1,29 @@
+# depslib dependency file v1.0
+1519724590 source:f:\basic\软件基础例程\d&a基础例程\7.链式栈\main.c
+	<stdio.h>
+	<stdlib.h>
+	<malloc.h>
+	"chainStack.h"
+
+1519724991 f:\basic\软件基础例程\d&a基础例程\7.链式栈\chainstack.h
+
+1519725013 source:f:\basic\软件基础例程\d&a基础例程\7.链式栈\chainstack.c
+	<stdio.h>
+	<stdlib.h>
+	<malloc.h>
+	"chainStack.h"
+
+1519724606 source:c:\users\wangxi\desktop\7.链式栈\chainstack.c
+	<stdio.h>
+	<stdlib.h>
+	<malloc.h>
+	"chainStack.h"
+
+1519723746 c:\users\wangxi\desktop\7.链式栈\chainstack.h
+
+1519724590 source:c:\users\wangxi\desktop\7.链式栈\main.c
+	<stdio.h>
+	<stdlib.h>
+	<malloc.h>
+	"chainStack.h"
+

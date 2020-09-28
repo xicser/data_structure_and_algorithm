@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1510994928 source:f:\sw\软件基础例程\d&a综合练习\第一章 线性表\2.合并有序数组\main.c
+	<stdio.h>
+	<stdlib.h>
+	<malloc.h>
+
