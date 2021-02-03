@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1612346937 source:f:\code\data_structure_and_algorithm\complex_routines\ch2_stack\1.expression_evaluation\main.cpp
+	<iostream>
+	<string>
+	<stack>
+
