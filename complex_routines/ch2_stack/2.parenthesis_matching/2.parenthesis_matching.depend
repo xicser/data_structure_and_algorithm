@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1612412258 source:f:\code\data_structure_and_algorithm\complex_routines\ch2_stack\2.parenthesis_matching\main.cpp
+	<iostream>
+	<string>
+	<stack>
+
