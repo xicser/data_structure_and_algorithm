@@ -1,0 +1,63 @@
+# depslib dependency file v1.0
+1516893218 source:e:\sw\basic\d&a\d&a基础例程\11.链式树\linktree.c
+	<stdio.h>
+	<stdlib.h>
+	<malloc.h>
+	"LinkTree.h"
+	"stack.h"
+	"queue.h"
+
+1516892991 e:\sw\basic\d&a\d&a基础例程\11.链式树\linktree.h
+
+1516876793 e:\sw\basic\d&a\d&a基础例程\11.链式树\stack.h
+
+1516892275 e:\sw\basic\d&a\d&a基础例程\11.链式树\queue.h
+
+1516893099 source:e:\sw\basic\d&a\d&a基础例程\11.链式树\main.c
+	<stdio.h>
+	<stdlib.h>
+	"LinkTree.h"
+
+1512440695 source:e:\sw\basic\d&a\d&a基础例程\11.链式树\queue.c
+	<stdio.h>
+	<stdlib.h>
+	<malloc.h>
+	"queue.h"
+
+1512446836 source:e:\sw\basic\d&a\d&a基础例程\11.链式树\stack.c
+	<stdio.h>
+	<malloc.h>
+	<stdlib.h>
+	"stack.h"
+
+1612862965 source:i:\work\code\data_structure_and_algorithm\basic_routines\11.链式树\linktree.c
+	<stdio.h>
+	<stdlib.h>
+	<malloc.h>
+	"LinkTree.h"
+	"stack.h"
+	"queue.h"
+
+1612862965 i:\work\code\data_structure_and_algorithm\basic_routines\11.链式树\linktree.h
+
+1612862965 i:\work\code\data_structure_and_algorithm\basic_routines\11.链式树\stack.h
+
+1612862965 i:\work\code\data_structure_and_algorithm\basic_routines\11.链式树\queue.h
+
+1612862965 source:i:\work\code\data_structure_and_algorithm\basic_routines\11.链式树\main.c
+	<stdio.h>
+	<stdlib.h>
+	"LinkTree.h"
+
+1612862965 source:i:\work\code\data_structure_and_algorithm\basic_routines\11.链式树\queue.c
+	<stdio.h>
+	<stdlib.h>
+	<malloc.h>
+	"queue.h"
+
+1612862965 source:i:\work\code\data_structure_and_algorithm\basic_routines\11.链式树\stack.c
+	<stdio.h>
+	<malloc.h>
+	<stdlib.h>
+	"stack.h"
+
