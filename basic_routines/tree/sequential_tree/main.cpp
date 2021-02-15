@@ -1,9 +1,10 @@
 #include <iostream>
+#include "seq_bi_tree.h"
 
 using namespace std;
 
 int main()
 {
-    cout << "Hello world!" << endl;
+    testSeqTree();
     return 0;
 }
