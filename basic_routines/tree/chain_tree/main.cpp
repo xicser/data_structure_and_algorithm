@@ -1,23 +1,16 @@
-
-
-/*
-
-二叉链式树，二叉链表
-
-*/
-
-#include <stdio.h>
+#include <iostream>
 #include <stdlib.h>
-#include "LinkTree.h"
+#include "linkTree.h"
 
-//ABDG##H###CE#I##F##
-int main(void)
+using namespace std;
+
+int main()
 {
 	int level = 1;
 	BiTree BinaryTree;//定义一个二叉树（本质是指向一个结点的指针）
 
 	printf("请以先序遍历方式输入扩展二叉树结点元素值：\n");
-	CreateBiTreeRecursion(&BinaryTree);//先序创建二叉树
+	CreateBiTreeRecursion(BinaryTree);//先序创建二叉树
 	printf("\n");
 
 	//先序遍历
@@ -49,7 +42,5 @@ int main(void)
 	LevelOrderTraverse(BinaryTree);
 	printf("\n\n");
 
-
-	system("pause");
-	return 0;
+    return 0;
 }

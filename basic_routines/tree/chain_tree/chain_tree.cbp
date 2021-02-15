@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="11.链式树" />
+		<Option title="chain_tree" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/11.链式树" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/chain_tree" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -16,7 +16,7 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/11.链式树" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/chain_tree" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -30,26 +30,11 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="LinkTree.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="LinkTree.h" />
-		<Unit filename="main.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="queue.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="queue.h" />
-		<Unit filename="stack.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="stack.h" />
-		<Extensions>
-			<code_completion />
-			<envvars />
-			<debugger />
-		</Extensions>
+		<Unit filename="linkTree.cpp" />
+		<Unit filename="linkTree.h" />
+		<Unit filename="main.cpp" />
+		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
