@@ -10,10 +10,11 @@
 #include <math.h>
 #include <cmath>
 
+//abcxxdexxxxxxxf
 void InitSeqTree(SeqTree tree)
 {
 	//将字符数组中的所有元素初始化赋值
-	for(int i = 0; i < MAX_SIZE; i++) {
+	for(int i = 1; i < MAX_SIZE; i++) {
 		tree[i] = -1;
 	}
 }
@@ -26,7 +27,7 @@ void CreatSeqTree(SeqTree tree)
 
     for (unsigned int i = 0; i < input.length() ; i++) {
         ch = input[i];
-        tree[i] = ch;
+        tree[i + 1] = ch;
     }
 }
 
@@ -39,14 +40,14 @@ void PrintSeqTree(SeqTree tree, int i)
 	}
     printf("%c", ch);
 
-	PrintSeqTree(tree , 2 * i + 1);     //注意此处的下标计算不是完全二叉树里面的2 * i 和 2 * i + 1
-	PrintSeqTree(tree , 2 * (i + 1));
+	PrintSeqTree(tree , 2 * i);
+	PrintSeqTree(tree , 2 * i + 1);
 }
 
 static int getUsefulElemt(SeqTree tree)
 {
 	int cnt = 0;
-	for(int i = 0; i < MAX_SIZE; i++) {
+	for(int i = 1; i < MAX_SIZE; i++) {
 		if(tree[i] == -1) {
 			continue;
 		}
@@ -58,7 +59,7 @@ static int getUsefulElemt(SeqTree tree)
 void PrintSeqTree(SeqTree tree)
 {
     int nodeCnt = getUsefulElemt(tree);
-	for(int i = 0; i < nodeCnt; i++) {
+	for(int i = 1; i <= nodeCnt; i++) {
 		printf("%c", tree[i]);
 	}
 	printf("\n");
@@ -66,13 +67,13 @@ void PrintSeqTree(SeqTree tree)
 
 char GetSeqTreeRoot(SeqTree tree)
 {
-	return tree[0];
+	return tree[1];
 }
 
 int GetSeqTreeNodeCount(SeqTree tree)
 {
 	int len = 0;
-	for(int i = 0; i < MAX_SIZE; i++) {
+	for(int i = 1; i < MAX_SIZE; i++) {
 		if(tree[i] == -1 || tree[i] == 'x') {
 			continue;
 		}
@@ -99,5 +100,5 @@ void testSeqTree(void)
     printf("二叉树结点个数 = %d\n", GetSeqTreeNodeCount(tree));
     printf("二叉树深度 = %d\n", GetSeqTreeDepth(tree));
     PrintSeqTree(tree);
-	PrintSeqTree(tree, 0);
+	PrintSeqTree(tree, 1);
 }
