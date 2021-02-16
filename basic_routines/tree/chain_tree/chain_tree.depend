@@ -1,11 +1,13 @@
 # depslib dependency file v1.0
-1613394912 source:i:\work\code\data_structure_and_algorithm\basic_routines\tree\chain_tree\linktree.cpp
+1613459364 source:i:\work\code\data_structure_and_algorithm\basic_routines\tree\chain_tree\linktree.cpp
 	<stdio.h>
 	<stdlib.h>
 	<malloc.h>
+	<stack>
+	<queue>
 	"linkTree.h"
 
-1613394186 i:\work\code\data_structure_and_algorithm\basic_routines\tree\chain_tree\linktree.h
+1613397695 i:\work\code\data_structure_and_algorithm\basic_routines\tree\chain_tree\linktree.h
 
 1613394230 source:i:\work\code\data_structure_and_algorithm\basic_routines\tree\chain_tree\main.cpp
 	<iostream>
