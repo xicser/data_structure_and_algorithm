@@ -90,6 +90,63 @@ void PostOrderTraverseRecursion(BiTree T)
 	printf("%c ", T->data);
 }
 
+/* 二叉树复制 */
+void BiTreeCopyRecursion(BiTree pTree, BiTree &pTreeOut)
+{
+	if (pTree == nullptr) {
+        pTreeOut = nullptr;
+        return;
+	}
+
+    pTreeOut = (BiTree)malloc(sizeof(BiTNode));
+    pTreeOut->data = pTree->data;
+
+	BiTreeCopyRecursion(pTree->lchild, pTreeOut->lchild);
+	BiTreeCopyRecursion(pTree->rchild, pTreeOut->rchild);
+}
+
+/* 获取深度 */
+int GetDepth(BiTree pTree)
+{
+    if (pTree == nullptr) {
+        return 0;
+    }
+
+    int depthLeft = GetDepth(pTree->lchild);
+    int depthRight = GetDepth(pTree->rchild);
+
+    return max(depthLeft, depthRight) + 1;
+}
+
+/* 获取结点个数 */
+int GetNodeCount(BiTree pTree)
+{
+    if (pTree == nullptr) {
+        return 0;
+    }
+
+    int nodeCntLeft = GetNodeCount(pTree->lchild);
+    int nodeCntRight = GetNodeCount(pTree->rchild);
+
+    return nodeCntLeft + nodeCntRight + 1;
+}
+
+/* 获取叶子结点个数 */
+int GetLeafNodeCount(BiTree pTree)
+{
+    if (pTree == nullptr) {
+        return 0;
+    }
+    if (pTree->lchild == nullptr && pTree->rchild == nullptr) {
+        return 1;
+    }
+
+    int nodeCntLeftLeaf = GetLeafNodeCount(pTree->lchild);
+    int nodeCntRightLeaf = GetLeafNodeCount(pTree->rchild);
+
+    return nodeCntLeftLeaf + nodeCntRightLeaf;
+}
+
 //非递归先序遍历
 //pTree为指向根结点地指针
 void PreOrderTraverse(BiTree pTree)

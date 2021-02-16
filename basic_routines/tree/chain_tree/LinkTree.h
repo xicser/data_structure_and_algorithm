@@ -18,17 +18,21 @@ typedef struct BiTNode
 //构造二叉链表表示的二叉树T
 void CreateBiTreeRecursion(BiTree &T);
 
-/*递归函数*/
-void PreOrderTraverseRecursion(BiTree T, int level);//先序遍历
-void InOrderTraverseRecursion(BiTree T);//中序遍历
-void PostOrderTraverseRecursion(BiTree T);//后序遍历
+/* 递归遍历 */
+void PreOrderTraverseRecursion(BiTree T, int level);       //先序遍历
+void InOrderTraverseRecursion(BiTree T);                   //中序遍历
+void PostOrderTraverseRecursion(BiTree T);                 //后序遍历
+void BiTreeCopyRecursion(BiTree pTree, BiTree &pTreeOut);  //二叉树复制
+int  GetDepth(BiTree pTree);                               //获取深度
+int  GetNodeCount(BiTree pTree);                           //获取结点个数
+int  GetLeafNodeCount(BiTree pTree);                       //获取叶子结点个数
 
 
-/*非递归函数*/
-void PreOrderTraverse(BiTree pTree);//先序遍历
-void InOrderTraverse(BiTree pTree);//中序遍历
-void PostOrderTraverse(BiTree pTree);//后序遍历
-void LevelOrderTraverse(BiTree pTree);//层序遍历
+/* 非递归遍历 */
+void PreOrderTraverse(BiTree pTree);    //先序遍历
+void InOrderTraverse(BiTree pTree);     //中序遍历
+void PostOrderTraverse(BiTree pTree);   //后序遍历
+void LevelOrderTraverse(BiTree pTree);  //层序遍历
 
 
 #endif

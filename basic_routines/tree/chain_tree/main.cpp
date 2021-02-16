@@ -42,5 +42,17 @@ int main()
 	LevelOrderTraverse(BinaryTree);
 	printf("\n\n");
 
+    printf("二叉树复制：\n");
+	BiTree cpyTree;
+	BiTreeCopyRecursion(BinaryTree, cpyTree);
+	printf("非递归先序遍历结果：\n");
+	PreOrderTraverse(cpyTree);
+
+	printf("\n\n二叉树深度：%d\n", GetDepth(cpyTree));
+
+	printf("\n二叉树结点个数：%d\n", GetNodeCount(cpyTree));
+
+	printf("\n二叉树叶子结点个数：%d\n", GetLeafNodeCount(cpyTree));
+
     return 0;
 }
