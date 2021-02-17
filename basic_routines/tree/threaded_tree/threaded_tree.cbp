@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="12.线索二叉树" />
+		<Option title="threaded_tree" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/12.线索二叉树" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/threaded_tree" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -16,7 +16,7 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/12.线索二叉树" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/threaded_tree" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -30,18 +30,11 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="BiThreadTree.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="BiThreadTree.cpp" />
 		<Unit filename="BiThreadTree.h" />
-		<Unit filename="main.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Extensions>
-			<code_completion />
-			<envvars />
-			<debugger />
-		</Extensions>
+		<Unit filename="main.cpp" />
+		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
