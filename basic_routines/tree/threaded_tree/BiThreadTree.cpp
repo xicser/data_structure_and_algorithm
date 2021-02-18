@@ -1,74 +1,107 @@
-
-
-
-/*
-
-线索二叉树相关实现
-
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include "BiThreadTree.h"
 
+/*
+1
+2
+4
+^
+^
+5
+^
+^
+3
+6
+^
+^
+7
+^
+^
+*/
 
-//非递归遍历：中序线索化的二叉树
-//T指向 头结点 ，头结点的左链lchild指向根结点
-void InOrderTraverse_Thr(BiThrTree T)
+//线索二叉树初始化, 以先序输入
+void CreateBiThrNode(BiThrTree &tree)
 {
-	BiThrTree p;//定义指向结点的指针
+	TElemType ch = getchar();
+	fflush(stdin);
+    if (ch=='^') {
+        tree = nullptr;
+    }
+    else {
+        tree = (BiThrTree)malloc(sizeof(BiThrNode));
+        tree->data = ch;
+        tree->LTag = Link; //默认都是链
+        tree->RTag = Link;
 
-	p = T->lchild;	//p指向根结点
-	while (p != T)	//空树或遍历结束时，p==T
-	{
-		while (p->LTag == Link)p = p->lchild;
-		printf("%c ", p->data);//访问其左子树为空的结点
+        printf("输入左子树:\n");
+        CreateBiThrNode(tree->lchild);
 
-		while (p->RTag == Thread && p->rchild != T)
-		{
-			p = p->rchild;
-			printf("%c ", p->data);//访问后继结点
-		}
-		p = p->rchild;
-	}
+        printf("输入右子树:\n");
+        CreateBiThrNode(tree->rchild);
+    }
 }
 
-//二叉树中序线索化
-static void InThreading(BiThrTree p)
+//中序线索化二叉树
+static void InThreading(BiThrTree tree, BiThrTree &pre)
 {
-	BiThrTree pre=0;
+    if(tree == nullptr) {
+        return;
+    }
 
-	if (p)
-	{
-		InThreading(p->lchild);	//左子树线索化
-		if (!p->lchild){ p->LTag = Thread; p->lchild = pre; }//前驱线索
-		if (!pre->rchild){ pre->RTag = Thread; pre->rchild = p; }//后继线索
-		pre = p;				//保持pre指向p的前驱
-		InThreading(p->rchild); //右子树线索化
-	}
-}
-//中序遍历二叉树T，并将其中序线索化，Thrt指向头结点
-void InOrderThreading(BiThrTree *Thrt, BiThrTree T)
-{
-	BiThrTree pre;
+    InThreading(tree->lchild, pre);
 
-	(*Thrt) = (BiThrTree)malloc(sizeof(BiThrNode));
-	if ((*Thrt) == NULL)return;
+    //如果左孩子为空, lchild指向中序前驱
+    if (tree->lchild == nullptr) {
+        tree->LTag = Thread;
+        tree->lchild = pre;
+    }
 
-	(*Thrt)->LTag = Link; (*Thrt)->RTag = Thread;//建立头结点
-	(*Thrt)->rchild = (*Thrt);//右指针回指
-	if (!T)(*Thrt)->lchild = (*Thrt);//若二叉树为空，则左指针回指
-	else
-	{
-		(*Thrt)->lchild = T; pre = (*Thrt);
-		InThreading(T);//中序遍历进行中序线索化
-		pre->rchild = (*Thrt); pre->RTag = Thread;//最后一个结点线索化
-		(*Thrt)->rchild = pre;
-	}
+    //如果中序序列的前一个结点的右孩子为空, rchild指向中序后继
+    if (pre->rchild == nullptr) {
+        pre->RTag = Thread;
+        pre->rchild = tree;
+    }
+    pre = tree; //用pre记录上一个中序结点
+
+    InThreading(tree->rchild, pre);
 }
 
+//为中序线索二叉树添加头结点, 使之可以双向操作
+void InOrderThreading(BiThrTree tree, BiThrTree &head)
+{
+    //创建头结点
+    head = (BiThrTree)malloc(sizeof(BiThrNode));
+    head->LTag = Link;
+    head->RTag = Thread;
+    head->lchild = tree;  //头结点的左孩子指向根结点
+    head->rchild = head;  //头结点的右孩子指向头结点自己
 
+    //线索化
+    BiThrTree pre;
+    pre = head;           //pre指向头结点
+    InThreading(tree, pre);
 
+    //InThreading结束后, pre指向中序序列最后一个结点
+    pre->rchild = head;
+    pre->RTag = Thread;
+    head->rchild = pre;  //头结点的右孩子指向中序序列最后一个结点
+}
 
+//非递归中序遍历线索二叉树
+void InOrderTraverse(BiThrTree head)
+{
+    BiThrNode *p = head->lchild;
+    while (p != head) {
+        while (p->LTag == Link) {
+            p = p->lchild;    //走向左子树的尽头
+        }
+        printf("%c", p->data);
 
-
+        while (p->RTag == Thread && p->rchild != head) {  //访问该结点的后继结点
+            p = p->rchild;
+            printf("%c", p->data);
+        }
+        p = p->rchild;
+    }
+}
