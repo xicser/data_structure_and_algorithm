@@ -114,4 +114,6 @@ void testHuff(void)
 
     printf("ÏÈĞò±éÀú¹ş¸¥ÂüÊ÷£º\n");
     huffTraverse(huffTree, 2 * leafCnt - 1);
+
+    delete huffTree;
 }
