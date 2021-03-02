@@ -1,13 +1,14 @@
 # depslib dependency file v1.0
-1614604859 source:f:\code\data_structure_and_algorithm\basic_routines\graph\graph_adjacency_matrix\main.cpp
+1614653022 source:f:\code\data_structure_and_algorithm\basic_routines\graph\graph_adjacency_matrix\main.cpp
 	<iostream>
 	"GraphAdjMatrix.h"
 
-1614606260 source:f:\code\data_structure_and_algorithm\basic_routines\graph\graph_adjacency_matrix\graphadjmatrix.cpp
+1614652867 source:f:\code\data_structure_and_algorithm\basic_routines\graph\graph_adjacency_matrix\graphadjmatrix.cpp
 	"GraphAdjMatrix.h"
 	<iostream>
 	<stdio.h>
 	<stack>
+	<queue>
 
-1614603749 f:\code\data_structure_and_algorithm\basic_routines\graph\graph_adjacency_matrix\graphadjmatrix.h
+1614652269 f:\code\data_structure_and_algorithm\basic_routines\graph\graph_adjacency_matrix\graphadjmatrix.h
 

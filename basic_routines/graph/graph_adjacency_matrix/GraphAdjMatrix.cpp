@@ -12,14 +12,18 @@ input matrix:
 0 1 1 0 0 0
 0 0 0 1 0 0
 
-结果:
+深搜结果:
 2 1 3 5 4 6
+
+广搜结果:
+2 1 5 3 4 6
 */
 
 #include "GraphAdjMatrix.h"
 #include <iostream>
 #include <stdio.h>
 #include <stack>
+#include <queue>
 
 using namespace std;
 
@@ -109,16 +113,53 @@ void GraphAdjMatrix::DFS(int startVertexId)
     cout << "No recursion DFS result = ";
 
     st.push(startVertexId);
-    isVisited[startVertexId] = true;
+
     while (st.empty() == false) {
-        cout << vertexes[st.top()].data << " "; //访问该顶点
+
         startVertexId = st.top();
+        if (isVisited[startVertexId] == false) {
+            cout << vertexes[startVertexId].data << " "; //访问该顶点
+            isVisited[startVertexId] = true;
+        }
         st.pop();
-        //寻找当前顶点的所有相邻顶点
+
+        //寻找当前顶点的所有未被访问的相邻顶点
         for (int i = 0; i < this->vetexCount; i++) {
             if (matrix[startVertexId][i] != 0 && isVisited[i] == false) {
                 st.push(i);
+            }
+        }
+    }
+
+    cout << endl;
+}
+
+/* 非递归广搜 */
+void GraphAdjMatrix::BFS(int startVertexId)
+{
+	queue<int> que;
+
+    for (int i = 0; i < this->vetexCount; i++) {
+        isVisited[i] = false;
+    }
+    cout << endl;
+    cout << "No recursion BFS result = ";
+
+    //先访问第一个顶点
+    cout << vertexes[startVertexId].data << " ";
+    isVisited[startVertexId] = true;
+    que.push(startVertexId);
+
+	while (!que.empty())//若队列非空
+	{
+	    startVertexId = que.front();
+	    que.pop();
+
+        for (int i = 0; i < this->vetexCount; i++) {
+            if (matrix[startVertexId][i] != 0 && isVisited[i] == false) {
+                cout << vertexes[i].data << " ";
                 isVisited[i] = true;
+                que.push(i);
             }
         }
     }

@@ -21,12 +21,15 @@ public:
     GraphAdjMatrix(int vetexCount);
     ~GraphAdjMatrix();
 
-    void DFSRecursionPrepare(void); //深搜准备
+    void DFSRecursionPrepare(void); //递归深搜准备
     //递归法深度优先搜索, startVertexId表示最开始要访问的那个顶点的id
     void DFSRecursion(int startVertexId);
 
     //非递归深搜
     void DFS(int startVertexId);
+
+    //广搜
+    void BFS(int startVertexId);
 
 private:
     Vertex_t *vertexes; //顶点列表
