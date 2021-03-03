@@ -2,21 +2,20 @@
 无向图在邻接矩阵上的实现
 
 input vetexes:
-123456
-inputted vetexes: 123456
+ABCDEF
 input matrix:
-0 1 1 1 0 0
-1 0 0 0 1 0
-1 0 0 0 1 0
-1 0 0 0 0 1
-0 1 1 0 0 0
-0 0 0 1 0 0
+0 6 1 5 0 0
+6 0 5 0 3 0
+1 5 0 5 6 4
+5 0 5 0 0 2
+0 3 6 0 0 6
+0 0 4 2 6 0
 
-深搜结果:
-2 1 3 5 4 6
+Recursion DFS result = A B C D F E
+No recursion DFS result = A D F E C B
+No recursion BFS result = A B C D E F
 
-广搜结果:
-2 1 5 3 4 6
+
 */
 
 #include "GraphAdjMatrix.h"
@@ -24,6 +23,8 @@ input matrix:
 #include <stdio.h>
 #include <stack>
 #include <queue>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -46,9 +47,9 @@ GraphAdjMatrix::GraphAdjMatrix(int vetexCount)
 
     //创建邻接矩阵
     cout << "input matrix:" << endl;
-    matrix = new bool*[this->vetexCount];
+    matrix = new int*[this->vetexCount];
     for(int i = 0; i < this->vetexCount; i++) {
-        matrix[i] = new bool[this->vetexCount];
+        matrix[i] = new int[this->vetexCount];
     }
     for (int i = 0; i < this->vetexCount; i++) {
         for (int j = 0; j < this->vetexCount; j++) {
@@ -165,4 +166,70 @@ void GraphAdjMatrix::BFS(int startVertexId)
     }
 
     cout << endl;
+}
+
+void GraphAdjMatrix::MST_Prim(int startVertexId)
+{
+    vector<int> vecU; //顶点u集合(已经加入的顶点集合)
+    vector<int> vecV; //顶点v集合(剩下的顶点集合)
+
+    //初始化
+    vecU.push_back(startVertexId); //把第一个顶点放在u中
+    //把剩下的顶点放在v中
+    for (int i = 0; i < this->vetexCount; i++) {
+        if (i != startVertexId) {
+            vecV.push_back(i);
+        }
+    }
+
+    while (vecV.size() > (unsigned int)0) {
+
+        //针对v中的每个顶点,
+        //计算该顶点到u中各个顶点的边的代价,
+        //记录这些边中代价最小的那个
+        vector<Edge_t> edges;
+        edges.clear();
+        for (unsigned int i = 0; i < vecV.size(); i++) {
+
+            Edge_t minDisEdge;
+            int minDistance = INFINITE;  //假设顶点间的距离为无穷大
+            bool hasConnected = false;
+            for (unsigned int j = 0; j < vecU.size(); j++) {
+                if (matrix[ vecV[i] ][ vecU[j] ] != 0 &&
+                    matrix[ vecV[i] ][ vecU[j] ] < minDistance) {
+
+                    minDistance = matrix[ vecV[i] ][ vecU[j] ];
+                    minDisEdge.v1 = vecU[j];
+                    minDisEdge.v2 = vecV[i];
+                    minDisEdge.distance = minDistance;
+
+                    hasConnected = true;
+                }
+            }
+            if (hasConnected == true) {
+                edges.push_back(minDisEdge);
+            } else {
+                minDisEdge.distance = INFINITE;
+                edges.push_back(minDisEdge);
+            }
+        }
+
+        //按照代价, 将边排序
+        sort(edges.begin(), edges.end(), [=](const Edge_t &e1, const Edge_t &e2) {
+            return e1.distance < e2.distance;
+        });
+
+        //选代价最小的那个边, 打印输出
+        cout << vertexes[edges[0].v1].data << "---" << vertexes[edges[0].v2].data << endl;
+
+        //给u加顶点
+        vecU.push_back(edges[0].v2);
+        //给v删顶点
+        for (vector<int>::iterator it = vecV.begin(); it != vecV.end(); it++) {
+            if (*it == edges[0].v2) {
+                vecV.erase(it);
+                break;
+            }
+        }
+    }
 }

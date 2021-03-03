@@ -7,12 +7,21 @@
 
 typedef char ElemtType;
 
+//无穷远
+#define INFINITE 9999999
+
 //顶点
 typedef struct {
     int id;          //顶点id
     ElemtType data;  //顶点数据
 } Vertex_t;
 
+//边
+typedef struct {
+    int v1;          //顶点1
+    int v2;          //顶点2
+    int distance;    //距离
+} Edge_t;
 
 //基于邻接矩阵的图
 class GraphAdjMatrix
@@ -31,11 +40,15 @@ public:
     //广搜
     void BFS(int startVertexId);
 
+    //MST最小生成树
+    void MST_Prim(int startVertexId);
+    void MST_Kruskal();
+
 private:
     Vertex_t *vertexes; //顶点列表
     int vetexCount;     //顶点数量
 
-    bool **matrix;      //邻接矩阵
+    int **matrix;      //邻接矩阵
     bool *isVisited;    //dfs遍历时, 表征顶点是否被访问过
 };
 

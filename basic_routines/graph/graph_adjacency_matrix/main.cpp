@@ -7,10 +7,11 @@ int main()
 {
     GraphAdjMatrix graph(6);
     graph.DFSRecursionPrepare();
-    graph.DFSRecursion(1);
+    graph.DFSRecursion(0);
 
     graph.DFS(0);
-    graph.BFS(1);
+    graph.BFS(0);
+    graph.MST_Prim(0);
 
     return 0;
 }
