@@ -280,7 +280,7 @@ void GraphAdjMatrix::MST_Kruskal(void)
             edgeCnt++;
 
             //合并顶点到同一棵树上
-            Parenting[edges[i].v1][1] = edges[i].v2;
+            Parenting[root1][1] = root2;
         }
 
         if (edgeCnt == vertexCount - 1) {
