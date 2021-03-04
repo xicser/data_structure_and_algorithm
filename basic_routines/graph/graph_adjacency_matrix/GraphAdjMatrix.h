@@ -5,6 +5,15 @@
 #ifndef GRAPHADJMATRIX_H
 #define GRAPHADJMATRIX_H
 
+#include <iostream>
+#include <stdio.h>
+#include <stack>
+#include <queue>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
 typedef char ElemtType;
 
 //无穷远
@@ -27,7 +36,7 @@ typedef struct {
 class GraphAdjMatrix
 {
 public:
-    GraphAdjMatrix(int vetexCount);
+    GraphAdjMatrix(int vertexCount);
     ~GraphAdjMatrix();
 
     void DFSRecursionPrepare(void); //递归深搜准备
@@ -42,14 +51,17 @@ public:
 
     //MST最小生成树
     void MST_Prim(int startVertexId);
-    void MST_Kruskal();
+    void MST_Kruskal(void);
 
 private:
     Vertex_t *vertexes; //顶点列表
-    int vetexCount;     //顶点数量
+    int vertexCount;    //顶点数量
 
     int **matrix;      //邻接矩阵
     bool *isVisited;    //dfs遍历时, 表征顶点是否被访问过
+
+    //获取id顶点的根
+    int getRoot(int id, int Parenting[][2]);
 };
 
 #endif // GRAPHADJMATRIX_H

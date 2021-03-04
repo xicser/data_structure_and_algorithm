@@ -12,6 +12,7 @@ int main()
     graph.DFS(0);
     graph.BFS(0);
     graph.MST_Prim(0);
+    graph.MST_Kruskal();
 
     return 0;
 }
