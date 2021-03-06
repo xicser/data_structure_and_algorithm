@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1615000986 source:f:\code\data_structure_and_algorithm\basic_routines\graph\directed_graph_adjacency_matrix\main.cpp
+	<iostream>
+	"DirectedGraphAdjMatrix.h"
+
+1615000795 source:f:\code\data_structure_and_algorithm\basic_routines\graph\directed_graph_adjacency_matrix\directedgraphadjmatrix.cpp
+	"DirectedGraphAdjMatrix.h"
+
+1615001316 f:\code\data_structure_and_algorithm\basic_routines\graph\directed_graph_adjacency_matrix\directedgraphadjmatrix.h
+	<iostream>
+	<stdio.h>
+	<list>
+	<vector>
+	<algorithm>
+
