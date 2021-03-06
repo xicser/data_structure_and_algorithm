@@ -2,8 +2,8 @@
 无向图在邻接矩阵上的实现
 */
 
-#ifndef GRAPHADJMATRIX_H
-#define GRAPHADJMATRIX_H
+#ifndef UNDIRECTED_GRAPHADJMATRIX_H
+#define UNDIRECTED_GRAPHADJMATRIX_H
 
 #include <iostream>
 #include <stdio.h>
@@ -33,11 +33,11 @@ typedef struct {
 } Edge_t;
 
 //基于邻接矩阵的图
-class GraphAdjMatrix
+class UndirectedGraphAdjMatrix
 {
 public:
-    GraphAdjMatrix(int vertexCount);
-    ~GraphAdjMatrix();
+    UndirectedGraphAdjMatrix(int vertexCount);
+    ~UndirectedGraphAdjMatrix();
 
     void DFSRecursionPrepare(void); //递归深搜准备
     //递归法深度优先搜索, startVertexId表示最开始要访问的那个顶点的id

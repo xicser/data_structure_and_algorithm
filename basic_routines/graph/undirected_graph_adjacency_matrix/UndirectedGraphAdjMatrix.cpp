@@ -24,9 +24,9 @@ No recursion BFS result = A B C D E F
 
 */
 
-#include "GraphAdjMatrix.h"
+#include "UndirectedGraphAdjMatrix.h"
 
-GraphAdjMatrix::GraphAdjMatrix(int vertexCount)
+UndirectedGraphAdjMatrix::UndirectedGraphAdjMatrix(int vertexCount)
 {
     this->vertexCount = vertexCount;
 
@@ -66,7 +66,7 @@ GraphAdjMatrix::GraphAdjMatrix(int vertexCount)
     isVisited = new bool[this->vertexCount];
 }
 
-GraphAdjMatrix::~GraphAdjMatrix()
+UndirectedGraphAdjMatrix::~UndirectedGraphAdjMatrix()
 {
     delete []vertexes;
     delete []isVisited;
@@ -78,7 +78,7 @@ GraphAdjMatrix::~GraphAdjMatrix()
 }
 
 /* 递归深搜准备 */
-void GraphAdjMatrix::DFSRecursionPrepare(void)
+void UndirectedGraphAdjMatrix::DFSRecursionPrepare(void)
 {
     for (int i = 0; i < this->vertexCount; i++) {
         isVisited[i] = false;
@@ -88,7 +88,7 @@ void GraphAdjMatrix::DFSRecursionPrepare(void)
 }
 
 /* 递归法深度优先搜索 */
-void GraphAdjMatrix::DFSRecursion(int startVertexId)
+void UndirectedGraphAdjMatrix::DFSRecursion(int startVertexId)
 {
     cout << vertexes[startVertexId].data << " "; //访问顶点的数据
     isVisited[startVertexId] = true;             //标记该顶点已经被访问过
@@ -102,7 +102,7 @@ void GraphAdjMatrix::DFSRecursion(int startVertexId)
 }
 
 /* 非递归深搜 */
-void GraphAdjMatrix::DFS(int startVertexId)
+void UndirectedGraphAdjMatrix::DFS(int startVertexId)
 {
     stack<int> st;
     for (int i = 0; i < this->vertexCount; i++) {
@@ -132,7 +132,7 @@ void GraphAdjMatrix::DFS(int startVertexId)
 }
 
 /* 非递归广搜 */
-void GraphAdjMatrix::BFS(int startVertexId)
+void UndirectedGraphAdjMatrix::BFS(int startVertexId)
 {
 	queue<int> que;
 
@@ -163,7 +163,7 @@ void GraphAdjMatrix::BFS(int startVertexId)
 }
 
 //最小生成树的Prim算法
-void GraphAdjMatrix::MST_Prim(int startVertexId)
+void UndirectedGraphAdjMatrix::MST_Prim(int startVertexId)
 {
     cout << endl;
     cout << "MST_Prim result = " << endl;
@@ -233,7 +233,7 @@ void GraphAdjMatrix::MST_Prim(int startVertexId)
 }
 
 //最小生成树的Kruskal算法
-void GraphAdjMatrix::MST_Kruskal(void)
+void UndirectedGraphAdjMatrix::MST_Kruskal(void)
 {
     cout << "MST_Kruskal result = " << endl;
 
@@ -290,7 +290,7 @@ void GraphAdjMatrix::MST_Kruskal(void)
 }
 
 /* 获取id顶点的根 */
-int GraphAdjMatrix::getRoot(int id, int Parenting[][2])
+int UndirectedGraphAdjMatrix::getRoot(int id, int Parenting[][2])
 {
     while (Parenting[id][1] != -1) {
         id = Parenting[id][1];

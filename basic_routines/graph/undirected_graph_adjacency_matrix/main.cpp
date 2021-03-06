@@ -1,11 +1,11 @@
 #include <iostream>
-#include "GraphAdjMatrix.h"
+#include "UndirectedGraphAdjMatrix.h"
 
 using namespace std;
 
 int main()
 {
-    GraphAdjMatrix graph(6);
+    UndirectedGraphAdjMatrix graph(6);
     graph.DFSRecursionPrepare();
     graph.DFSRecursion(0);
 
