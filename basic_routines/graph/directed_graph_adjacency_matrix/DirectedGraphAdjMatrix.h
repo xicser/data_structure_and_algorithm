@@ -7,8 +7,8 @@
 
 #include <iostream>
 #include <stdio.h>
-#include <list>
 #include <vector>
+#include <map>
 #include <algorithm>
 
 using namespace std;
@@ -26,8 +26,7 @@ typedef struct {
 
 //路径
 typedef struct {
-    int id;               //顶点id
-    bool isDone;          //id顶点的最短路径是否已经求出
+    int isDone;
     int distance;         //路径长度
     vector<int> vertexes; //路径上的顶点
 } Route_t;
