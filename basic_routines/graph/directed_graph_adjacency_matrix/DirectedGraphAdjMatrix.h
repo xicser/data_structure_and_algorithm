@@ -39,11 +39,16 @@ public:
     ~DirectedGraphAdjMatrix();
 
     void Dijkstra(int startVertexId); //迪杰斯特拉算法求最短路径
+    void Floyd(void);                 //弗洛伊德算法求最短路径
+    void printFloydDistance(int startId, int endId);      //得到弗洛伊德的路径
+    int  getFloyDistanceBetween(int startId, int endId);  //得到弗洛伊德的距离
 
 private:
     Vertex_t *vertexes; //顶点列表
     int vertexCount;    //顶点数量
-    int **matrix;      //邻接矩阵
+    int **matrix;       //邻接矩阵
+    int **matrixPath;   //Floyd用的path矩阵
+    int **matrixDist;   //Floyd用的dist矩阵
 };
 
 #endif // GRAPHADJMATRIX_H

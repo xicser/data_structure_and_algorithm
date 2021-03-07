@@ -1,5 +1,6 @@
 /*
 有向图(网)在邻接矩阵上的实现
+ABCDEFG
 0 13 8 0 30 0 32
 0  0 0 0  0 9  7
 0  0 0 5  0 0  0
@@ -7,6 +8,21 @@
 0  0 0 0  0 2  0
 0  0 0 0  0 0  17
 0  0 0 0  0 0  0
+
+  0  13   8 inf  30 inf  32
+inf   0 inf inf inf   9   7
+inf inf   0   5 inf inf inf
+inf inf inf   0   6 inf inf
+inf inf inf inf   0   2 inf
+inf inf inf inf inf   0  17
+inf inf inf inf inf inf   0
+
+HIJK
+0 5 0 7
+0 0 4 2
+3 3 0 2
+0 0 1 0
+
 */
 
 #include "DirectedGraphAdjMatrix.h"
@@ -38,7 +54,9 @@ DirectedGraphAdjMatrix::DirectedGraphAdjMatrix(int vertexCount)
         for (int j = 0; j < this->vertexCount; j++) {
             int inputTmp;
             cin >> inputTmp;
-            if (inputTmp == 0) {
+            if (i == j) {
+                matrix[i][j] = 0; //到自己的路径长度为0
+            } else if (inputTmp == 0) {
                 matrix[i][j] = INFINITE;
             } else {
                 matrix[i][j] = inputTmp;
@@ -48,13 +66,27 @@ DirectedGraphAdjMatrix::DirectedGraphAdjMatrix(int vertexCount)
     cout << "inputted matrix: " << endl;
     for (int i = 0; i < this->vertexCount; i++) {
         for (int j = 0; j < this->vertexCount; j++) {
-            if (matrix[i][j] == INFINITE) {
-                printf("%2d ", 0);
+            if (i == j) {
+                printf("  0 ");
+            } else if (matrix[i][j] == INFINITE) {
+                printf("inf ");
             } else {
-                printf("%2d ", matrix[i][j]);
+                printf("%3d ", matrix[i][j]);
             }
         }
         cout << endl;
+    }
+
+    //创建Floyd的path矩阵
+    matrixPath = new int*[this->vertexCount];
+    for(int i = 0; i < this->vertexCount; i++) {
+        matrixPath[i] = new int[this->vertexCount];
+    }
+
+    //创建Floyd的dist矩阵
+    matrixDist = new int*[this->vertexCount];
+    for(int i = 0; i < this->vertexCount; i++) {
+        matrixDist[i] = new int[this->vertexCount];
     }
 }
 
@@ -66,11 +98,23 @@ DirectedGraphAdjMatrix::~DirectedGraphAdjMatrix()
         delete [] matrix[i];
     }
     delete []matrix;
+
+    for(int i = 0; i < this->vertexCount; i++) {
+        delete [] matrixPath[i];
+    }
+    delete []matrixPath;
+
+    for(int i = 0; i < this->vertexCount; i++) {
+        delete [] matrixDist[i];
+    }
+    delete []matrixDist;
 }
 
 /* 迪杰斯特拉算法求最短路径 */
 void DirectedGraphAdjMatrix::Dijkstra(int startVertexId)
 {
+    printf("\n\nDijkstra Algorithm:\n");
+
     map<int, Route_t> routes;
     vector<Route_t> resultRoutes;
 
@@ -147,4 +191,73 @@ void DirectedGraphAdjMatrix::Dijkstra(int startVertexId)
         }
         printf("\n\n");
     }
+}
+
+/* 弗洛伊德算法求最短路径 */
+void DirectedGraphAdjMatrix::Floyd(void)
+{
+    printf("\n\nFloyd Algorithm:\n");
+
+    //初始化
+    for (int i = 0; i < this->vertexCount; i++) {
+        for (int j = 0; j < this->vertexCount; j++) {
+            matrixDist[i][j] = matrix[i][j];
+            if (matrix[i][j] == 0 || matrix[i][j] == INFINITE) {
+                matrixPath[i][j] = -1;
+            } else {
+                matrixPath[i][j] = 1;
+            }
+        }
+    }
+
+    //遍历每个顶点
+    for (int k = 0; k < this->vertexCount; k++) {
+
+        for (int i = 0; i < this->vertexCount; i++) {
+            if (k == i) continue;
+            for (int j = 0; j < this->vertexCount; j++) {
+                if (i == j) continue;
+                if (k == j) continue;
+                if (matrixDist[i][j] > matrixDist[i][k] + matrixDist[k][j]) {
+                    matrixDist[i][j] = matrixDist[i][k] + matrixDist[k][j];
+                    matrixPath[i][j] = k;
+                }
+            }
+        }
+    }
+
+    //打印一下matrixDist
+    for (int i = 0; i < this->vertexCount; i++) {
+        for (int j = 0; j < this->vertexCount; j++) {
+            if (matrix[i][j] == INFINITE) {
+                printf("inf ");
+            } else {
+                printf("%3d ", matrixDist[i][j]);
+            }
+        }
+        printf("\n");
+    }
+}
+
+/* 获取Floyd路径 */
+void DirectedGraphAdjMatrix::printFloydDistance(int startId, int endId)
+{
+    if (matrixPath[startId][endId] == -1) {
+        printf("(%d %d)", startId, endId);
+        return;
+    }
+
+    int mid = matrixPath[startId][endId];
+    printFloydDistance(startId, mid);
+    printFloydDistance(mid, endId);
+}
+
+/* 得到弗洛伊德的距离 */
+int DirectedGraphAdjMatrix::getFloyDistanceBetween(int startId, int endId)
+{
+    //如果是同一个顶点
+    if (startId == endId) {
+        return 0;
+    }
+    return matrixDist[startId][endId];
 }
