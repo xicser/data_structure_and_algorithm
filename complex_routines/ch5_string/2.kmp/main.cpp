@@ -15,7 +15,7 @@ int main()
     cin >> pattern;
 
     bool hasFound;
-    outIndexes = KMP_Check(text, pattern, &hasFound);
+    outIndexes = KMP_Check(text.c_str(), pattern.c_str(), &hasFound);
     if (hasFound == true) {
         for (unsigned int i = 0; i < outIndexes.size(); i++) {
             cout << outIndexes[i] << " ";
