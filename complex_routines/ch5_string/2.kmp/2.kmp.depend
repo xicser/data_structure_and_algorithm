@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1615808752 source:f:\code\data_structure_and_algorithm\complex_routines\ch5_string\2.kmp\main.cpp
+	<iostream>
+	<string>
+	<vector>
+	"kmp.h"
+
+1615810870 f:\code\data_structure_and_algorithm\complex_routines\ch5_string\2.kmp\kmp.h
+	<iostream>
+	<vector>
+
+1615810933 source:f:\code\data_structure_and_algorithm\complex_routines\ch5_string\2.kmp\kmp.cpp
+	"kmp.h"
+	<string.h>
+
