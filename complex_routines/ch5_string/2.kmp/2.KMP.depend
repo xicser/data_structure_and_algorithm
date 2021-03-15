@@ -1,6 +1,15 @@
 # depslib dependency file v1.0
-1513428388 source:e:\sw\软件基础例程\d&a综合例程\第5章 字符串\2.kmp\main.c
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
+1615711315 source:f:\code\data_structure_and_algorithm\complex_routines\ch5_string\2.kmp\kmp.cpp
+	"kmp.h"
+
+1615712136 f:\code\data_structure_and_algorithm\complex_routines\ch5_string\2.kmp\kmp.h
+	<iostream>
+	<vector>
+	<string>
+
+1615711542 source:f:\code\data_structure_and_algorithm\complex_routines\ch5_string\2.kmp\main.cpp
+	<iostream>
+	<string>
+	<vector>
+	"kmp.h"
 
