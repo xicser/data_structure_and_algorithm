@@ -1,8 +1,9 @@
 # depslib dependency file v1.0
-1622859116 source:g:\code\data_structure_and_algorithm\basic_routines\misc\1.quick_sort\main.cpp
+1622860295 source:g:\code\data_structure_and_algorithm\basic_routines\misc\1.quick_sort\main.cpp
 	<iostream>
 	<algorithm>
 	<cstdlib>
 	<ctime>
 	<stdio.h>
+	<math.h>
 
