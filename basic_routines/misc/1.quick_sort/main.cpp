@@ -112,15 +112,78 @@ private:
     }
 };
 
-int main()
-{
-    srand((int)time(0));  // 产生随机种子
+/* 快排v2.0 */
+class Sort2 {
 
+private:
+    static void swap(int *a, int *b) {
+        int temp;
+        temp = *a;
+        *a = *b;
+        *b = temp;
+    }
+
+public:
+    static void qSort(int *A, int len) {
+        if (len <= 0) {
+            return;
+        }
+
+        process(A, 0, len - 1);
+    }
+
+    static void partition(int *A, int left, int right, int *left_pos, int *right_pos) {
+
+        int lessIndex = left - 1;           //小于区域
+        int moreIndex = right + 1;          //大于区域
+
+        //选取主元
+        int num = A[left];                  //[<num, ==num, >num]
+
+        for (int i = left; i != moreIndex; ) {
+
+            if (A[i] == num) {
+                //相等时直接跳过
+                i++;
+            }
+            else if (A[i] < num) {
+                //A[i]与小于区域右一个交换, 小于区右扩, i++
+                swap(&A[i], &A[lessIndex + 1]);
+                lessIndex++;
+                i++;
+            }
+            else {
+                //A[i]与大于区域左一个交换, 大于区域左扩, i不动
+                swap(&A[i], &A[moreIndex - 1]);
+                moreIndex--;
+            }
+        }
+
+        //返回大于区域和小于区域的边界
+        *left_pos = lessIndex;
+        *right_pos = moreIndex;
+    }
+
+    static void process(int *A, int left, int right) {
+        if (left >= right) {
+            return;
+        }
+
+        int left_pos, right_pos;
+        partition(A, left, right, &left_pos, &right_pos);
+        process(A, left, left_pos);
+        process(A, right_pos, right);
+    }
+};
+
+
+
+void test1()
+{
     int testTime = 500000;
     int maxSize = 100;
     int maxValue = 100;
     bool succeed = true;
-    int arrayLength;
     for (int i = 0; i < testTime; i++) {
         int arrayLength;
         int *arr1 = Comparator::generateRandomArray(maxSize, maxValue, &arrayLength);
@@ -143,13 +206,63 @@ int main()
         delete []arr2;
     }
     printf(succeed == true ? "Nice!\n" : "Fucking fucked!\n");
+}
 
-    int *arr = Comparator::generateRandomArray(maxSize, maxValue, &arrayLength);
-    Comparator::printArray(arr, arrayLength);
-    Sort1::qSort(arr, arrayLength);
-    printf("\n");
-    Comparator::printArray(arr, arrayLength);
+void test2()
+{
+    int testTime = 500000;
+    int maxSize = 100;
+    int maxValue = 100;
+    bool succeed = true;
+    for (int i = 0; i < testTime; i++) {
+        int arrayLength;
+        int *arr1 = Comparator::generateRandomArray(maxSize, maxValue, &arrayLength);
+        int *arr2 = Comparator::copyArray(arr1, arrayLength);
 
-    delete []arr;
+        Comparator::sortArray(arr1, arrayLength); //用对数器里面的排序函数排序, 一定是正确的
+        Sort2::qSort(arr2, arrayLength);          //用自己的排序函数排序
+
+        if (Comparator::isEqual(arr1, arrayLength, arr2, arrayLength) == false) {
+            succeed = false;
+            Comparator::printArray(arr1, arrayLength);
+            Comparator::printArray(arr2, arrayLength);
+
+            delete []arr1;
+            delete []arr2;
+            break;
+        }
+
+        delete []arr1;
+        delete []arr2;
+    }
+    printf(succeed == true ? "Nice!\n" : "Fucking fucked!\n");
+}
+
+int main()
+{
+//    int maxSize = 100;
+//    int maxValue = 100;
+//    int arrayLength;
+    srand((int)time(0));  // 产生随机种子
+
+//    int A[] = {35, 18, 16, 72, 24, 65, 35, 88, 46, 28, 35};
+//    int left_pos, right_pos;
+//    Sort2::partition(A, 0, sizeof(A) / sizeof(int) - 1, &left_pos, &right_pos);
+//    Comparator::printArray(A, sizeof(A) / sizeof(int));
+//    printf("%d %d", left_pos, right_pos);
+
+
+
+
+//    test1();
+    test2();
+//
+//    int *arr = Comparator::generateRandomArray(maxSize, maxValue, &arrayLength);
+//    Comparator::printArray(arr, arrayLength);
+//    Sort1::qSort(arr, arrayLength);
+//    printf("\n");
+//    Comparator::printArray(arr, arrayLength);
+//
+//    delete []arr;
     return 0;
 }
