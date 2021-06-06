@@ -27,27 +27,30 @@ public:
         return heapSize == heapSizeLimit;
     }
 
-    void push(int value) {
+    bool push(int value) {
         if (heapSize == heapSizeLimit) {
-            return;
+            return false;
         }
 
         heapArray[heapSize] = value;
-        heapInsert(heapSize);
+        heapInsert(heapArray, heapSize);
         heapSize++;
+
+        return true;
     }
 
-    int pop() {
+    bool pop(int *value) {
         if (heapSize == 0) {
-            return -999999;
+            *value = -999999;
+            return false;
         }
 
-        int tmp = heapArray[0];
+        *value = heapArray[0];
         heapSize--;
         heapArray[0] = heapArray[heapSize];
-        heapify();
+        heapify(heapArray, 0, heapSize);
 
-        return tmp;
+        return true;
     }
 
 private:
@@ -56,7 +59,7 @@ private:
     int heapSize;
 
     // 给大顶堆里面插入一个节点
-    void heapInsert(int heapIndex) {
+    void heapInsert(int *heapArray, int heapIndex) {
         if (heapIndex == 0) {
             return;
         }
@@ -80,13 +83,12 @@ private:
     }
 
     // 从根节点位置, 往下看, 不断的下沉
-    void heapify() {
+    void heapify(int *heapArray, int index, int heapSize) {
 
         if (heapSize == 0) {
             return;
         }
 
-        int index = 0;
         int left = index * 2 + 1;
         while (left < heapSize) { // 如果有左孩子, 有没有右孩子, 可能有可能没有
             // 把较大孩子的下标, 给largest
@@ -109,7 +111,7 @@ private:
     }
 };
 
-
+// 对数器测试用
 class RightMaxHeap {
 
 public:
@@ -130,14 +132,21 @@ public:
         return heapSize == heapSizeLimit;
     }
 
-    void push(int value) {
+    bool push(int value) {
         if (heapSize == heapSizeLimit) {
-            return;
+            return false;
         }
         heapArray[heapSize++] = value;
+
+        return true;
     }
 
-    int pop() {
+    bool pop(int *value) {
+        if (heapSize == 0) {
+            *value = -999999;
+            return false;
+        }
+
         int maxIndex = 0;
         for (int i = 1; i < heapSize; i++) {
             if (heapArray[i] > heapArray[maxIndex]) {
@@ -146,7 +155,9 @@ public:
         }
         int ans = heapArray[maxIndex];
         heapArray[maxIndex] = heapArray[--heapSize];
-        return ans;
+        *value = ans;
+
+        return true;
     }
 
 private:
@@ -162,28 +173,56 @@ int main()
     int value = 1000;
     int limit = 100;
     int testTimes = 1000000;
+
     for (int i = 0; i < testTimes; i++) {
+
         int curLimit = rand() % limit + 1;
+
         MaxHeap *my = new MaxHeap(curLimit);
         RightMaxHeap *test = new RightMaxHeap(curLimit);
+
         int curOpTimes = rand() % limit + 1;
         for (int j = 0; j < curOpTimes; j++) {
+
             if (my->isEmpty() != test->isEmpty()) {
                 printf("Oops!\n");
             }
             if (my->isFull() != test->isFull()) {
                 printf("Oops!\n");
             }
-            if (my->isEmpty()) {
+
+            if (my->isEmpty() == true) {
                 int curValue = rand() % value + 1;
                 my->push(curValue);
                 test->push(curValue);
-            } else if (my->isFull()) {
-                if (my->pop() != test->pop()) {
+            }
+            else if (my->isFull() == true) {
+                int value1, value2;
+                my->pop(&value1);
+                test->pop(&value2);
+                if (value1 != value2) {
                     printf("Oops!\n");
                 }
             }
+            else {
+                if (rand() < RAND_MAX / 2) {
+                    int curValue = rand() % value + 1;
+                    my->push(curValue);
+                    test->push(curValue);
+                }
+                else {
+                    int value1, value2;
+                    my->pop(&value1);
+                    test->pop(&value2);
+                    if (value1 != value2) {
+                        printf("Oops!\n");
+                    }
+                }
+            }
         }
+
+        delete my;
+        delete test;
     }
     printf("finish!\n");
 
