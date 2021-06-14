@@ -5,9 +5,10 @@ using namespace std;
 
 int main()
 {
-    List list(10);
+    List list;
 
     list.traverse();
+    cout << list.detectionPalindrome() << endl;
 
     return 0;
 }
