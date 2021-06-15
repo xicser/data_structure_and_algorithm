@@ -32,14 +32,14 @@ using namespace std;
 // 构造二叉链表表示的二叉树T
 void CreateBiTreeRecursion(BiTree &T)
 {
-	TElemType ch = getchar();
-	fflush(stdin);
-	if (ch == '^') {
+    TElemType ch = getchar();
+    fflush(stdin);
+    if (ch == '^') {
         T = nullptr;//空树，保证是叶子结点，递归结束条件
         return;
-	}
+    }
 
-	//生成结点
+    //生成结点
     T = (BiTNode *)malloc(sizeof(BiTNode));
     if (T == nullptr) {
         return;
@@ -60,49 +60,49 @@ void CreateBiTreeRecursion(BiTree &T)
 //level用于指示元素在哪一层
 void PreOrderTraverseRecursion(BiTree T, int level)
 {
-	if (T == nullptr)return;//递归结束条件：达到了叶子结点
+    if (T == nullptr)return;//递归结束条件：达到了叶子结点
 
-	printf("%c在第%d层\n", T->data, level);//访问根结点
-	level++;
-	PreOrderTraverseRecursion(T->lchild, level);//遍历左子树
-	PreOrderTraverseRecursion(T->rchild, level);//遍历右子树
+    printf("%c在第%d层\n", T->data, level);//访问根结点
+    level++;
+    PreOrderTraverseRecursion(T->lchild, level);//遍历左子树
+    PreOrderTraverseRecursion(T->rchild, level);//遍历右子树
 }
 
 //递归中序遍历
 //T为指向二叉树根结点的指针
 void InOrderTraverseRecursion(BiTree T)
 {
-	if (T == nullptr)return;
+    if (T == nullptr)return;
 
-	InOrderTraverseRecursion(T->lchild);
-	printf("%c ", T->data);
-	InOrderTraverseRecursion(T->rchild);
+    InOrderTraverseRecursion(T->lchild);
+    printf("%c ", T->data);
+    InOrderTraverseRecursion(T->rchild);
 }
 
 //递归后序遍历
 //T为指向二叉树根结点的指针
 void PostOrderTraverseRecursion(BiTree T)
 {
-	if (T == nullptr)return;
+    if (T == nullptr)return;
 
-	PostOrderTraverseRecursion(T->lchild);
-	PostOrderTraverseRecursion(T->rchild);
-	printf("%c ", T->data);
+    PostOrderTraverseRecursion(T->lchild);
+    PostOrderTraverseRecursion(T->rchild);
+    printf("%c ", T->data);
 }
 
 /* 二叉树复制 */
 void BiTreeCopyRecursion(BiTree pTree, BiTree &pTreeOut)
 {
-	if (pTree == nullptr) {
+    if (pTree == nullptr) {
         pTreeOut = nullptr;
         return;
-	}
+    }
 
     pTreeOut = (BiTree)malloc(sizeof(BiTNode));
     pTreeOut->data = pTree->data;
 
-	BiTreeCopyRecursion(pTree->lchild, pTreeOut->lchild);
-	BiTreeCopyRecursion(pTree->rchild, pTreeOut->rchild);
+    BiTreeCopyRecursion(pTree->lchild, pTreeOut->lchild);
+    BiTreeCopyRecursion(pTree->rchild, pTreeOut->rchild);
 }
 
 /* 获取深度 */
@@ -147,33 +147,51 @@ int GetLeafNodeCount(BiTree pTree)
     return nodeCntLeftLeaf + nodeCntRightLeaf;
 }
 
-//非递归先序遍历
+/*
+非递归先序遍历
+1, 根节点进栈;
+2, 弹出就打印;
+3, 如果有右孩子, 压入右孩子;
+3, 如果有左孩子, 压入左孩子;
+*/
 //pTree为指向根结点地指针
 void PreOrderTraverse(BiTree pTree)
 {
-    stack<BiTree> st;
-    BiTree pCur = pTree;
+    if (pTree == nullptr) {
+        return;
+    }
 
-    while (pCur || !st.empty()) {
-        if (pCur) {
-            st.push(pCur);
-            printf("%c ", pCur->data);
-            pCur = pCur->lchild;
+    stack<BiTree> st;
+
+    st.push(pTree);
+    while (!st.empty()) {
+
+        BiTree pCur = st.top();
+        st.pop();
+        printf("%c ", pCur->data);
+
+        if (pCur->rchild != nullptr) {
+            st.push(pCur->rchild);
         }
-        else {
-            pCur = st.top();
-            st.pop();
-            pCur = pCur->rchild;
+        if (pCur->lchild != nullptr) {
+            st.push(pCur->lchild);
         }
     }
 }
 
-//非递归中序遍历
+/*
+
+非递归中序遍历:
+1, 整条左边界依次入栈
+2, 1走到尽头的时候, 弹栈打印
+3, 来到右树, 重复1
+
+*/
 //pTree为指向根结点地指针
 void InOrderTraverse(BiTree pTree)
 {
-	stack<BiTree> st;
-	BiTree pCur = pTree;
+    stack<BiTree> st;
+    BiTree pCur = pTree;
 
     while (pCur || !st.empty()) {
         if (pCur) {
@@ -193,28 +211,30 @@ void InOrderTraverse(BiTree pTree)
 //pTree为指向根结点地指针
 void PostOrderTraverse(BiTree pTree)
 {
+    if (pTree == nullptr) {
+        return;
+    }
+
     stack<BiTree> stOut;
     stack<BiTree> st;
-    BiTree pCur = pTree;
 
-    while (pCur || !st.empty()) {
-        if (pCur) {
-            st.push(pCur);
+    st.push(pTree);
+    while (!st.empty()) {
 
-            // printf("%c ", pCur->data);
-            stOut.push(pCur);
+        BiTree pCur = st.top();
+        st.pop();
+        stOut.push(pCur);
 
-            pCur = pCur->rchild;
+        if (pCur->lchild != nullptr) {
+            st.push(pCur->lchild);
         }
-        else {
-            pCur = st.top();
-            st.pop();
-            pCur = pCur->lchild;
+        if (pCur->rchild != nullptr) {
+            st.push(pCur->rchild);
         }
     }
 
     while (!stOut.empty()) {
-        pCur = stOut.top();
+        BiTree pCur = stOut.top();
         stOut.pop();
         printf("%c ", pCur->data);
     }
@@ -224,22 +244,22 @@ void PostOrderTraverse(BiTree pTree)
 //pTree为指向根结点地指针
 void LevelOrderTraverse(BiTree pTree)
 {
-	queue<BiTree> que;
-	BiTree pCur = pTree;
+    queue<BiTree> que;
+    BiTree pCur = pTree;
 
     que.push(pCur);
-	while (!que.empty())//若队列非空
-	{
-	    pCur = que.front();
-		printf("%c ", pCur->data);
+    while (!que.empty())//若队列非空
+    {
+        pCur = que.front();
+        printf("%c ", pCur->data);
 
-		if (pCur->lchild) {
+        if (pCur->lchild) {
             que.push(pCur->lchild);
-		}
-		if (pCur->rchild) {
+        }
+        if (pCur->rchild) {
             que.push(pCur->rchild);
-		}
+        }
 
-		que.pop();
-	}
+        que.pop();
+    }
 }
