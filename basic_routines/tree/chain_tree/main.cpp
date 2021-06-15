@@ -54,5 +54,7 @@ int main()
 
 	printf("\n二叉树叶子结点个数：%d\n", GetLeafNodeCount(cpyTree));
 
+	printf("\n最大宽度：%d\n", getMaxWidthUseMap(cpyTree));
+
     return 0;
 }

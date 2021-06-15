@@ -23,6 +23,7 @@
 #include <stdlib.h>
 #include <malloc.h>
 #include <stack>
+#include <map>
 #include <queue>
 #include "linkTree.h"
 
@@ -251,6 +252,7 @@ void LevelOrderTraverse(BiTree pTree)
     while (!que.empty())//若队列非空
     {
         pCur = que.front();
+        que.pop();
         printf("%c ", pCur->data);
 
         if (pCur->lchild) {
@@ -259,7 +261,53 @@ void LevelOrderTraverse(BiTree pTree)
         if (pCur->rchild) {
             que.push(pCur->rchild);
         }
-
-        que.pop();
     }
+}
+
+/* 获取树的最大宽度那一层 */
+int getMaxWidthUseMap(BiTree pTree)
+{
+    if (pTree == nullptr) {
+        return 0;
+    }
+
+    map<BiTree, int> levelMap; //记录节点在哪一层
+    queue<BiTree> que;
+
+    BiTree pCur = pTree;
+    que.push(pCur);
+    levelMap[pCur] = 1;       //根节点在第一层
+
+    int curLevel = 1;         //当前统计的层
+    int curLevelNodes = 0;    //当前统计的层上的节点数
+    int maxNodes = 0;
+    while (!que.empty())      //若队列非空
+    {
+        pCur = que.front();
+        que.pop();
+
+        int curNodeLevel = levelMap[pCur];
+//        printf("%c ", pCur->data);
+
+        if (pCur->lchild) {
+            que.push(pCur->lchild);
+            levelMap[pCur->lchild] = curNodeLevel + 1;  //记录左孩子节点在哪一层
+        }
+        if (pCur->rchild) {
+            que.push(pCur->rchild);
+            levelMap[pCur->rchild] = curNodeLevel + 1;  //记录右孩子节点在哪一层
+        }
+
+        if (curNodeLevel == curLevel) {
+            curLevelNodes++;
+        }
+        else {
+            maxNodes = max(maxNodes, curLevelNodes);
+            curLevel++;
+            curLevelNodes = 1;
+        }
+    }
+    maxNodes = max(maxNodes, curLevelNodes);
+
+    return maxNodes;
 }

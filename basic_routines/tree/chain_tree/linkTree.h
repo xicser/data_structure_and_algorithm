@@ -34,5 +34,6 @@ void InOrderTraverse(BiTree pTree);     //中序遍历
 void PostOrderTraverse(BiTree pTree);   //后序遍历
 void LevelOrderTraverse(BiTree pTree);  //层序遍历
 
+int getMaxWidthUseMap(BiTree pTree);    //获取树的最大宽度那一层
 
 #endif
