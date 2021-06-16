@@ -56,5 +56,23 @@ int main()
 
 	printf("\n最大宽度：%d\n", getMaxWidthUseMap(cpyTree));
 
+	printf("\n先序序列化：\n");
+	preOrderSerialize(cpyTree);
+	printf("\n");
+
+	printf("\n先序反序列化：\n");
+	BiTree BinaryTreeDeserialization;
+	preOrderDeserialization("124^^5^^36^^7^^", BinaryTreeDeserialization);
+	PreOrderTraverse(BinaryTreeDeserialization);
+
+    printf("\n层序序列化：\n");
+	levelOrderSerialize(cpyTree);
+	printf("\n");
+
+	printf("\n层序反序列化：\n");
+	BiTree levelDeserialization;
+	levelOrderDeserialize("1234567^^^^^^^^", levelDeserialization);
+	PreOrderTraverse(levelDeserialization);
+
     return 0;
 }

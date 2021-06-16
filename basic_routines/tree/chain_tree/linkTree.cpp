@@ -311,3 +311,124 @@ int getMaxWidthUseMap(BiTree pTree)
 
     return maxNodes;
 }
+
+/* 先序序列化 */
+void preOrderSerialize(BiTree pTree)
+{
+    if (pTree == nullptr) {
+        printf("^ ");
+        return;
+    }
+
+    printf("%c ", pTree->data);
+    preOrderSerialize(pTree->lchild);
+    preOrderSerialize(pTree->rchild);
+}
+
+/* 先序反序列化 */
+static int index;
+static void deserialization(string &serial, BiTree &T)
+{
+    TElemType ch = serial[index++];
+    if (ch == '^') {
+        T = nullptr;//空树，保证是叶子结点，递归结束条件
+        return;
+    }
+
+    //生成结点
+    T = (BiTNode *)malloc(sizeof(BiTNode));
+    if (T == nullptr) {
+        return;
+    }
+    T->data = ch;
+
+    //构造左子树
+    deserialization(serial, T->lchild);
+
+    //构造右子树
+    deserialization(serial, T->rchild);
+}
+void preOrderDeserialization(string serial, BiTree &T)
+{
+    index = 0;
+    deserialization(serial, T);
+}
+
+/* 层序序列化 */
+void levelOrderSerialize(BiTree pTree)
+{
+    if (pTree == nullptr) {
+        printf("^ ");
+        return;
+    }
+
+    queue<BiTree> que;
+    BiTree pCur = pTree;
+
+    que.push(pCur);
+    printf("%c ", pCur->data);
+
+    while (!que.empty())//若队列非空
+    {
+        pCur = que.front();
+        que.pop();
+
+        if (pCur->lchild) {
+            que.push(pCur->lchild);
+            printf("%c ", pCur->lchild->data);
+        } else {
+            printf("^ ");
+        }
+
+        if (pCur->rchild) {
+            que.push(pCur->rchild);
+            printf("%c ", pCur->rchild->data);
+        } else {
+            printf("^ ");
+        }
+    }
+}
+
+/* 层序反序列化 */
+static BiTree generateNode(char ch)
+{
+    if (ch == '^') {
+        return nullptr;
+    }
+    else {
+        BiTree retNode = (BiTree)malloc(sizeof(BiTNode));
+        retNode->data = ch;
+        return retNode;
+    }
+}
+void levelOrderDeserialize(string serial, BiTree &pTree)
+{
+    if (serial.size() == 0) {
+        pTree = nullptr;
+    }
+
+    int index = 0;
+    queue<BiTree> que;
+
+    BiTree head = generateNode(serial[index++]);
+    if (head != nullptr) {
+        que.push(head);
+    }
+
+    while (!que.empty()) {
+        BiTree node = que.front();
+        que.pop();
+
+        node->lchild = generateNode(serial[index++]);
+        node->rchild = generateNode(serial[index++]);
+
+        if (node->lchild != nullptr) {
+            que.push(node->lchild);
+        }
+        if (node->rchild != nullptr) {
+            que.push(node->rchild);
+        }
+    }
+
+    pTree = head;
+}

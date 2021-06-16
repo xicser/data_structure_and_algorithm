@@ -14,14 +14,15 @@
 	<stdlib.h>
 	"linkTree.h"
 
-1622425170 source:g:\code\data_structure_and_algorithm\basic_routines\tree\chain_tree\main.cpp
+1623813741 source:g:\code\data_structure_and_algorithm\basic_routines\tree\chain_tree\main.cpp
 	<iostream>
 	<stdlib.h>
 	"linkTree.h"
 
-1623761308 g:\code\data_structure_and_algorithm\basic_routines\tree\chain_tree\linktree.h
+1623811864 g:\code\data_structure_and_algorithm\basic_routines\tree\chain_tree\linktree.h
+	<string>
 
-1623761270 source:g:\code\data_structure_and_algorithm\basic_routines\tree\chain_tree\linktree.cpp
+1623813922 source:g:\code\data_structure_and_algorithm\basic_routines\tree\chain_tree\linktree.cpp
 	<stdio.h>
 	<stdlib.h>
 	<malloc.h>
