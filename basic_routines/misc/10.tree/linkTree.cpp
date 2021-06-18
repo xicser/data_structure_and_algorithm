@@ -154,3 +154,50 @@ BiTree getInOrderTraverseSuccessorNode(BiTree treeNode)
         return parent;
     }
 }
+
+/* 打印折痕
+   左子树根节点都是凹, 右子树根节点都是凸
+ */
+static void printCreaseRecursion(int i, int N, bool down)
+{
+    if (i > N) {
+        return;
+    }
+
+    printCreaseRecursion(i + 1, N, true);
+    down == true ? printf("凹") : printf("凸");
+    printCreaseRecursion(i + 1, N, false);
+}
+void printCrease(int N)
+{
+    printCreaseRecursion(1, N, true);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

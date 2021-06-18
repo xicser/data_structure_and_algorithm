@@ -29,6 +29,6 @@ void PostOrderTraverseRecursion(BiTree T);                 //后序遍历
 void printTreeGraphic(BiTree T);                           //图形化方法打印一棵树
 BiTree getInOrderTraverseSuccessorNode(BiTree treeNode);   //获取中序遍历下的后继节点
 
-
+void printCrease(int N);                                   //打印折痕
 
 #endif
