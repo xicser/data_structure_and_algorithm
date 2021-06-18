@@ -30,6 +30,7 @@
 #include <stack>
 #include <map>
 #include <queue>
+#include <algorithm>
 #include "linkTree.h"
 
 using namespace std;
@@ -173,7 +174,39 @@ void printCrease(int N)
     printCreaseRecursion(1, N, true);
 }
 
+/* 判断一个树是否是平衡二叉树 */
+typedef struct {
+    bool isBalance;
+    int  height;
+} Info_t;
+static Info_t checkIsBalance(BiTree T)
+{
+    if (T == nullptr) {
+        Info_t node;
+        node.height = 0;
+        node.isBalance = true;
+        return node;
+    }
 
+    Info_t infoLeft = checkIsBalance(T->lchild);
+    Info_t infoRight = checkIsBalance(T->rchild);
+
+    Info_t node;
+    node.height = max(infoLeft.height, infoRight.height) + 1;
+
+    if (infoLeft.isBalance == true && infoRight.isBalance == true && abs(infoLeft.height - infoRight.height) <= 1 ) {
+        node.isBalance = true;
+    }
+    else {
+        node.isBalance = false;
+    }
+
+    return node;
+}
+bool isTreeBalance(BiTree T)
+{
+    return checkIsBalance(T).isBalance;
+}
 
 
 
