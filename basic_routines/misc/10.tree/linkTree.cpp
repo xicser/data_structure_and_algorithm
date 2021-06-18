@@ -209,7 +209,25 @@ bool isTreeBalance(BiTree T)
 }
 
 
+/* 获取一个树上的最大距离, 距离: 距离最大的两个节点 */
+int FarestDistance(BiTree T)
+{
+    if (T == nullptr) {
+        return 0;
+    }
 
+    int leftHeight = FarestDistance(T->lchild);
+    int rightHeight = FarestDistance(T->rchild);
+
+
+
+}
+
+
+int getFarestDistance(BiTree T)
+{
+    return FarestDistance(T);
+}
 
 
 

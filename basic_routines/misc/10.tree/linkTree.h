@@ -30,5 +30,9 @@ void printTreeGraphic(BiTree T);                           //Í¼ĞÎ»¯·½·¨´òÓ¡Ò»¿ÃÊ
 BiTree getInOrderTraverseSuccessorNode(BiTree treeNode);   //»ñÈ¡ÖĞĞò±éÀúÏÂµÄºó¼Ì½Úµã
 void printCrease(int N);                                   //´òÓ¡ÕÛºÛ
 bool isTreeBalance(BiTree T);                              //ÅĞ¶ÏÒ»¸öÊ÷ÊÇ·ñÊÇÆ½ºâ¶ş²æÊ÷
+int  getFarestDistance(BiTree T);                          //»ñÈ¡Ò»¸öÊ÷ÉÏµÄ×î´ó¾àÀë, ¾àÀë: ¾àÀë×î´óµÄÁ½¸ö½Úµã
+
+
+
 
 #endif
