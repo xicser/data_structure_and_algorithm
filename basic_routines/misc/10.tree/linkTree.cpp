@@ -178,20 +178,20 @@ void printCrease(int N)
 typedef struct {
     bool isBalance;
     int  height;
-} Info_t;
-static Info_t checkIsBalance(BiTree T)
+} InfoBalance_t;
+static InfoBalance_t checkIsBalance(BiTree T)
 {
     if (T == nullptr) {
-        Info_t node;
+        InfoBalance_t node;
         node.height = 0;
         node.isBalance = true;
         return node;
     }
 
-    Info_t infoLeft = checkIsBalance(T->lchild);
-    Info_t infoRight = checkIsBalance(T->rchild);
+    InfoBalance_t infoLeft = checkIsBalance(T->lchild);
+    InfoBalance_t infoRight = checkIsBalance(T->rchild);
 
-    Info_t node;
+    InfoBalance_t node;
     node.height = max(infoLeft.height, infoRight.height) + 1;
 
     if (infoLeft.isBalance == true && infoRight.isBalance == true && abs(infoLeft.height - infoRight.height) <= 1 ) {
@@ -208,25 +208,32 @@ bool isTreeBalance(BiTree T)
     return checkIsBalance(T).isBalance;
 }
 
-
+typedef struct {
+    int maxDistance;
+    int height;
+} InfoDistance_t;
 /* 获取一个树上的最大距离, 距离: 距离最大的两个节点 */
-int FarestDistance(BiTree T)
+InfoDistance_t FarestDistance(BiTree T)
 {
     if (T == nullptr) {
-        return 0;
+        InfoDistance_t node;
+        node.height = 0;
+        node.maxDistance = 0;
+        return node;
     }
 
-    int leftHeight = FarestDistance(T->lchild);
-    int rightHeight = FarestDistance(T->rchild);
+    InfoDistance_t leftDistanceInfo = FarestDistance(T->lchild);
+    InfoDistance_t rightDistanceInfo = FarestDistance(T->rchild);
 
-
-
+    InfoDistance_t disSelf;
+    disSelf.height = max(leftDistanceInfo.height, rightDistanceInfo.height) + 1;
+    disSelf.maxDistance = max(leftDistanceInfo.height + rightDistanceInfo.height + 1,
+                              max(leftDistanceInfo.maxDistance, rightDistanceInfo.maxDistance));
+    return disSelf;
 }
-
-
 int getFarestDistance(BiTree T)
 {
-    return FarestDistance(T);
+    return FarestDistance(T).maxDistance;
 }
 
 
