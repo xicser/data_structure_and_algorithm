@@ -188,6 +188,12 @@ void Graph::topologicalSort()
 /* 最小生成树Kruskal算法(只适用于无向图) */
 void Graph::mstKruskal()
 {
+    //小根堆, 自动给边按照代价排序
+    priority_queue<Edge *> edgesQueue;
+    for (set<Edge *>::iterator it = edges.begin(); it != edges.end(); it++) {
+        edgesQueue.push(*it);
+    }
+
 
 }
 
