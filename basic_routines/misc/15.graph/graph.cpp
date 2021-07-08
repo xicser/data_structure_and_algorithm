@@ -186,18 +186,67 @@ void Graph::topologicalSort()
 }
 
 /* 最小生成树Kruskal算法(只适用于无向图) */
+struct cmpKruskal {
+    bool operator () (Edge *e1, Edge *e2) {
+        return e1->weight > e2->weight;
+    }
+};
+static Node *findRoot(Node *node, map<Node *, Node *> &unionSet)
+{
+    while (unionSet[node] != node) {
+        node = unionSet[node];
+    }
+
+    return node;
+}
+
 void Graph::mstKruskal()
 {
     //小根堆, 自动给边按照代价排序
-    priority_queue<Edge *> edgesQueue;
+    priority_queue<Edge *, vector<Edge *>, cmpKruskal> edgesQueue;
     for (set<Edge *>::iterator it = edges.begin(); it != edges.end(); it++) {
         edgesQueue.push(*it);
     }
 
+    //创建并查集
+    map<Node *, Node *> unionSetNode;
+    for (map<int, Node *>::iterator it = nodes.begin(); it != nodes.end(); it++) {
+        unionSetNode[it->second] = it->second;
+    }
 
+    unsigned int cnt = 0;
+    while (!edgesQueue.empty()) {
+
+        Edge *edge = edgesQueue.top();
+        edgesQueue.pop();
+
+        Node *fromNode = edge->from;
+        Node *toNode = edge->to;
+
+        Node *root1 = findRoot(fromNode, unionSetNode);
+        Node *root2 = findRoot(toNode, unionSetNode);
+
+        if (root1 != root2) {
+            //合并
+            unionSetNode[root1] = root2;
+
+            //打印这条边
+            printf("edge = (%d) %d %d\n", edge->weight, fromNode->id, toNode->id);
+            cnt++;
+
+            //如果节点已经全部联通了
+            if (cnt == nodes.size() - 1) {
+                break;
+            }
+        }
+    }
 }
 
+//最小生成树Prim算法(只适用于无向图)
+void Graph::mstPrim()
+{
 
+}
 
 
 

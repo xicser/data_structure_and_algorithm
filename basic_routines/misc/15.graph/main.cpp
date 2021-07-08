@@ -44,9 +44,32 @@ int matrix3[7][3] = {
 1, 4, 5
 };
 
+int matrix4[20][3] = {
+6, 1, 2,
+6, 2, 1,
+1, 1, 3,
+1, 3, 1,
+5, 3, 4,
+5, 4, 3,
+5, 2, 3,
+5, 3, 2,
+5, 1, 4,
+5, 4, 1,
+3, 2, 5,
+3, 5, 2,
+6, 3, 5,
+6, 5, 3,
+4, 3, 6,
+4, 6, 3,
+2, 4, 6,
+2, 6, 4,
+6, 5, 6,
+6, 6, 5};
+
 void test1();
 void test2();
 void test3();
+void test4();
 int main()
 {
 //    test1();
@@ -55,9 +78,11 @@ int main()
 //    test2();
     cout << "---------------------------------------" << endl;
 
-    test3();
+//    test3();
     cout << "---------------------------------------" << endl;
 
+    test4();
+    cout << "---------------------------------------" << endl;
 
     return 0;
 }
@@ -112,4 +137,11 @@ void test3()
     Graph graph;
     graph.createGraph1(matrix3, 7);
     graph.topologicalSort();
+}
+
+void test4()
+{
+    Graph graph;
+    graph.createGraph1(matrix4, 20);
+    graph.mstKruskal();
 }
