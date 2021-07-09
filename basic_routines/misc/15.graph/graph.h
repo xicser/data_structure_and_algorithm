@@ -54,7 +54,7 @@ public:
     void mstKruskal();
 
     //最小生成树Prim算法(只适用于无向图)
-    void mstPrim();
+    void mstPrim(int nodeId);
 
     //获取id顶点
     Node *getNode(int id);

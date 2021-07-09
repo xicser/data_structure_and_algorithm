@@ -243,10 +243,69 @@ void Graph::mstKruskal()
 }
 
 //最小生成树Prim算法(只适用于无向图)
-void Graph::mstPrim()
+struct cmpPrim {
+    bool operator () (Edge *e1, Edge *e2) {
+        return e1->weight > e2->weight;
+    }
+};
+void Graph::mstPrim(int nodeId)
 {
+    set<Node *> nodesU;
+    set<Node *> nodesV;
 
+    //先把第一个顶点放到nodesU中
+    nodesU.insert(nodes[nodeId]);
+
+    //把剩下的顶点放到nodesV
+    for (map<int, Node *>::iterator it = nodes.begin(); it != nodes.end(); it++) {
+        Node *node = it->second;
+        if (node != nodes[nodeId]) {
+            nodesV.insert(node);
+        }
+    }
+
+    priority_queue<Edge *, vector<Edge *>, cmpPrim> edgesQueue;
+    while (nodesV.size() > 0) {
+
+        //针对U中的每个顶点,
+        //计算该顶点到V中各个顶点的边的代价,
+        //记录这些边中代价最小的那个
+        while (!edgesQueue.empty()) edgesQueue.pop();
+        for (set<Node *>::iterator it = nodesU.begin(); it != nodesU.end(); it++) {
+            Node *nodeCur = *it;
+            Edge *edgeMinTmp;
+            int weightMin = 9999999;
+            for (unsigned int i = 0; i < nodeCur->edges.size(); i++) {
+
+                Edge *edgeTmp = nodeCur->edges[i];
+                //如果这条边的对端在V里, 说明这条边是新边, 才会被考虑
+                if (nodesV.find(edgeTmp->to) != nodesV.end()) {
+
+                    if (edgeTmp->weight < weightMin) {
+                        edgeMinTmp = edgeTmp;
+                        weightMin = edgeTmp->weight;
+                    }
+                }
+            }
+            edgesQueue.push(edgeMinTmp);
+        }
+
+        //打印这条边
+        Edge *edgeRes = edgesQueue.top();
+        Node *fromNode = edgeRes->from;
+        Node *toNode = edgeRes->to;
+        printf("edge = (%d) %d %d\n", edgeRes->weight, fromNode->id, toNode->id);
+
+        nodesU.insert(toNode);
+        nodesV.erase(nodesV.find(toNode));
+    }
 }
+
+
+
+
+
+
 
 
 

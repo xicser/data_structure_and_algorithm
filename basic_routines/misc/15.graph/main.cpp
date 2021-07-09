@@ -143,5 +143,6 @@ void test4()
 {
     Graph graph;
     graph.createGraph1(matrix4, 20);
-    graph.mstKruskal();
+//    graph.mstKruskal();
+    graph.mstPrim(3);
 }
