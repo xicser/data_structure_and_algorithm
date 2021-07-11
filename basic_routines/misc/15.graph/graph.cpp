@@ -17,9 +17,11 @@ Edge::Edge(int weight, Node *from, Node *to)
     this->to = to;
 }
 
+int Graph::distaceInf;
 
 Graph::Graph()
 {
+    distaceInf = 9999999;
     nodes.clear();
     edges.clear();
 }
@@ -35,10 +37,10 @@ Graph::~Graph()
     }
 }
 
-/* ´´½¨Í¼
- matrix ËùÓĞµÄ±ß
- N * 3µÄ¾ØÕó
- [weight, from½Úµãid, to½Úµãid]
+/* åˆ›å»ºå›¾
+ matrix æ‰€æœ‰çš„è¾¹
+ N * 3çš„çŸ©é˜µ
+ [weight, fromèŠ‚ç‚¹id, toèŠ‚ç‚¹id]
 
  7 0 4
  4 1 3
@@ -74,7 +76,7 @@ void Graph::createGraph1(int matrix[][3], int line)
             toNode = nodes[toId];
         }
 
-        //ĞÂ½¨Ò»Ìõ±ß
+        //æ–°å»ºä¸€æ¡è¾¹
         edge = new Edge(weight, fromNode, toNode);
 
         fromNode->out++;
@@ -86,7 +88,7 @@ void Graph::createGraph1(int matrix[][3], int line)
     }
 }
 
-/* ¹ã¶ÈÓÅÏÈ±éÀú */
+/* å¹¿åº¦ä¼˜å…ˆéå† */
 void Graph::bfs(Node *start)
 {
     if (start == nullptr) {
@@ -106,7 +108,7 @@ void Graph::bfs(Node *start)
         printf("%d ", pCur->id);
 
         for (unsigned int i = 0; i < pCur->nexts.size(); i++) {
-            //Èç¹ûÃ»ÓĞ±»·ÃÎÊ¹ı
+            //å¦‚æœæ²¡æœ‰è¢«è®¿é—®è¿‡
             if (hasVisited.find(pCur->nexts[i]) == hasVisited.end()) {
                 que.push(pCur->nexts[i]);
                 hasVisited.insert(pCur->nexts[i]);
@@ -116,14 +118,14 @@ void Graph::bfs(Node *start)
     printf("\n");
 }
 
-/* Éî¶ÈÓÅÏÈ±éÀú */
+/* æ·±åº¦ä¼˜å…ˆéå† */
 void Graph::dfs(Node *start)
 {
     if (start == nullptr) {
         return;
     }
 
-    stack<Node *> st;   //Éî¶ÈÓÅÏÈ±éÀúµÄÂ·¾¶
+    stack<Node *> st;   //æ·±åº¦ä¼˜å…ˆéå†çš„è·¯å¾„
     set<Node *> hasVisited;
 
     Node *pCur = start;
@@ -135,7 +137,7 @@ void Graph::dfs(Node *start)
         Node *pCur = st.top();
         st.pop();
         for (unsigned int i = 0; i < pCur->nexts.size(); i++) {
-            //Èç¹ûÃ»ÓĞ±»·ÃÎÊ¹ı
+            //å¦‚æœæ²¡æœ‰è¢«è®¿é—®è¿‡
             if (hasVisited.find(pCur->nexts[i]) == hasVisited.end()) {
                 st.push(pCur);
                 st.push(pCur->nexts[i]);
@@ -148,13 +150,13 @@ void Graph::dfs(Node *start)
     printf("\n");
 }
 
-/* ÍØÆËÅÅĞò(Ö»ÄÜÓĞÏòÎŞ»·Í¼) */
+/* æ‹“æ‰‘æ’åº(åªèƒ½æœ‰å‘æ— ç¯å›¾) */
 void Graph::topologicalSort()
 {
-    //keyÄ³¸ö¶¥µã, valueÊ£ÓàµÄÈë¶È
+    //keyæŸä¸ªé¡¶ç‚¹, valueå‰©ä½™çš„å…¥åº¦
     map<Node *, int> inMap;
 
-    //Ö»ÓĞÊ£ÓàÈë¶ÈÎª0µÄµã, ²Å½øÈëÕâ¸ö¶ÓÁĞ
+    //åªæœ‰å‰©ä½™å…¥åº¦ä¸º0çš„ç‚¹, æ‰è¿›å…¥è¿™ä¸ªé˜Ÿåˆ—
     queue<Node *> zeroInQueue;
 
     for (map<int, Node *>::iterator it = nodes.begin(); it != nodes.end(); it++) {
@@ -173,7 +175,7 @@ void Graph::topologicalSort()
         zeroInQueue.pop();
         printf("%d ", node->id);
 
-        //Ïû³ıºÍÕâ¸ö¶¥µãÏàÁÚµÄÆäËû¶¥µãµÄÈë¶È±ß
+        //æ¶ˆé™¤å’Œè¿™ä¸ªé¡¶ç‚¹ç›¸é‚»çš„å…¶ä»–é¡¶ç‚¹çš„å…¥åº¦è¾¹
         for (unsigned int i = 0; i < node->nexts.size(); i++) {
             inMap[ node->nexts[i] ]--;
             if (inMap[node->nexts[i]] == 0) {
@@ -185,7 +187,7 @@ void Graph::topologicalSort()
     printf("\n");
 }
 
-/* ×îĞ¡Éú³ÉÊ÷KruskalËã·¨(Ö»ÊÊÓÃÓÚÎŞÏòÍ¼) */
+/* æœ€å°ç”Ÿæˆæ ‘Kruskalç®—æ³•(åªé€‚ç”¨äºæ— å‘å›¾) */
 struct cmpKruskal {
     bool operator () (Edge *e1, Edge *e2) {
         return e1->weight > e2->weight;
@@ -202,13 +204,13 @@ static Node *findRoot(Node *node, map<Node *, Node *> &unionSet)
 
 void Graph::mstKruskal()
 {
-    //Ğ¡¸ù¶Ñ, ×Ô¶¯¸ø±ß°´ÕÕ´ú¼ÛÅÅĞò
+    //å°æ ¹å †, è‡ªåŠ¨ç»™è¾¹æŒ‰ç…§ä»£ä»·æ’åº
     priority_queue<Edge *, vector<Edge *>, cmpKruskal> edgesQueue;
     for (set<Edge *>::iterator it = edges.begin(); it != edges.end(); it++) {
         edgesQueue.push(*it);
     }
 
-    //´´½¨²¢²é¼¯
+    //åˆ›å»ºå¹¶æŸ¥é›†
     map<Node *, Node *> unionSetNode;
     for (map<int, Node *>::iterator it = nodes.begin(); it != nodes.end(); it++) {
         unionSetNode[it->second] = it->second;
@@ -227,14 +229,14 @@ void Graph::mstKruskal()
         Node *root2 = findRoot(toNode, unionSetNode);
 
         if (root1 != root2) {
-            //ºÏ²¢
+            //åˆå¹¶
             unionSetNode[root1] = root2;
 
-            //´òÓ¡ÕâÌõ±ß
+            //æ‰“å°è¿™æ¡è¾¹
             printf("edge = (%d) %d %d\n", edge->weight, fromNode->id, toNode->id);
             cnt++;
 
-            //Èç¹û½ÚµãÒÑ¾­È«²¿ÁªÍ¨ÁË
+            //å¦‚æœèŠ‚ç‚¹å·²ç»å…¨éƒ¨è”é€šäº†
             if (cnt == nodes.size() - 1) {
                 break;
             }
@@ -242,7 +244,7 @@ void Graph::mstKruskal()
     }
 }
 
-//×îĞ¡Éú³ÉÊ÷PrimËã·¨(Ö»ÊÊÓÃÓÚÎŞÏòÍ¼)
+//æœ€å°ç”Ÿæˆæ ‘Primç®—æ³•(åªé€‚ç”¨äºæ— å‘å›¾)
 struct cmpPrim {
     bool operator () (Edge *e1, Edge *e2) {
         return e1->weight > e2->weight;
@@ -253,10 +255,10 @@ void Graph::mstPrim(int nodeId)
     set<Node *> nodesU;
     set<Node *> nodesV;
 
-    //ÏÈ°ÑµÚÒ»¸ö¶¥µã·Åµ½nodesUÖĞ
+    //å…ˆæŠŠç¬¬ä¸€ä¸ªé¡¶ç‚¹æ”¾åˆ°nodesUä¸­
     nodesU.insert(nodes[nodeId]);
 
-    //°ÑÊ£ÏÂµÄ¶¥µã·Åµ½nodesV
+    //æŠŠå‰©ä¸‹çš„é¡¶ç‚¹æ”¾åˆ°nodesV
     for (map<int, Node *>::iterator it = nodes.begin(); it != nodes.end(); it++) {
         Node *node = it->second;
         if (node != nodes[nodeId]) {
@@ -267,18 +269,18 @@ void Graph::mstPrim(int nodeId)
     priority_queue<Edge *, vector<Edge *>, cmpPrim> edgesQueue;
     while (nodesV.size() > 0) {
 
-        //Õë¶ÔUÖĞµÄÃ¿¸ö¶¥µã,
-        //¼ÆËã¸Ã¶¥µãµ½VÖĞ¸÷¸ö¶¥µãµÄ±ßµÄ´ú¼Û,
-        //¼ÇÂ¼ÕâĞ©±ßÖĞ´ú¼Û×îĞ¡µÄÄÇ¸ö
+        //é’ˆå¯¹Uä¸­çš„æ¯ä¸ªé¡¶ç‚¹,
+        //è®¡ç®—è¯¥é¡¶ç‚¹åˆ°Vä¸­å„ä¸ªé¡¶ç‚¹çš„è¾¹çš„ä»£ä»·,
+        //è®°å½•è¿™äº›è¾¹ä¸­ä»£ä»·æœ€å°çš„é‚£ä¸ª
         while (!edgesQueue.empty()) edgesQueue.pop();
         for (set<Node *>::iterator it = nodesU.begin(); it != nodesU.end(); it++) {
             Node *nodeCur = *it;
             Edge *edgeMinTmp;
-            int weightMin = 9999999;
+            int weightMin = distaceInf;
             for (unsigned int i = 0; i < nodeCur->edges.size(); i++) {
 
                 Edge *edgeTmp = nodeCur->edges[i];
-                //Èç¹ûÕâÌõ±ßµÄ¶Ô¶ËÔÚVÀï, ËµÃ÷ÕâÌõ±ßÊÇĞÂ±ß, ²Å»á±»¿¼ÂÇ
+                //å¦‚æœè¿™æ¡è¾¹çš„å¯¹ç«¯åœ¨Vé‡Œ, è¯´æ˜è¿™æ¡è¾¹æ˜¯æ–°è¾¹, æ‰ä¼šè¢«è€ƒè™‘
                 if (nodesV.find(edgeTmp->to) != nodesV.end()) {
 
                     if (edgeTmp->weight < weightMin) {
@@ -290,7 +292,7 @@ void Graph::mstPrim(int nodeId)
             edgesQueue.push(edgeMinTmp);
         }
 
-        //´òÓ¡ÕâÌõ±ß
+        //æ‰“å°è¿™æ¡è¾¹
         Edge *edgeRes = edgesQueue.top();
         Node *fromNode = edgeRes->from;
         Node *toNode = edgeRes->to;
@@ -299,6 +301,93 @@ void Graph::mstPrim(int nodeId)
         nodesU.insert(toNode);
         nodesV.erase(nodesV.find(toNode));
     }
+}
+
+/* è¿ªæ°æ–¯ç‰¹æ‹‰ */
+//è·¯å¾„
+typedef struct {
+    bool isDone;
+    int distance;            //è·¯å¾„é•¿åº¦
+    vector<Node *> vertexes; //è·¯å¾„ä¸Šçš„é¡¶ç‚¹
+} Route_t;
+void Graph::dijkstra(Node *startNode)
+{
+    map<Node *, Route_t> routes;  //<é¡¶ç‚¹åœ°å€, è·¯å¾„>
+    vector<Route_t> resultRoutes; //ç»“æœ
+
+    //å…ˆåˆå§‹åŒ–ç¬¬ä¸€åˆ—
+    set<Node *> addedNodes;
+    int disMin = distaceInf;
+    Node *disMinNode;
+    for (unsigned int i = 0; i < startNode->edges.size(); i++) {
+        Edge *nextEdge = startNode->edges[i];
+        Node *toNode;
+        toNode = nextEdge->to;
+
+        Route_t routeTmp;
+        routeTmp.distance = nextEdge->weight;
+
+        //é€‰å‡ºè·ç¦»æœ€çŸ­çš„å“ªä¸ª
+        if (disMin > routeTmp.distance) {
+            disMin = routeTmp.distance;
+            disMinNode = toNode;
+        }
+
+        routeTmp.vertexes.push_back(startNode);
+        routeTmp.vertexes.push_back(toNode);
+        addedNodes.insert(toNode);
+        routes[toNode] = routeTmp;
+    }
+    for (map<int, Node *>::iterator it = nodes.begin(); it != nodes.end(); it++) {
+
+        Node *nodeTmp = it->second;
+        if (addedNodes.find(nodeTmp) == addedNodes.end()) {
+
+            Route_t routeTmp;
+            routeTmp.distance = distaceInf;
+            routeTmp.isDone = false;
+            routeTmp.vertexes.push_back(startNode);
+            routeTmp.vertexes.push_back(nodeTmp);
+            routes[nodeTmp] = routeTmp;
+        }
+    }
+    //æŠŠè·ç¦»æœ€çŸ­çš„é‚£ä¸ªç»“æœå­˜æ”¾åˆ°å·²å®Œæˆvectorä¸­
+    resultRoutes.push_back(routes[disMinNode]);
+    routes[disMinNode].isDone = true;
+
+    //å¼€å§‹å¤„ç†
+    int times = nodes.size() - 2;
+    Node *startNew = disMinNode;
+    int lastDist = routes[disMinNode].distance;
+    for (int i = 0; i < times; i++) {
+
+        for (map<int, Node *>::iterator it = nodes.begin(); it != nodes.end(); it++) {
+            Node *tmpNode = it->second;
+            if (tmpNode == startNode || routes[tmpNode].isDone == true) {
+                continue;
+            }
+
+//            //éœ€è¦æ›´æ–°
+//            if (lastDist + ) {
+//
+//            }
+
+
+
+
+
+
+        }
+
+
+        //å°†æœ¬è½®æœ€å°çš„é‚£ä¸ªåŠ å…¥resultRoutes
+
+
+    }
+
+    //è¾“å‡º
+
+
 }
 
 
@@ -311,9 +400,7 @@ void Graph::mstPrim(int nodeId)
 
 
 
-
-
-/* »ñÈ¡id¶¥µã */
+/* è·å–idé¡¶ç‚¹ */
 Node *Graph::getNode(int id)
 {
     return nodes[id];

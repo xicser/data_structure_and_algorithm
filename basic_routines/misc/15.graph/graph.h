@@ -10,7 +10,7 @@
 
 using namespace std;
 
-//¶¥µã
+//é¡¶ç‚¹
 class Edge;
 class Node {
 public:
@@ -18,11 +18,11 @@ public:
 
     int id;
     int in, out;
-    vector<Node *> nexts;   //³ö¶È¶¥µã
-    vector<Edge *> edges;   //³ö¶È±ß
+    vector<Node *> nexts;   //å‡ºåº¦é¡¶ç‚¹
+    vector<Edge *> edges;   //å‡ºåº¦è¾¹
 };
 
-//±ß
+//è¾¹
 class Edge {
 public:
     Edge(int weight, Node *from, Node *to);
@@ -32,36 +32,40 @@ public:
     Node *to;
 };
 
-//Í¼
+//å›¾
 class Graph {
 public:
     Graph();
     ~Graph();
 
-    //´´½¨Í¼
+    //åˆ›å»ºå›¾
     void createGraph1(int matrix[][3], int line);
 
-    //¹ã¶ÈÓÅÏÈ±éÀú
+    //å¹¿åº¦ä¼˜å…ˆéå†
     void bfs(Node *start);
 
-    //Éî¶ÈÓÅÏÈ±éÀú
+    //æ·±åº¦ä¼˜å…ˆéå†
     void dfs(Node *start);
 
-    //ÍØÆËÅÅĞò
+    //æ‹“æ‰‘æ’åº
     void topologicalSort();
 
-    //×îĞ¡Éú³ÉÊ÷KruskalËã·¨(Ö»ÊÊÓÃÓÚÎŞÏòÍ¼)
+    //æœ€å°ç”Ÿæˆæ ‘Kruskalç®—æ³•(åªé€‚ç”¨äºæ— å‘å›¾)
     void mstKruskal();
 
-    //×îĞ¡Éú³ÉÊ÷PrimËã·¨(Ö»ÊÊÓÃÓÚÎŞÏòÍ¼)
+    //æœ€å°ç”Ÿæˆæ ‘Primç®—æ³•(åªé€‚ç”¨äºæ— å‘å›¾)
     void mstPrim(int nodeId);
 
-    //»ñÈ¡id¶¥µã
+    //è¿ªæ°æ–¯ç‰¹æ‹‰
+    void dijkstra(Node *startNode);
+
+    //è·å–idé¡¶ç‚¹
     Node *getNode(int id);
 
 private:
-    map<int, Node *> nodes;       //¶¥µã¼¯ºÏ<id, Node Addr>
-    set<Edge *> edges;            //±ß¼¯ºÏ
+    static int distaceInf;
+    map<int, Node *> nodes;       //é¡¶ç‚¹é›†åˆ<id, Node Addr>
+    set<Edge *> edges;            //è¾¹é›†åˆ
 };
 
 

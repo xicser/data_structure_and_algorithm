@@ -3,15 +3,16 @@
 
 using namespace std;
 
-// [weight, from½Úµãid, to½Úµãid]
+// [weight, fromèŠ‚ç‚¹id, toèŠ‚ç‚¹id]
 int matrix1[5][3] = {
 7, 0, 4,
 4, 1, 3,
 3, 2, 3,
 8, 2, 4,
-6, 3, 4 };
+6, 3, 4
+};
 
-// [weight, from½Úµãid, to½Úµãid]
+// [weight, fromèŠ‚ç‚¹id, toèŠ‚ç‚¹id]
 int matrix2[18][3] = {
 1, 1, 2,
 1, 2, 1,
@@ -33,7 +34,7 @@ int matrix2[18][3] = {
 1, 7, 6
 };
 
-// ÓĞÏòÎŞ»·Í¼
+// æœ‰å‘æ— ç¯å›¾
 int matrix3[7][3] = {
 1, 0, 1,
 1, 0, 2,
@@ -64,12 +65,15 @@ int matrix4[20][3] = {
 2, 4, 6,
 2, 6, 4,
 6, 5, 6,
-6, 6, 5};
+6, 6, 5
+};
 
 void test1();
 void test2();
 void test3();
 void test4();
+void test5();
+
 int main()
 {
 //    test1();
@@ -81,8 +85,12 @@ int main()
 //    test3();
     cout << "---------------------------------------" << endl;
 
-    test4();
+//    test4();
     cout << "---------------------------------------" << endl;
+
+    test5();
+    cout << "---------------------------------------" << endl;
+
 
     return 0;
 }
@@ -143,6 +151,13 @@ void test4()
 {
     Graph graph;
     graph.createGraph1(matrix4, 20);
-//    graph.mstKruskal();
+    graph.mstKruskal();
+    printf("\n");
     graph.mstPrim(3);
+}
+
+void test5()
+{
+
+
 }
