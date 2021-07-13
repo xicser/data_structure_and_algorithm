@@ -1,6 +1,7 @@
 #include <iostream>
 #include "hanoi.h"
 #include "printStack.h"
+#include "printSubSequence.h"
 
 using namespace std;
 
@@ -14,7 +15,7 @@ int main()
 //    hanoi(3, left, middle, right);
 
 
-
+    printSubSequence("ab");
 
 
     return 0;
