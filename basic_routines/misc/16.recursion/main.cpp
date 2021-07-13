@@ -2,6 +2,7 @@
 #include "hanoi.h"
 #include "printStack.h"
 #include "printSubSequence.h"
+#include "permutation.h"
 
 using namespace std;
 
@@ -15,7 +16,9 @@ int main()
 //    hanoi(3, left, middle, right);
 
 
-    printSubSequence("ab");
+//    printSubSequence("ab");
+
+    printPermutation("abc");
 
 
     return 0;

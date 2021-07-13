@@ -35,6 +35,8 @@
 		<Unit filename="hanoi.cpp" />
 		<Unit filename="hanoi.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="permutation.cpp" />
+		<Unit filename="permutation.h" />
 		<Unit filename="printStack.cpp" />
 		<Unit filename="printStack.h" />
 		<Unit filename="printSubSequence.cpp" />
