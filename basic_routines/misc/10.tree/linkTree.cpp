@@ -236,7 +236,11 @@ int getFarestDistance(BiTree T)
     return FarestDistance(T).maxDistance;
 }
 
+/* 返回这颗二叉树中最大的二叉搜索子树的头节点(即满足搜索二叉树结构的最大子树) */
+BiTree getMaxBiSearchSubTree(BiTree T)
+{
 
+}
 
 
 

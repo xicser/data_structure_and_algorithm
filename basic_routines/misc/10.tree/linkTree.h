@@ -31,7 +31,7 @@ BiTree getInOrderTraverseSuccessorNode(BiTree treeNode);   //»ñÈ¡ÖĞĞò±éÀúÏÂµÄºó¼
 void printCrease(int N);                                   //´òÓ¡ÕÛºÛ
 bool isTreeBalance(BiTree T);                              //ÅĞ¶ÏÒ»¸öÊ÷ÊÇ·ñÊÇÆ½ºâ¶ş²æÊ÷
 int  getFarestDistance(BiTree T);                          //»ñÈ¡Ò»¸öÊ÷ÉÏµÄ×î´ó¾àÀë, ¾àÀë: ¾àÀë×î´óµÄÁ½¸ö½Úµã
-
+BiTree getMaxBiSearchSubTree(BiTree T);                    //·µ»ØÕâ¿Å¶ş²æÊ÷ÖĞ×î´óµÄ¶ş²æËÑË÷×ÓÊ÷µÄÍ·½Úµã(¼´Âú×ãËÑË÷¶ş²æÊ÷½á¹¹µÄ×î´ó×ÓÊ÷)
 
 
 
