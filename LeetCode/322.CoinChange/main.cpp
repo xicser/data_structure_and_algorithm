@@ -10,19 +10,17 @@ public:
         int bagSize = amount;
         int thingCnt = coins.size();
 
-
-        vector<int> dp(bagSize + 1, INT_MAX);
+        int max = INT_MAX - 5;
+        vector<int> dp(bagSize + 1, max);
         dp[0] = 0;
 
         for (int i = 0; i < thingCnt; i++) {
             for (int j = coins[i]; j <= bagSize; j++) {
-                if (dp[j - coins[i]] != INT_MAX) {
-                    dp[j] = min(dp[j], dp[j - coins[i]] + 1);
-                }
+                dp[j] = min(dp[j], dp[j - coins[i]] + 1);
             }
         }
 
-        return dp[bagSize] == INT_MAX ? -1 : dp[bagSize];
+        return dp[bagSize] == max ? -1 : dp[bagSize];
     }
 };
 
