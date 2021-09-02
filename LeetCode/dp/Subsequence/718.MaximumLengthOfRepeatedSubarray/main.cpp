@@ -12,7 +12,10 @@ public:
         int len2 = nums2.size();
         int res = 0;
 
-        //dp[i][j] 表示A数组中i位置(含)之前 和 B数组中j位置(含)之前 最长重复子数组的长度
+        // dp[i][j] 表示A数组中i位置(含)之前, 必须以nums1[i]结尾的子数组
+		// 和
+		// B数组中j位置(含)之前, 必须以nums1[i]结尾的子数组
+		// 最长重复子数组的长度
         vector< vector<int> > dp(len1, vector<int> (len2, 0) );
 
         //dp数组初始化
