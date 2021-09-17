@@ -14,27 +14,30 @@ struct TreeNode {
 
 class Solution {
 public:
-    int sumOfLeftLeaves(TreeNode* root) {
-        val = 0;
+    TreeNode* insertIntoBST(TreeNode* root, int val) {
+        this->val = val;
         process(root);
-        return val;
+        return root;
     }
 
 private:
     int val;
-
-    void process(TreeNode* root) {
-
+    void process(TreeNode*& root) {
         if (root == nullptr) {
+            TreeNode* node = new TreeNode(val);
+            root = node;
             return;
         }
 
-        if (root->left != nullptr && root->left->left == nullptr && root->left->right == nullptr) {
-            val += root->left->val;
+        if (val > root->val) {
+            process(root->right);
         }
-
-        process(root->left);
-        process(root->right);
+        else if (val < root->val) {
+            process(root->left);
+        }
+        else {
+            return;
+        }
     }
 };
 
