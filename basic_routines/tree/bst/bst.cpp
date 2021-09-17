@@ -59,7 +59,7 @@ BSTree createBST(int *data, int n)
 而结点的后继则是该结点右子树中的最左结点
 */
 //获取以root为根的BST的最大节点
-static BSTree findMax(BSTree root)
+static BSTree findPrev(BSTree root)
 {
     while (root->rchild != nullptr) {
         root = root->rchild;
@@ -68,7 +68,7 @@ static BSTree findMax(BSTree root)
 }
 
 //获取以root为根的BST的最小节点
-static BSTree findMin(BSTree root)
+static BSTree findNext(BSTree root)
 {
     while (root->lchild != nullptr) {
         root = root->lchild;
@@ -92,14 +92,14 @@ void deleteNode(BSTree &root, int x)
         }
         //左子树不为空
         else if (root->lchild != nullptr) {
-            BSTree prev = findMax(root->lchild);  //左子树的最大节点是其前驱
+            BSTree prev = findPrev(root->lchild);  //左子树的最大节点是其前驱
             root->data = prev->data;
             //然后在左子树中删除prev节点
             deleteNode(root->lchild, prev->data);
         }
         //右子树不为空
         else {
-            BSTree next = findMin(root->lchild);  //右子树的最小节点是其后继
+            BSTree next = findNext(root->rchild);  //右子树的最小节点是其后继
             root->data = next->data;
             //然后在右子树中删除next节点
             deleteNode(root->rchild, next->data);
