@@ -13,11 +13,12 @@ public:
 
         vector<int> dp(n + 1, -1);  //dp[i] 拆分数字i, 得到的最大乘积
 
+        dp[1] = 1;
         dp[2] = 1;
 
         for (int i = 3; i <= n; i++) {
-            for (int j = 1; j <= i / 2; j++) {
-                dp[i] =  max(dp[i], j * dp[i - j] );
+            for (int j = 1; j < i; j++) {
+                dp[i] =  max(dp[i], max(j * (i - j), j * dp[i - j]) );
             }
         }
 
