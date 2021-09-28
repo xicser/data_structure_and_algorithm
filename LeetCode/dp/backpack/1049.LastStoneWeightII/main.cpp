@@ -12,40 +12,22 @@ public:
         }
         int sum = 0;
         int target;
-        for (unsigned int i = 0 ; i < stones.size(); i++) {
+        for (unsigned int i = 0; i < stones.size(); i++) {
             sum += stones[i];
         }
         target = sum / 2;
 
-//        cout << sum << endl;
-//        cout << target << endl;
-
-        //dp[i][j]表示, 从下标为[0 - i]的物品中任意取, 放进容量为j的背包, 价值总和最大是多少
-        int row = stones.size();
-        int col = target + 1;
-        vector< vector<int> > dp(row, vector<int>(col, 0));
-
-        //dp数组初始化
-        for (int j = 1; j < col; j++) {
-            if (stones[0] <= j) {
-                dp[0][j] = stones[0];
-            }
-        }
+        //给容量为target的背包中装的最大重量
+        vector<int> dp(target + 1, 0);
 
         //01背包
-        for (int i = 1; i < row; i++) {
-            for (int j = 1; j < col; j++) {
-                if (j < stones[i]) {
-                    dp[i][j] = dp[i - 1][j];
-                } else {
-                    dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - stones[i]] + stones[i]);
-                }
+        for (int i = 0; i < stones.size(); i++) {
+            for (int j = target; j >= stones[i]; j--) {
+                dp[j] = max(dp[j], dp[j - stones[i]] + stones[i]);
             }
         }
 
-//        cout << dp[row - 1][target] << endl;
-
-        return abs((sum - dp[row - 1][target]) - dp[row - 1][target]);
+        return abs((sum - dp[target]) - dp[target]);
     }
 };
 

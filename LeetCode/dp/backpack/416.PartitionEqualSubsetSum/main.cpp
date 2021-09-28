@@ -17,30 +17,16 @@ public:
         }
         target /= 2;
 
-        //dp[i][j]表示, 从下标为[0 - i]的物品中任意取, 放进容量为j的背包, 价值总和最大是多少
-        int row = nums.size();
-        int col = target + 1;
-        vector< vector<int> > dp(row, vector<int>(col, 0));
+        // 转换成背包问题: 装到target容量的背包中, 恰好装满
+        vector<int> dp(target + 1, 0);
 
-        //dp数组初始化
-        for (int j = 1; j < col; j++) {
-            if (nums[0] <= j) {
-                dp[0][j] = nums[0];
+        for (unsigned int i = 0; i < nums.size(); i++) {
+            for (int j = target; j >= nums[i]; j--) {
+                dp[j] = max(dp[j], dp[ j - nums[i] ] + nums[i]);
             }
         }
 
-        //01背包
-        for (int i = 1; i < row; i++) {
-            for (int j = 1; j < col; j++) {
-                if (j < nums[i]) {
-                    dp[i][j] = dp[i - 1][j];
-                } else {
-                    dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - nums[i]] + nums[i]);
-                }
-            }
-        }
-
-        if (target == dp[row - 1][target]) {
+        if (target == dp[target]) {
             return true;
         }
         return false;
