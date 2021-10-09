@@ -14,6 +14,7 @@ public:
             return max(nums[0], nums[1]);
         }
 
+		// dp[i]: 考虑下标i(包括i)以内的房屋, 最多可以偷窃的金额为dp[i]
         vector<int> dp(nums.size(), 0);
         dp[0] = nums[0];
         dp[1] = max(nums[0], nums[1]);
