@@ -21,31 +21,15 @@ public:
             return head;
         }
 
-        ListNode* first = head;
-        ListNode* pCur;
-        ListNode* pNext;
-        while (1) {
-
-            while (1) {
-                pCur = first;
-                pNext = first->next;
-                if (pCur->val == pNext->val) {
-                    pCur->next = pNext->next;
-                    delete pNext;
-                    pNext = pCur->next;
-                    if (pNext == nullptr) {
-                        break;
-                    }
-                }
-                else {
-                    first = pNext;
-                    break;
-                }
+        if (head->val != head->next->val) {
+            head->next = deleteDuplicates(head->next);
+        }
+        else {
+            ListNode* move = head;
+            while (move->next != nullptr && move->val == move->next->val) {
+                move = move->next;
             }
-
-            if (first->next == nullptr) {
-                break;
-            }
+            return deleteDuplicates(move);
         }
 
         return head;
