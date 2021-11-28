@@ -8,33 +8,38 @@
 using namespace std;
 
 class H2O {
-    atomic<int> h;
+private:
+    int m_count;
+    mutex mux;
+    condition_variable cond;
 public:
     H2O() {
-        h.store(0);
+        m_count = 0;
     }
 
     void hydrogen(function<void()> releaseHydrogen) {
-        while (h == 2) {
-            this_thread::yield();
-        }
-        // releaseHydrogen() outputs "H". Do not change or remove this line.
+        unique_lock<mutex> lock(mux);
+        cond.wait(lock, [&] {
+            return m_count < 2;
+        });
         releaseHydrogen();
-        ++h;
+        m_count++;
+        cond.notify_all();
     }
 
     void oxygen(function<void()> releaseOxygen) {
-        while (h != 2) {
-            this_thread::yield();
-        }
-        // releaseOxygen() outputs "O". Do not change or remove this line.
+
+        unique_lock<mutex> lock(mux);
+        cond.wait(lock, [&] {
+            return m_count == 2;
+        });
+        m_count = 0;
         releaseOxygen();
-        h = 0;
+        cond.notify_all();
     }
 };
 
 int main()
 {
-    cout << "Hello world!" << endl;
     return 0;
 }
