@@ -7,25 +7,23 @@ using namespace std;
 class Solution {
 public:
     int lengthOfLIS(vector<int>& nums) {
-        int len = nums.size();
-        if (len == 1) {
-            return 1;
-        }
 
-        int res = 0;
-        vector<int> dp(len, 1); //考虑前i个元素, 以nums[i]结尾的最长上升子序列的长度为dp[i]
+        int result = 1;
 
-        for (int i = 1; i < len; i++) {
+        //dp[i]表示, 数组中[0] -> [i]这个范围内中的最长递增子序列
+        vector<int> dp(nums.size(), 1);
+
+        for (int i = 1; i < nums.size(); i++) {
             for (int j = 0; j < i; j++) {
                 if (nums[i] > nums[j]) {
                     dp[i] = max(dp[i], dp[j] + 1);
                 }
             }
 
-            res = max(res, dp[i]);
+            result = max(result, dp[i]);
         }
 
-        return res;
+        return result;
     }
 };
 
@@ -35,7 +33,7 @@ int main()
     vector<int> nums1 = {10,9,2,5,3,7,101,18};
     vector<int> nums2 = {0,1,0,3,2,3};
     vector<int> nums3 = {7,7,7,7,7,7,7};
-    vector<int> nums4 = {4, 10, 4, 3, 8, 9};
+    vector<int> nums4 = {0};
                        //0   1  2  3  4  5
     cout << sol.lengthOfLIS(nums1) << endl;
     cout << sol.lengthOfLIS(nums2) << endl;

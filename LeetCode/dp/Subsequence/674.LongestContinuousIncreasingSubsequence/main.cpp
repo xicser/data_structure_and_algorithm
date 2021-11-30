@@ -7,26 +7,18 @@ class Solution {
 public:
     int findLengthOfLCIS(vector<int>& nums) {
 
-        int len = nums.size();
-        if (len == 1) {
-            return 1;
-        }
-        int maxHistory = -1;
+        int result = 1;
+        //dp[i]表示数组nums[0] -> [i]这个范围内, 以i结尾的, 最长连续递增子数组长度
+        vector<int> dp(nums.size(), 1);
 
-        vector<int> dp(len, 0);
-        dp[0] = 1;
-
-        for (unsigned int i = 1; i < nums.size(); i++) {
+        for (int i = 1; i < nums.size(); i++) {
             if (nums[i] > nums[i - 1]) {
                 dp[i] = dp[i - 1] + 1;
             }
-            else {
-                maxHistory = max(maxHistory, dp[i - 1]);
-                dp[i] = 1;
-            }
+            result = max(result, dp[i]);
         }
 
-        return max(maxHistory, dp[len - 1]);
+        return result;
     }
 };
 
