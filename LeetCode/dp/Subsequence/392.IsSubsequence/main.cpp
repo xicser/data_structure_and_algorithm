@@ -4,6 +4,7 @@
 
 using namespace std;
 
+//求最长公共子序列长度l, 若l==s.size(), 表明是
 class Solution {
 public:
     bool isSubsequence(string s, string t) {
@@ -11,46 +12,30 @@ public:
         int len1 = s.size();
         int len2 = t.size();
 
-        if (len1 == 0) {
-            return false;
-        }
-        if (len1 > len2) {
-            return false;
-        }
+        int result = 1;
 
-        vector< vector<int> > dp(len1, vector<int>(len2, 0) );
+        vector< vector<int> > dp(len1 + 1, vector<int>(len2 + 1, 1) );
 
-        for (int i = 0; i < len1; i++) {
-            if (s[i] == t[0]) {
-                dp[i][0] = 1;
-                for (int k = i + 1; k < len1; k++) {
-                    dp[k][0] = 1;
-                }
-                break;
-            }
-        }
-        for (int j = 0; j < len2; j++) {
-            if (s[0] == t[j]) {
-                dp[0][j] = 1;
-                for (int k = j + 1; k < len2; k++) {
-                    dp[0][k] = 1;
-                }
-                break;
-            }
-        }
+        for (int i = 1; i < len1 + 1; i++) {
+            for (int j = 1; j < len2 + 1; j++) {
 
-        for (int i = 1; i < len1; i++) {
-            for (int j = 1; j < len2; j++) {
-
-                if (s[i] == t[j]) {
+                if (s[i - 1] == t[j - 1]) {
                     dp[i][j] = dp[i - 1][j - 1] + 1;
-                } else {
-                    dp[i][j] = max(dp[i][j - 1], dp[i - 1][j]);
                 }
+                else {
+                    dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+                }
+
+                result = max(result, dp[i][j]);
             }
         }
 
-        return dp[len1 - 1][len2 - 1] == len1;
+        result -= 1;
+        if (result == s.size()) {
+            return true;
+        }
+
+        return false;
     }
 };
 

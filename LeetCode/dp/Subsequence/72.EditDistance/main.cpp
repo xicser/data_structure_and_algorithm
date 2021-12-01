@@ -18,7 +18,8 @@ public:
             return len1;
         }
 
-        //dp[i][j]表示将word1转换成word2所需要的最小步骤
+        //dp[i][j]表示将word1[0:i]转换成word2[0:j]所需要的最小步骤
+
         vector< vector<int> > dp(len1 + 1, vector<int>(len2 + 1, 0));
 
         //dp数组初始化
@@ -35,7 +36,9 @@ public:
                     dp[i][j] = dp[i - 1][j - 1];
                 }
                 else {
-                    dp[i][j] = min(dp[i][j - 1] + 1, min(dp[i - 1][j] + 1, dp[i - 1][j - 1] + 1));
+                    dp[i][j] = min(dp[i][j - 1] + 1,            //
+                               min(dp[i - 1][j] + 1,            //
+                                   dp[i - 1][j - 1] + 1));      //换
                 }
             }
         }

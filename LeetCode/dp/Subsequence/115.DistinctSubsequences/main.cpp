@@ -11,6 +11,7 @@ public:
         unsigned int len2 = t.size();
 
         // dp[i][j]表示, 从s中抽取字符(须保持相对前后顺序), 然后凑t, 凑成t的方法数
+        // 并假设由s和t前面都加了一个相等的特殊数字, 该特殊字符和任何已知字符都不相等
         vector< vector<unsigned int> > dp(len1 + 1, vector<unsigned int>(len2 + 1, 0));
 
         for (unsigned int i = 0; i < len1 + 1; i++) {
