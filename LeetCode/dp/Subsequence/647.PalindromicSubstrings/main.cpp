@@ -9,32 +9,42 @@ public:
     int countSubstrings(string s) {
 
         int len  = s.size();
+        int result = 0;
+
+        //dp[i][j]表示 [i] -> [j] 之间的子串是否为回文串
         vector< vector<bool> > dp(len, vector<bool>(len, false) );
 
-        int res = 0;
         for (int i = len - 1; i >= 0; i--) {
             for (int j = i; j < len; j++) {
                 if (s[i] != s[j]) {
                     dp[i][j] = false;
                 }
                 else {
+                    //对角线上的元素
                     if (i == j) {
+                        result++;
                         dp[i][j] = true;
-                        res++;
                     }
+                    //只相差一个位置
                     else if (j - i == 1) {
+                        result++;
                         dp[i][j] = true;
-                        res++;
                     }
-                    else if (dp[i + 1][j - 1] == true) {
-                        dp[i][j] = true;
-                        res++;
+                    //两头相等, 看看中间是否相等
+                    else {
+                        if (dp[i + 1][j - 1] == true) {
+                            result++;
+                            dp[i][j] = true;
+                        }
+                        else {
+                            dp[i][j] = false;
+                        }
                     }
                 }
             }
         }
 
-        return res;
+        return result;
     }
 };
 
