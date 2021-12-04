@@ -13,6 +13,7 @@ public:
         vector<unsigned int> dp(bagSize + 1, 0);
         dp[0] = 1;
 
+        //排列问题, 先遍历背包容量, 再遍历物品
         for (int j = 0; j <= bagSize; j++) {
             for (int i = 0; i < thingsCount; i++) {
                 if (j >= nums[i]) {

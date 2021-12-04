@@ -8,27 +8,33 @@ class Solution {
 public:
     bool canPartition(vector<int>& nums) {
 
-        int target = 0;
-        for (unsigned int i = 0 ; i < nums.size(); i++) {
-            target += nums[i];
+        int sum = 0;
+        for (int i = 0; i < nums.size(); i++) {
+            sum += nums[i];
         }
-        if (target % 2 != 0) {
+
+        //和是个奇数
+        if (sum % 2 != 0) {
             return false;
         }
-        target /= 2;
 
-        // 转换成背包问题: 装到target容量的背包中, 恰好装满
-        vector<int> dp(target + 1, 0);
+        int bagSize = sum / 2;
 
-        for (unsigned int i = 0; i < nums.size(); i++) {
-            for (int j = target; j >= nums[i]; j--) {
-                dp[j] = max(dp[j], dp[ j - nums[i] ] + nums[i]);
+        //01背包滚动数组
+        vector<int> dp(bagSize + 1, 0);
+
+        //开始01背包
+        for (int i = 0; i < nums.size(); i++) {
+            for (int j = bagSize; j >= nums[i]; j--) {
+                dp[j] = max(dp[j], dp[j - nums[i]] + nums[i]);
             }
         }
 
-        if (target == dp[target]) {
+        //尽最大可能装, 刚好装满
+        if (dp[bagSize] == bagSize) {
             return true;
         }
+
         return false;
     }
 };
