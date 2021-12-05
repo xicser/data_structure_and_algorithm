@@ -18,6 +18,7 @@ public:
         for (int i = 3; i <= n; i++) {
 
             dp[i] = 0;
+            //遍历以j为为头节点的二叉搜索树
             for (int j = 1; j <= i; j++) {
                 dp[i] += dp[j - 1] * dp[i - j];
             }
@@ -29,7 +30,6 @@ public:
 
 int main()
 {
-
     Solution sol;
     cout << sol.numTrees(1) << endl;
 

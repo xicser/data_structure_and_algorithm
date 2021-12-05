@@ -8,13 +8,20 @@ public:
     int numSquares(int n) {
 
         int bagSize = n;
-        vector<int> dp(bagSize + 1, INT_MAX - 5);
+
+        //dp[i]表示装满容量为i的背包, 需要的最少背包个数
+        vector<int> dp(bagSize + 1, INT_MAX);
+
+        //dp数组初始化
         dp[0] = 0;
 
-        //完全背包
-        for (unsigned int i = 1; i * i <= n; i++) {
-            for (int j = i * i; j <= bagSize; j++) {
-                dp[j] = min(dp[j], dp[ j - i * i ] + 1);
+        //遍历物品
+        for (int i = 1; i <= n; i++) {
+
+            //遍历背包
+            for (int j = (i * i); j < bagSize + 1; j++) {
+
+                dp[j] = min(dp[j], dp[j - i * i] + 1);
             }
         }
 
