@@ -3,6 +3,9 @@
 
 using namespace std;
 
+//n = 4
+//1 2 3 4
+//k = 3
 class Solution {
 public:
     vector<vector<int>> combine(int n, int k) {
@@ -11,24 +14,28 @@ public:
     }
 
 private:
-    vector<vector<int>> result;  // 存放符合条件结果的集合
-    vector<int> path;            // 存放符合条件结果
+    vector<vector<int>> result;
+    vector<int> path;
 
-    void backtracking(int n, int k, int startIndex) {
+    void backtracking(int n, int k, int start) {
 
         if (path.size() == k) {
             result.push_back(path);
             return;
         }
 
-        // for (int i = startIndex; i <= n; i++) {
-        for (int i = startIndex; k - path.size() <= n - i + 1; i++) {       // 剪枝优化
-                                                                            // k - path.size() 还需要取几个
-                                                                            // n - i + 1 最多还能取几个
+        for (int i = start; i <= n; i++) {
+
+            //剪纸优化: 如果剩余的元素个数已经小于需要的个数了, 就没有必要搜索了
+            int restNeed = k - path.size();
+            if (n - i + 1 < restNeed) {
+                continue;
+            }
+
             path.push_back(i);
+
             backtracking(n, k, i + 1);
 
-            //回溯
             path.pop_back();
         }
     }
@@ -37,7 +44,14 @@ private:
 int main()
 {
     Solution sol;
-    sol.combine(4, 4);
-    cout << "Hello world!" << endl;
+    vector<vector<int>> result = sol.combine(4, 4);
+
+    for (int i = 0; i < result.size(); i++) {
+        for (int j = 0; j < result[i].size(); j++) {
+            cout << result[i][j] << " ";
+        }
+        cout << endl;
+    }
+
     return 0;
 }

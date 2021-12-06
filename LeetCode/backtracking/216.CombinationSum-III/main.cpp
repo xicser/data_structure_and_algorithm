@@ -3,6 +3,7 @@
 
 using namespace std;
 
+//1 2 3 4 5 6 7 8 9
 class Solution {
 public:
     vector<vector<int>> combinationSum3(int k, int n) {
@@ -14,27 +15,28 @@ public:
 private:
     void backtracking(int k, int n, int index) {
 
-        //这个if控制树的深度
         if (path.size() == k) {
             if (pathSum == n) {
                 result.push_back(path);
-                return;
             }
-            else {
-                return;
-            }
+            return;
         }
 
-        //for (int i = index; i <= 9; i++) {
-        for (int i = index; i <= 9 && pathSum + i <= n; i++) {   //剪枝优化
+        for (int i = index; i <= 9; i++) {
 
-            pathSum += i;
+            //剪枝优化:
+            int rest = k - path.size();
+            if (9 - i + 1 < rest) {
+                continue;
+            }
+
             path.push_back(i);
+            pathSum += i;
+
             backtracking(k, n, i + 1);
 
-            //回溯
-            pathSum -= i;
             path.pop_back();
+            pathSum -= i;
         }
     }
 
