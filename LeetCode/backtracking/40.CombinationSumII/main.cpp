@@ -5,11 +5,12 @@
 
 using namespace std;
 
+//1, 1, 2, 5, 6, 7, 10   target = 8
 class Solution {
 public:
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
 
-        //必须先去重
+        //必须先排序
         sort(candidates.begin(), candidates.end());
         this->target = target;
         this->pathSum = 0;
@@ -27,31 +28,32 @@ private:
 
     void backtracking(int startIndex, vector<int>& candidates) {
 
-        if (pathSum == this->target) {
+        if (pathSum == target) {
             result.push_back(path);
-            return;
         }
-        else if (pathSum > this->target) {
+        else if (pathSum > target) {
             return;
         }
 
+        //同层去重
         unordered_set<int> hasUsed;
-        for (unsigned int i = startIndex; i < candidates.size() && candidates[i] + pathSum <= target; i++) {
 
-            //如果本层的这个数字candidates[i]被用过, 那么就不要再用了
-            if (hasUsed.find(candidates[i]) != hasUsed.end()) {
-                continue;
-            } else {
-                hasUsed.insert(candidates[i]);
+        for (int i = startIndex; i < candidates.size() && pathSum + candidates[i] <= target; i++) {
+
+            //如果本层中, 这一个数之前已经用过, 就不要再用了
+            if (hasUsed.find(candidates[i]) == hasUsed.end()) {
+                path.push_back(candidates[i]);
+                pathSum += candidates[i];
+                hasUsed.insert(candidates[i]);  //放入set, 表示这个数已经用过了
             }
-
-            pathSum += candidates[i];
-            path.push_back(candidates[i]);
+            else {
+                continue;
+            }
 
             backtracking(i + 1, candidates);
 
-            pathSum -= candidates[i];
             path.pop_back();
+            pathSum -= candidates[i];
         }
     }
 };

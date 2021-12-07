@@ -8,7 +8,7 @@ class Solution {
 public:
     vector<vector<string>> partition(string s) {
 
-        backtracking(0, s.size() - 1, s);
+        backtracking(0, s);
         return result;
     }
 
@@ -16,28 +16,26 @@ private:
     vector<vector<string>> result;
     vector<string> path;
 
-    void backtracking(int startPos, int endPos, string &str) {
+    void backtracking(int startPos, string &str) {
 
-        //截取到最后了
-        if (startPos > endPos) {
+        //已经切割到最后了
+        if (startPos == str.size()) {
             result.push_back(path);
             return;
         }
 
-        for (int i = startPos; i <= endPos; i++) {
+        for (unsigned int i = startPos; i < str.size(); i++) {
 
-            string subStr = str.substr(startPos, i - startPos + 1);
+            //切割所有长度的子串
+            string sub = str.substr(startPos, i - startPos + 1);
 
-            //剪枝
-            if (isPalindrome(subStr) == false) {
+            //如果这条路径上, 有一个不是回文的子串, 就剪枝
+            if (isPalindrome(sub) == false) {
                 continue;
             }
 
-            path.push_back(subStr);
-
-            backtracking(i + 1, endPos, str);
-
-            //回溯
+            path.push_back(sub);
+            backtracking(i + 1, str);
             path.pop_back();
         }
     }
@@ -61,7 +59,7 @@ int main()
 
     for (unsigned int i = 0 ; i < result.size(); i++) {
         for (unsigned int j = 0; j < result[i].size(); j++) {
-            cout << result[i][j] << endl;
+            cout << result[i][j] << " ";
         }
         cout << endl;
     }

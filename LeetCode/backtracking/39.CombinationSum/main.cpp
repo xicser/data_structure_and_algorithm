@@ -3,7 +3,7 @@
 
 using namespace std;
 
-
+//candidates = [2,3,6,7], target = 7
 class Solution {
 public:
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
@@ -13,7 +13,6 @@ public:
 
         return result;
     }
-
 
 private:
     vector<int> path;
@@ -37,7 +36,6 @@ private:
 
             backtracking(candidates, target, i);
 
-            //»ØËİ
             path.pop_back();
             pathSum -= candidates[i];
         }
