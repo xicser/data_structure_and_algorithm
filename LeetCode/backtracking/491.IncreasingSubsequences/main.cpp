@@ -4,6 +4,7 @@
 
 using namespace std;
 
+//4,6,7,7
 class Solution {
 public:
     vector<vector<int>> findSubsequences(vector<int>& nums) {
@@ -22,41 +23,44 @@ private:
             return;
         }
 
-        unordered_set<int> hasUsed;
+        unordered_set<int> hasUsed;  //同层去重
         for (int i = startIdx; i < nums.size(); i++) {
 
-            //检查同一层中, 当前的nums[i]是否被用过, 目的是去重
-            if (hasUsed.find(nums[i]) != hasUsed.end()) {
-                continue;
-            }
-            else {
+            //同层去重
+            if (hasUsed.find(nums[i]) == hasUsed.end()) {
                 hasUsed.insert(nums[i]);
             }
+            else {
+                continue;
+            }
 
+            //第一个肯定是要放进来的
             if (path.size() == 0) {
                 path.push_back(nums[i]);
             }
-            else if (path.size() >= 1 && nums[i] >= path[path.size() - 1]) {
-                path.push_back(nums[i]);
-            }
             else {
-                continue;
+                if (path[path.size() - 1] <= nums[i]) {
+                    path.push_back(nums[i]);
+                }
+                else {
+                    continue;
+                }
             }
 
+            //收集结果
             if (path.size() >= 2) {
-                result.push_back(path);  //收集树的节点
+                result.push_back(path);
             }
 
             backtracking(i + 1, nums);
             path.pop_back();
         }
-
     }
 };
 
 int main()
 {
-    vector<int> nums = {4,4,3,2,1};
+    vector<int> nums = {4,4,3,2,1};   //4,4,3,2,1
     Solution sol;
 
     vector<vector<int>> result = sol.findSubsequences(nums);

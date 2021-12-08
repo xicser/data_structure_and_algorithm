@@ -24,12 +24,13 @@ private:
         }
 
         for (int i = startIdx; i < nums.size(); i++) {
-
             path.push_back(nums[i]);
 
-            result.push_back(path); //收集树的节点
+            //收集结果
+            result.push_back(path);
 
             backtracking(i + 1, nums);
+
             path.pop_back();
         }
     }
