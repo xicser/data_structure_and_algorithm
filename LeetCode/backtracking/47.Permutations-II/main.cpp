@@ -24,7 +24,7 @@ private:
             return;
         }
 
-        //记录同一层用过的
+        //记录同层某个数是否被用过
         unordered_set<int> levelUsed;
 
         //每次都遍历这个nums, 哪个没用过就用哪个
@@ -32,16 +32,16 @@ private:
 
             if (used[i] == false) {
 
-                //同一层不能有重复的
-                if (levelUsed.find(nums[i]) != levelUsed.end()) {
-                    continue;
+                //同层没被用过
+                if (levelUsed.find(nums[i]) == levelUsed.end()) {
+
+                    levelUsed.insert(nums[i]);
+                    path.push_back(nums[i]);
+                    used[i] = true;  //标记已经用过
                 }
                 else {
-                    levelUsed.insert(nums[i]);
+                    continue;
                 }
-
-                path.push_back(nums[i]);
-                used[i] = true;  //标记已经用过
             }
             else {
                 continue;
@@ -59,7 +59,7 @@ private:
 int main()
 {
     Solution sol;
-    vector<int> nums = {1, 2, 3};
+    vector<int> nums = {1, 1, 2};
 
     vector<vector<int>> result1 = sol.permuteUnique(nums);
     for (unsigned int i = 0 ; i < result1.size(); i++) {
