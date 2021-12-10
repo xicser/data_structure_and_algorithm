@@ -6,25 +6,26 @@ using namespace std;
 
 class Solution {
 public:
-    vector<vector<string>> solveNQueens(int n) {
+    int totalNQueens(int n) {
 
-        vector<string> chessboard(n, string(n, '.'));
-
+        this->result = 0;
         this->edge = n;
-        backtracking(chessboard, 0); //从第0行开始放
-        return result;
+        vector<string> chessboard(n, string(n, '.'));
+        backtracking(chessboard, 0);
+
+        return this->result;
     }
 
 private:
     int edge;
-    vector<vector<string>> result;
+    int result;
 
     void backtracking(vector<string>& chessboard, int row) {
 
         if (row == this->edge) {
 
             //收集结果
-            result.push_back(chessboard);
+            result++;
             return;
         }
 
@@ -43,7 +44,6 @@ private:
             chessboard[row][i] = '.';
         }
     }
-
     //在n维棋盘chessboard的当前(row, col)位置放置一个皇后, 是否合法
     bool isValid(int row, int col, vector<string>& chessboard) {
 
@@ -77,14 +77,7 @@ private:
 int main()
 {
     Solution sol;
-    vector<vector<string>> result = sol.solveNQueens(1);
 
-    for (unsigned int i = 0; i < result.size(); i++) {
-        for (unsigned int j = 0; j < result[i].size(); j++) {
-            cout << result[i][j] << " ";
-        }
-        cout << endl;
-    }
-
+    cout << sol.totalNQueens(1) << endl;
     return 0;
 }
