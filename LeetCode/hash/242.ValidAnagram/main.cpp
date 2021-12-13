@@ -9,15 +9,15 @@ public:
     bool isAnagram(string s, string t) {
 
         vector<int> times(26, 0);
-        for (int i = 0; i < s.size(); i++) {
+        for (unsigned int i = 0; i < s.size(); i++) {
             times[s[i] - 'a']++;
         }
 
-        for (int i = 0; i < t.size(); i++) {
+        for (unsigned int i = 0; i < t.size(); i++) {
             times[t[i] - 'a']--;
         }
 
-        for (int i = 0; i < times.size(); i++) {
+        for (unsigned int i = 0; i < times.size(); i++) {
             if (times[i] != 0) {
                 return false;
             }

@@ -15,6 +15,9 @@ public:
         for (int i = 0; i < strs.size(); i++) {
 
             string key = strs[i];
+
+            //同种异位词, 排序之后的结果是一样的, 可以作为map的key
+            //同一个key上存储的是, 同种异位词
             sort(key.begin(), key.end());
 
             if (bucket.find(key) == bucket.end()) {
@@ -43,7 +46,7 @@ int main()
 {
     Solution sol;
 
-    vector<string> strs = {""};
+    vector<string> strs = {"eat", "tea", "tan", "ate", "nat", "bat"};
     vector<vector<string>> result = sol.groupAnagrams(strs);
     for (int i = 0; i < result.size(); i++) {
         for (int j = 0; j < result[i].size(); j++) {

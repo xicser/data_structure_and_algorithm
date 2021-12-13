@@ -15,6 +15,8 @@ public:
         }
 
         for (int i = 0; i < magazine.size(); i++) {
+
+            //只判断ransomNote里面出现过的字母
             if (times[magazine[i] - 'a'] != 0) {
                 times[magazine[i] - 'a']--;
             }
