@@ -1,7 +1,0 @@
-# depslib dependency file v1.0
-1622947891 source:g:\code\data_structure_and_algorithm\basic_routines\misc\4.heap\main.cpp
-	<iostream>
-	<stdio.h>
-	<stdlib.h>
-	<time.h>
-

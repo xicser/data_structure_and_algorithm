@@ -1,7 +1,0 @@
-# depslib dependency file v1.0
-1622879441 source:g:\code\data_structure_and_algorithm\basic_routines\misc\2.merge_sort\main.cpp
-	<iostream>
-	<algorithm>
-	<cstdlib>
-	<ctime>
-

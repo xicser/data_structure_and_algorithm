@@ -1,8 +1,0 @@
-# depslib dependency file v1.0
-1622985634 source:g:\code\data_structure_and_algorithm\basic_routines\misc\7.heap_adjust\main.cpp
-	<iostream>
-	<map>
-	<stdio.h>
-	<stdlib.h>
-	<time.h>
-

@@ -1,7 +1,0 @@
-# depslib dependency file v1.0
-1622979718 source:g:\code\data_structure_and_algorithm\basic_routines\misc\6.heap_sort_less_k\main.cpp
-	<iostream>
-	<queue>
-	<algorithm>
-	<stdio.h>
-
