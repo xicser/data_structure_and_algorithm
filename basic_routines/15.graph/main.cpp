@@ -68,6 +68,19 @@ int matrix4[20][3] = {
 6, 6, 5
 };
 
+int matrix5[10][3] = {
+ 13, 0, 1,
+ 7 , 1, 6,
+ 9 , 1, 5,
+ 32, 0, 6,
+ 17, 5, 6,
+ 2 , 4, 5,
+ 8 , 0, 2,
+ 5 , 2, 3,
+ 6 , 3, 4,
+ 30, 0, 4,
+};
+
 void test1();
 void test2();
 void test3();
@@ -158,6 +171,8 @@ void test4()
 
 void test5()
 {
-
-
+    Graph graph1;
+    graph1.createGraph1(matrix5, 10);
+    Node* nodeStart = graph1.getNode(0);
+    graph1.bfs(nodeStart);
 }
