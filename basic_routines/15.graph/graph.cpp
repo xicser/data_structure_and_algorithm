@@ -104,7 +104,7 @@ void Graph::bfs(Node *start)
     while (!que.empty()) {
 
         pCur = que.front();
-        que.pop();
+        que.pop();  //弹出就打印
         printf("%d ", pCur->id);
 
         for (unsigned int i = 0; i < pCur->nexts.size(); i++) {
@@ -118,7 +118,27 @@ void Graph::bfs(Node *start)
     printf("\n");
 }
 
-/* 深度优先遍历 */
+/* 递归深度优先遍历 */
+void Graph::dfs(Node* node, unordered_set<Node*>& hasVisited)
+{
+    if (node == nullptr) {
+        return;
+    }
+
+    //如果当前这个节点已经被访问过
+    if (hasVisited.find(node) != hasVisited.end()) {
+        return;
+    }
+
+    printf("%d ", node->id);
+    hasVisited.insert(node);
+
+    for (Node* nextNode : node->nexts) {
+        dfs(nextNode, hasVisited);
+    }
+}
+
+/* 非递归深度优先遍历 */
 void Graph::dfs(Node *start)
 {
     if (start == nullptr) {
@@ -131,7 +151,7 @@ void Graph::dfs(Node *start)
     Node *pCur = start;
     st.push(pCur);
     hasVisited.insert(pCur);
-    printf("%d ", pCur->id);
+    printf("%d ", pCur->id);  //进栈就打印
     while (!st.empty()) {
 
         Node *pCur = st.top();
@@ -150,7 +170,7 @@ void Graph::dfs(Node *start)
     printf("\n");
 }
 
-/* 拓扑排序(只能有向无环图) */
+/* 拓扑排序(只能适用于有向无环图) */
 void Graph::topologicalSort()
 {
     //key某个顶点, value剩余的入度
@@ -210,7 +230,7 @@ void Graph::mstKruskal()
         edgesQueue.push(*it);
     }
 
-    //创建并查集
+    //创建并查集, 最开始每个结点自己是一个集合
     unordered_map<Node *, Node *> unionSetNode;
     for (unordered_map<int, Node *>::iterator it = nodes.begin(); it != nodes.end(); it++) {
         unionSetNode[it->second] = it->second;
@@ -236,7 +256,7 @@ void Graph::mstKruskal()
             printf("edge = (%d) %d %d\n", edge->weight, fromNode->id, toNode->id);
             cnt++;
 
-            //如果节点已经全部联通了
+            //如果节点已经全部连通了
             if (cnt == nodes.size() - 1) {
                 break;
             }

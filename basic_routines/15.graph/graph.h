@@ -46,6 +46,7 @@ public:
 
     //深度优先遍历
     void dfs(Node *start);
+    void dfs(Node* node, unordered_set<Node*>& hasVisited);
 
     //拓扑排序
     void topologicalSort();
