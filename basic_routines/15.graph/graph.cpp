@@ -270,172 +270,76 @@ struct cmpPrim {
         return e1->weight > e2->weight;
     }
 };
-void Graph::mstPrim(int nodeId)
+unordered_set<Edge*> Graph::mstPrim(int nodeId)
 {
-    unordered_set<Node *> nodesU;
-    unordered_set<Node *> nodesV;
-
-    //先把第一个顶点放到nodesU中
-    nodesU.insert(nodes[nodeId]);
-
-    //把剩下的顶点放到nodesV
-    for (unordered_map<int, Node *>::iterator it = nodes.begin(); it != nodes.end(); it++) {
-        Node *node = it->second;
-        if (node != nodes[nodeId]) {
-            nodesV.insert(node);
-        }
-    }
-
+    //小根堆, 存放解锁的边
     priority_queue<Edge *, vector<Edge *>, cmpPrim> edgesQueue;
-    while (nodesV.size() > 0) {
 
-        //针对U中的每个顶点,
-        //计算该顶点到V中各个顶点的边的代价,
-        //记录这些边中代价最小的那个
-        while (!edgesQueue.empty()) edgesQueue.pop();
-        for (unordered_set<Node *>::iterator it = nodesU.begin(); it != nodesU.end(); it++) {
-            Node *nodeCur = *it;
-            Edge *edgeMinTmp;
-            int weightMin = distaceInf;
-            for (unsigned int i = 0; i < nodeCur->edges.size(); i++) {
+    //存放已经加入小根堆的边
+    unordered_set<Edge *> edgesSet;
 
-                Edge *edgeTmp = nodeCur->edges[i];
-                //如果这条边的对端在V里, 说明这条边是新边, 才会被考虑
-                if (nodesV.find(edgeTmp->to) != nodesV.end()) {
+    //存放解锁的顶点
+    unordered_set<Node *> nodesSet;
 
-                    if (edgeTmp->weight < weightMin) {
-                        edgeMinTmp = edgeTmp;
-                        weightMin = edgeTmp->weight;
+    //存放结果
+    unordered_set<Edge *> result;
+
+    //出发点
+    Node* nodeStart = nodes[nodeId];
+
+    if (nodesSet.count(nodeStart) == 0) {
+        nodesSet.insert(nodeStart); //先把开始的顶点存放进点集
+
+        //然后把开始顶点的临近边加到小根堆中
+        for (Edge* nearEdge: nodeStart->edges) {
+            if (edgesSet.count(nearEdge) == 0) {
+                edgesQueue.push(nearEdge);
+                edgesSet.insert(nearEdge); //set同步更新
+            }
+        }
+
+        while (edgesQueue.empty() == false) {
+            Edge* edgeMin = edgesQueue.top();
+            edgesQueue.pop();
+
+            Node* toNode = edgeMin->to;
+            if (nodesSet.count(toNode) == 0) { //to点不在集合里, 表明要这条边
+                nodesSet.insert(toNode);
+                result.insert(edgeMin);        //存放结果
+                
+                //新点解锁新边
+                for (Edge* nearEdge : toNode->edges) {
+                    if (edgesSet.count(nearEdge) == 0) {
+                        edgesQueue.push(nearEdge);
+                        edgesSet.insert(nearEdge); //set同步更新
                     }
                 }
             }
-            edgesQueue.push(edgeMinTmp);
         }
-
-        //打印这条边
-        Edge *edgeRes = edgesQueue.top();
-        Node *fromNode = edgeRes->from;
-        Node *toNode = edgeRes->to;
-        printf("edge = (%d) %d %d\n", edgeRes->weight, fromNode->id, toNode->id);
-
-        nodesU.insert(toNode);
-        nodesV.erase(nodesV.find(toNode));
     }
+
+    return result;
 }
 
 /* 迪杰斯特拉 */
-//路径
-typedef struct {
-    bool isDone;
-    int distance;            //路径长度
-    vector<Node *> vertexes; //路径上的顶点
-} Route_t;
 void Graph::dijkstra(Node *startNode)
 {
-    unordered_map<Node *, Route_t> routes;  //<顶点地址, 路径>
-    vector<Route_t> resultRoutes; //结果
+    //从head出发到所有点的最小距离
+    //key: 从startNode出发到key
+    //value: 从startNode出发到key的最小距离
+    //如果distanceMap中没有某个顶点的记录, 表明从startNode到这个顶点的距离为无穷大
+    unordered_map<Node*, int> distanceMap;
+    distanceMap[startNode, 0];
 
-    //先初始化第一列
-    unordered_set<Node *> addedNodes;
-    int disMin = distaceInf;
-    Node *disMinNode;
-    for (unsigned int i = 0; i < startNode->edges.size(); i++) {
-        Edge *nextEdge = startNode->edges[i];
-        Node *toNode;
-        toNode = nextEdge->to;
-
-        Route_t routeTmp;
-        routeTmp.distance = nextEdge->weight;
-
-        //选出距离最短的哪个
-        if (disMin > routeTmp.distance) {
-            disMin = routeTmp.distance;
-            disMinNode = toNode;
-        }
-
-        routeTmp.vertexes.push_back(startNode);
-        routeTmp.vertexes.push_back(toNode);
-        addedNodes.insert(toNode);
-        routes[toNode] = routeTmp;
-    }
-    for (unordered_map<int, Node *>::iterator it = nodes.begin(); it != nodes.end(); it++) {
-
-        Node *nodeTmp = it->second;
-        if (addedNodes.find(nodeTmp) == addedNodes.end()) {
-
-            Route_t routeTmp;
-            routeTmp.distance = distaceInf;
-            routeTmp.isDone = false;
-            routeTmp.vertexes.push_back(startNode);
-            routeTmp.vertexes.push_back(nodeTmp);
-            routes[nodeTmp] = routeTmp;
-        }
-    }
-    //把距离最短的那个结果存放到已完成vector中
-    resultRoutes.push_back(routes[disMinNode]);
-    routes[disMinNode].isDone = true;
-
-    //开始处理
-    int times = nodes.size() - 2;
-    Node *startNew = disMinNode;
-    int lastDist = routes[disMinNode].distance;
-    for (int i = 0; i < times; i++) {
-
-        for (unordered_map<int, Node *>::iterator it = nodes.begin(); it != nodes.end(); it++) {
-            Node *tmpNode = it->second;
-            if (tmpNode == startNode || routes[tmpNode].isDone == true) {
-                continue;
-            }
-
-//            //需要更新
-//            if (lastDist + ) {
-//
-//            }
+    unordered_set<Node*> lockSet;
 
 
-
-
-
-
-        }
-
-
-        //将本轮最小的那个加入resultRoutes
-
-
-    }
-
-    //输出
 
 
 }
-
-
-
-
-
-
-
-
-
-
 
 /* 获取id顶点 */
 Node *Graph::getNode(int id)
 {
     return nodes[id];
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -55,7 +55,7 @@ public:
     void mstKruskal();
 
     //最小生成树Prim算法(只适用于无向图)
-    void mstPrim(int nodeId);
+    unordered_set<Edge*> mstPrim(int nodeId);
 
     //迪杰斯特拉
     void dijkstra(Node *startNode);
