@@ -17,11 +17,11 @@ Edge::Edge(int weight, Node *from, Node *to)
     this->to = to;
 }
 
-int Graph::distaceInf;
+int Graph::distanceInf;
 
 Graph::Graph()
 {
-    distaceInf = 9999999;
+    distanceInf = 99999999;
     nodes.clear();
     edges.clear();
 }
@@ -321,21 +321,63 @@ unordered_set<Edge*> Graph::mstPrim(int nodeId)
     return result;
 }
 
-/* 迪杰斯特拉 */
-void Graph::dijkstra(Node *startNode)
+/* 迪杰斯特拉
+返回从startNode开始, 到每个节点的最短路径长度
+*/
+unordered_map<Node *, int> Graph::dijkstra1(Node *startNode)
 {
-    //从head出发到所有点的最小距离
+    //从startNode出发到所有点的最小距离
     //key: 从startNode出发到key
-    //value: 从startNode出发到key的最小距离
-    //如果distanceMap中没有某个顶点的记录, 表明从startNode到这个顶点的距离为无穷大
+    //value: 从startNode出发到key当前的最小距离
     unordered_map<Node*, int> distanceMap;
-    distanceMap[startNode, 0];
+    for (auto it : nodes) {
+        Node* node = it.second;
+        if (node == startNode) {
+            distanceMap[startNode] = 0;
+        }
+        else {
+            distanceMap[node] = distanceInf;
+        }
+    }
 
+    //已经计算好的点, 之后不能再动了
     unordered_set<Node*> lockSet;
 
+    Node* minNode = getMinNodeExceptLockNodes(lockSet, distanceMap);
+    while (minNode != nullptr) {
+        int distanceCur = distanceMap[minNode];
+        for (Edge* edgeNext : minNode->edges) {
+            Node* to = edgeNext->to;
+            int newDistance = distanceCur + edgeNext->weight;
+            
+            //如果通过新的桥连点到它所能到的节点的距离比以前小, 那么更新距离
+            if (newDistance < distanceMap[to]) {
+                distanceMap[to] = newDistance;
+            }
+        }
+        lockSet.insert(minNode); //把这个节点锁住
+        minNode = getMinNodeExceptLockNodes(lockSet, distanceMap);
+    }
 
+    return distanceMap;
+}
 
+//从distanceMap中找到一个当前距离最小的顶点, 要求这个顶点不在lockSet中
+Node* Graph::getMinNodeExceptLockNodes(unordered_set<Node*>& lockSet,
+    unordered_map<Node*, int>& distanceMap)
+{
+    Node* minNode = nullptr;
+    int minDis = INT_MAX;
+    for (auto it : distanceMap) {
+        Node* node = it.first;
+        int distance = it.second;
+        if (lockSet.count(node) == 0 && distance < minDis) {
+            minNode = node;
+            minDis = distance;
+        }
+    }
 
+    return minNode;
 }
 
 /* 获取id顶点 */

@@ -58,13 +58,15 @@ public:
     unordered_set<Edge*> mstPrim(int nodeId);
 
     //迪杰斯特拉
-    void dijkstra(Node *startNode);
+    unordered_map<Node*, int> dijkstra1(Node *startNode);
 
     //获取id顶点
     Node *getNode(int id);
 
 private:
-    static int distaceInf;
+    Node* getMinNodeExceptLockNodes(unordered_set<Node*>& lockSet,
+                                    unordered_map<Node*, int>& distanceMap);
+    static int distanceInf;
     unordered_map<int, Node *> nodes;       //顶点集合<id, Node_Addr>
     unordered_set<Edge *> edges;            //边集合
 };

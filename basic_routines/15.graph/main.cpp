@@ -173,6 +173,12 @@ void test5()
 {
     Graph graph1;
     graph1.createGraph1(matrix5, 10);
-    Node* nodeStart = graph1.getNode(0);
-    graph1.bfs(nodeStart);
+    Node* nodeStart = graph1.getNode(1);
+    unordered_map<Node*, int> result = graph1.dijkstra1(nodeStart);
+    for (auto it : result) {
+        Node* node = it.first;
+        int cnt = it.second;
+        printf("%d %d\n", node->id, cnt);
+    }
+
 }
