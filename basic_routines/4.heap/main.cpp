@@ -1,172 +1,86 @@
 #include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
+#include <unordered_set>
+#include "heap.h"
 
 using namespace std;
 
-
-// 大顶堆实现
-class MaxHeap {
-
-public:
-    MaxHeap(int limit) {
-        this->heapSizeLimit = limit;
-        this->heapSize = 0;
-        heapArray = new int[this->heapSizeLimit];
-    }
-    ~MaxHeap() {
-        delete []heapArray;
-    }
-
-    bool isEmpty() {
-        return heapSize == 0;
-    }
-
-    bool isFull() {
-        return heapSize == heapSizeLimit;
-    }
-
-    bool push(int value) {
-        if (heapSize == heapSizeLimit) {
-            return false;
-        }
-
-        heapArray[heapSize] = value;
-        heapInsert(heapArray, heapSize);
-        heapSize++;
-
-        return true;
-    }
-
-    bool pop(int *value) {
-        if (heapSize == 0) {
-            *value = -999999;
-            return false;
-        }
-
-        *value = heapArray[0];
-        heapSize--;
-        heapArray[0] = heapArray[heapSize];
-        heapify(heapArray, 0, heapSize);
-
-        return true;
-    }
-
-private:
-    int *heapArray;
-    int heapSizeLimit;
-    int heapSize;
-
-    // 给大顶堆里面插入一个节点
-    void heapInsert(int *heapArray, int heapIndex) {
-        if (heapIndex == 0) {
-            return;
-        }
-
-        int father = (heapIndex - 1) / 2;
-        while (1) {
-
-            if (heapArray[father] < heapArray[heapIndex]) {
-                swap(heapArray, father, heapIndex);
-                heapIndex = father;
-                //到达了根节点
-                if (heapIndex == 0) {
-                    break;
-                }
-            } else {
-                break;
-            }
-
-            father = (father - 1) / 2;
-        }
-    }
-
-    // 从根节点位置, 往下看, 不断的下沉
-    void heapify(int *heapArray, int index, int heapSize) {
-
-        if (heapSize == 0) {
-            return;
-        }
-
-        int left = index * 2 + 1;
-        while (left < heapSize) { // 如果有左孩子, 有没有右孩子, 可能有可能没有
-            // 把较大孩子的下标, 给largest
-            int largest = left + 1 < heapSize && heapArray[left + 1] > heapArray[left] ? left + 1 : left;
-            largest = heapArray[largest] > heapArray[index] ? largest : index;
-            if (largest == index) {
-                break;
-            }
-            // index和较大孩子, 要互换
-            swap(heapArray, largest, index);
-            index = largest;
-            left = index * 2 + 1;
-        }
-    }
-
-    void swap(int *arr, int i, int j) {
-        int tmp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = tmp;
+//学生
+struct Student_t {
+    int grade;
+    string name;
+    Student_t(int grade, string name) {
+        this->grade = grade;
+        this->name = name;
     }
 };
 
 // 对数器测试用
 class RightMaxHeap {
+private:
+    void** heapArray;
+    int heapSizeLimit;
+    int heapSize;
+    //比较器, 用于确定堆中元素的"逻辑大小关系"
+    function<bool(const void* a, const void* b)> comparator;
 
 public:
-    RightMaxHeap(int limit) {
-        heapArray = new int[limit];
+    RightMaxHeap(int limit, function<bool(const void* a, const void* b)> comparator) {
         this->heapSizeLimit = limit;
-        heapSize = 0;
+        heapArray = new void* [limit];
+        this->heapSize = 0;
+        this->comparator = comparator;
     }
     ~RightMaxHeap() {
-        delete []heapArray;
+        delete[] heapArray;
     }
 
-    bool isEmpty() {
+    bool empty() {
         return heapSize == 0;
     }
 
-    bool isFull() {
+    bool full() {
         return heapSize == heapSizeLimit;
     }
 
-    bool push(int value) {
+    void push(void* value) {
         if (heapSize == heapSizeLimit) {
-            return false;
+            return;
         }
         heapArray[heapSize++] = value;
-
-        return true;
     }
 
-    bool pop(int *value) {
+    void pop() {
         if (heapSize == 0) {
-            *value = -999999;
-            return false;
+            return;
         }
 
         int maxIndex = 0;
         for (int i = 1; i < heapSize; i++) {
-            if (heapArray[i] > heapArray[maxIndex]) {
+            if (this->comparator(heapArray[i], heapArray[maxIndex]) == true) {
                 maxIndex = i;
             }
         }
-        int ans = heapArray[maxIndex];
         heapArray[maxIndex] = heapArray[--heapSize];
-        *value = ans;
-
-        return true;
     }
 
-private:
-    int *heapArray;
-    int heapSizeLimit;
-    int heapSize;
+    void* top() {
+        if (heapSize == 0) {
+            return nullptr;
+        }
+
+        int maxIndex = 0;
+        for (int i = 1; i < heapSize; i++) {
+            if (this->comparator(heapArray[i], heapArray[maxIndex]) == true) {
+                maxIndex = i;
+            }
+        }
+
+        return heapArray[maxIndex];
+    }
 };
 
-int main()
+int globalGrade = INT_MIN;
+void test()
 {
     srand((unsigned)time(NULL));
 
@@ -174,57 +88,99 @@ int main()
     int limit = 100;
     int testTimes = 1000000;
 
+    //比较器
+    function<bool(const void* a, const void* b)> comparator = [](const void* a, const void* b) {
+        return ((Student_t*)(a))->grade > ((Student_t*)(b))->grade;
+    };
+
     for (int i = 0; i < testTimes; i++) {
 
         int curLimit = rand() % limit + 1;
 
-        MaxHeap *my = new MaxHeap(curLimit);
-        RightMaxHeap *test = new RightMaxHeap(curLimit);
+        Heap* my = new Heap(curLimit, comparator);
+        RightMaxHeap* test = new RightMaxHeap(curLimit, comparator);
+        unordered_set<Student_t*> stuSet;
 
         int curOpTimes = rand() % limit + 1;
         for (int j = 0; j < curOpTimes; j++) {
 
-            if (my->isEmpty() != test->isEmpty()) {
+            if (my->empty() != test->empty()) {
                 printf("Oops!\n");
             }
-            if (my->isFull() != test->isFull()) {
+            if (my->full() != test->full()) {
                 printf("Oops!\n");
             }
 
-            if (my->isEmpty() == true) {
-                int curValue = rand() % value + 1;
-                my->push(curValue);
-                test->push(curValue);
+            if (my->empty() == true) {
+                Student_t* stu = new Student_t(globalGrade++, "zhangsan");
+                stuSet.insert(stu);
+                my->push(stu);
+                test->push(stu);
             }
-            else if (my->isFull() == true) {
-                int value1, value2;
-                my->pop(&value1);
-                test->pop(&value2);
-                if (value1 != value2) {
+            else if (my->full() == true) {
+                Student_t* topMy = (Student_t*)my->top();
+                Student_t* topTest = (Student_t*)test->top();
+                my->pop();
+                test->pop();
+                if (topMy != topTest) {
                     printf("Oops!\n");
                 }
             }
             else {
                 if (rand() < RAND_MAX / 2) {
-                    int curValue = rand() % value + 1;
-                    my->push(curValue);
-                    test->push(curValue);
+                    Student_t* stu = new Student_t(globalGrade++, "lisi");
+                    stuSet.insert(stu);
+                    my->push(stu);
+                    test->push(stu);
                 }
                 else {
-                    int value1, value2;
-                    my->pop(&value1);
-                    test->pop(&value2);
-                    if (value1 != value2) {
+                    Student_t* topMy = (Student_t*)my->top();
+                    Student_t* topTest = (Student_t*)test->top();
+                    my->pop();
+                    test->pop();
+                    if (topMy != topTest) {
                         printf("Oops!\n");
                     }
                 }
             }
         }
 
+        for (Student_t* stu : stuSet) {
+            delete stu;
+        }
+
         delete my;
         delete test;
     }
     printf("finish!\n");
+}
 
-    return 0;
+int main()
+{
+//    test();
+
+    Student_t* stu1 = new Student_t(1, "zhangsan");
+    Student_t* stu2 = new Student_t(2, "lisi");
+    Student_t* stu3 = new Student_t(3, "wangwu");
+
+    //比较器
+    function<bool(const void* a, const void* b)> comparator = [](const void* a, const void* b) {
+        return ((Student_t*)(a))->grade > ((Student_t*)(b))->grade;
+    };
+    Heap* my = new Heap(3, comparator);
+
+    my->push(stu1);
+    my->push(stu2);
+    my->push(stu3);
+
+    stu1->grade = 10;
+    my->adjust(stu3);
+
+    while (my->empty() == false) {
+        Student_t* stu = (Student_t*)my->top();
+        my->pop();
+        printf("%d %s\n", stu->grade, stu->name.c_str());
+    }
+
+
 }
