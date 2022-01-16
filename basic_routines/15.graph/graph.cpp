@@ -1,11 +1,12 @@
 #include "graph.h"
-
+#include "heap.h"
 
 Node::Node(int id)
 {
     this->id = id;
     this->in = 0;
     this->out = 0;
+    this->extraDataDomain = 0;
     nexts.clear();
     edges.clear();
 }
@@ -378,6 +379,56 @@ Node* Graph::getMinNodeExceptLockNodes(unordered_set<Node*>& lockSet,
     }
 
     return minNode;
+}
+
+//使用堆优化的迪杰斯特拉
+unordered_map<Node*, int> Graph::dijkstra2(Node* startNode)
+{
+    //从startNode出发到所有点的最小距离
+    //key: 从startNode出发到key
+    //value: 从startNode出发到key当前的最小距离
+    unordered_map<Node*, int> distanceMap;
+
+    //使用小根堆组织顶点
+    Heap heap(nodes.size(), [](const void* a, const void* b) {
+        return ((Node *)a)->extraDataDomain < ((Node *)b)->extraDataDomain;
+    });
+
+    for (auto &it : nodes) {
+        Node* node = it.second;
+        if (node == startNode) {
+            node->extraDataDomain = 0;
+            heap.push(node);
+        }
+        else {
+            node->extraDataDomain = distanceInf;
+            heap.push(node);
+        }
+    }
+
+    Node* minNode = (Node*)heap.top();
+    heap.pop();
+    while (minNode != nullptr) {
+
+        int distanceCur = minNode->extraDataDomain;
+        for (Edge* edgeNext : minNode->edges) {
+            Node* to = edgeNext->to;
+            int newDistance = distanceCur + edgeNext->weight;
+
+            //如果通过新的桥连点到它所能到的节点的距离比以前小, 那么更新距离
+            if (newDistance < to->extraDataDomain) {
+                to->extraDataDomain = newDistance;
+                heap.adjust(to);
+            }
+        }
+
+        //保存结果
+        distanceMap[minNode] = distanceCur;
+        minNode = (Node*)heap.top();
+        heap.pop();
+    }
+
+    return distanceMap;
 }
 
 /* 获取id顶点 */

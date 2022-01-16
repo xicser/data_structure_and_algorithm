@@ -16,6 +16,7 @@ class Node {
 public:
     Node(int id);
 
+    int extraDataDomain;    //额外数据域
     int id;
     int in, out;
     vector<Node *> nexts;   //出度顶点
@@ -59,6 +60,7 @@ public:
 
     //迪杰斯特拉
     unordered_map<Node*, int> dijkstra1(Node *startNode);
+    unordered_map<Node*, int> dijkstra2(Node* startNode);
 
     //获取id顶点
     Node *getNode(int id);
