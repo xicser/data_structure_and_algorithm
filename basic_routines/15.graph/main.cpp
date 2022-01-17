@@ -174,7 +174,7 @@ void test5()
     Graph graph1;
     graph1.createGraph1(matrix5, 10);
     Node* nodeStart = graph1.getNode(0);
-    unordered_map<Node*, int> result = graph1.dijkstra2(nodeStart);
+    unordered_map<Node*, int> result = graph1.dijkstra3(nodeStart);
     for (auto it : result) {
         Node* node = it.first;
         int cnt = it.second;

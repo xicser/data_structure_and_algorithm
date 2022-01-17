@@ -431,6 +431,64 @@ unordered_map<Node*, int> Graph::dijkstra2(Node* startNode)
     return distanceMap;
 }
 
+//进一步使用堆优化的迪杰斯特拉
+struct cmpNode {
+    bool operator () (Node* n1, Node* n2) {
+        return n1->extraDataDomain > n2->extraDataDomain;
+    }
+};
+unordered_map<Node*, int> Graph::dijkstra3(Node* startNode)
+{
+    //从startNode出发到所有点的最小距离
+    //key: 从startNode出发到key
+    //value: 从startNode出发到key当前的最小距离
+    unordered_map<Node*, int> distanceMap;
+
+    //小根堆
+    priority_queue<Node*, vector<Node*>, cmpNode> nodesQueue;
+
+    for (auto& it : nodes) {
+        Node* node = it.second;
+        if (node == startNode) {
+            node->extraDataDomain = 0;
+            nodesQueue.push(node);
+        }
+        else {
+            node->extraDataDomain = distanceInf;
+            nodesQueue.push(node);
+        }
+    }
+
+    while (nodesQueue.empty() == false) {
+
+        Node* minNode = (Node*)nodesQueue.top();
+        nodesQueue.pop();
+
+        int distanceCur = minNode->extraDataDomain;
+
+        //应对1处的重复加入问题
+        if (distanceMap.count(minNode) != 0) {
+            continue;
+        }
+
+        for (Edge* edgeNext : minNode->edges) {
+            Node* to = edgeNext->to;
+            int newDistance = distanceCur + edgeNext->weight;
+
+            //如果通过新的桥连点到它所能到的节点的距离比以前小, 那么更新距离
+            if (newDistance < to->extraDataDomain) {
+                to->extraDataDomain = newDistance;
+                nodesQueue.push(to); //可能重复加入 -- 1
+            }
+        }
+
+        //保存结果
+        distanceMap[minNode] = distanceCur;
+    }
+
+    return distanceMap;
+}
+
 /* 获取id顶点 */
 Node *Graph::getNode(int id)
 {

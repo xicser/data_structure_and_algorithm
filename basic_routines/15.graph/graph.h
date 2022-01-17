@@ -61,6 +61,7 @@ public:
     //迪杰斯特拉
     unordered_map<Node*, int> dijkstra1(Node *startNode);
     unordered_map<Node*, int> dijkstra2(Node* startNode);
+    unordered_map<Node*, int> dijkstra3(Node* startNode);
 
     //获取id顶点
     Node *getNode(int id);

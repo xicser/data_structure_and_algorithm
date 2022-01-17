@@ -3,129 +3,9 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <functional>
+#include <queue>
 
 using namespace std;
-
-class Heap {
-private:
-    int heapSize;
-    int heapSizeLimit;
-    void** heapArray;
-    //比较器, 用于确定堆中元素的"逻辑大小关系"
-    function<bool(const void* a, const void* b)> comparator;
-
-    //记录当前堆上某个节点在数组中的下标
-    unordered_map<void*, int> indexMap;
-
-    void heapInsert(int index) {
-        //比他爸爸"大"
-        while (comparator(heapArray[index],             //孩子
-            heapArray[(index - 1) / 2])                 //爸爸
-            == true) {
-            swap(index, (index - 1) / 2);
-            index = (index - 1) / 2;
-        }
-    }
-    void heapify(int index) {
-        if (heapSize == 0) {
-            return;
-        }
-
-        //左孩子下标
-        int left = index * 2 + 1;
-
-        //有左孩子
-        while (left < heapSize) {
-
-            //获取左右孩子中大的那个孩子的下标
-            //右孩子存在且右孩子的值大于左孩子, 右孩子胜出, 否则左孩子胜出
-            int right = left + 1;
-            int largest = right < heapSize&& comparator(heapArray[right], heapArray[left]) == true ? right : left;
-
-            //当前节点和较大孩子节点比较大小, 取较大的那个的下标
-            largest = comparator(heapArray[largest], heapArray[index]) == true ? largest : index;
-
-            //两个孩子没有一个能干过当前父亲
-            if (largest == index) {
-                break;
-            }
-
-            swap(index, largest);
-            index = largest;
-            left = index * 2 + 1;
-        }
-    }
-    void swap(int i, int j) {
-        //同步更新indexMap
-        void* a = heapArray[i];
-        void* b = heapArray[j];
-        indexMap[a] = j;
-        indexMap[b] = i;
-
-        void* tmp = heapArray[i];
-        heapArray[i] = heapArray[j];
-        heapArray[j] = tmp;
-    }
-
-public:
-    Heap(int limit, function<bool(const void* a, const void* b)> comparator) {
-        this->heapSizeLimit = limit;
-        this->heapSize = 0;
-        this->heapArray = new void* [this->heapSizeLimit];
-        this->comparator = comparator;
-    }
-    ~Heap() {
-        delete []heapArray;
-    }
-    void  push(void* value) {
-        if (heapSize == heapSizeLimit) {
-            return;
-        }
-
-        heapArray[heapSize] = value;
-        indexMap[value] = heapSize;  //同步更新indexMap
-
-        heapInsert(heapSize);
-        heapSize++;
-    }
-    void* top() {
-        if (heapSize == 0) {
-            return nullptr;
-        }
-
-        return heapArray[0];
-    }
-    void  pop() {
-        if (heapSize == 0) {
-            return;
-        }
-
-        //同步更新indexMap
-        indexMap.erase(heapArray[0]);
-
-        heapSize--;
-        heapArray[0] = heapArray[heapSize];
-
-        //同步更新indexMap
-        indexMap[heapArray[0]] = 0;
-
-        heapify(0);
-    }
-    void adjust(void* value) {
-        int index = indexMap[value];
-        heapInsert(index);
-        heapify(index);
-    }
-    bool empty() {
-        return heapSize == 0;
-    }
-    bool full() {
-        return heapSize == heapSizeLimit;
-    }
-    int size() {
-        return this->heapSize;
-    }
-};
 
 //顶点
 class Edge;
@@ -239,6 +119,13 @@ public:
         }
     }
 
+    struct cmpNode
+    {
+        bool operator () (Node* n1, Node* n2) {
+            return n1->extraDataDomain < n2->extraDataDomain;
+        }
+    };
+
     //迪杰斯特拉
     double dijkstra(int start, int end) {
 
@@ -248,29 +135,34 @@ public:
         //value: 从startNode出发到key当前的最大概率值
         unordered_map<Node*, double> probMap;
 
-        //使用大根堆组织顶点
-        Heap heap(nodes.size(), [](const void* a, const void* b) {
-            return ((Node*)a)->extraDataDomain > ((Node*)b)->extraDataDomain;
-        });
-        for (auto it : nodes) {
+        //大根堆
+        priority_queue<Node*, vector<Node*>, cmpNode> nodesQueue;
+
+        for (auto& it : nodes) {
             Node* node = it.second;
             if (node == startNode) {
                 node->extraDataDomain = 1;
-                heap.push(node);
+                nodesQueue.push(node);
             }
             else {
                 node->extraDataDomain = 0;
-                heap.push(node);
+                nodesQueue.push(node);
             }
         }
 
         //已经计算好的点, 之后不能再动了
         unordered_set<Node*> lockSet;
 
-        Node* maxNode = (Node*)heap.top();
-        heap.pop();
-        while (maxNode != nullptr) {
+        while (nodesQueue.empty() == false) {
+            Node* maxNode = nodesQueue.top();
+            nodesQueue.pop();
+
             double probCur = maxNode->extraDataDomain;
+
+            //应对1处的重复加入问题
+            if (probMap.count(maxNode) != 0) {
+                continue;
+            }
 
             for (Edge* edgeNext : maxNode->edges) {
                 Node* to = edgeNext->to;
@@ -283,37 +175,17 @@ public:
                 //如果通过新的桥连点到它所能到的节点的概率比以前大, 那么更新概率
                 if (newProb > to->extraDataDomain) {
                     to->extraDataDomain = newProb;
-                    heap.adjust(to);
+                    nodesQueue.push(to);
                 }
             }
             lockSet.insert(maxNode);    //把这个节点锁住
             probMap[maxNode] = probCur; //保存结果
-
-            maxNode = (Node*)heap.top();
-            heap.pop();
         }
 
         return probMap[ nodes[end] ];
     }
 
 private:
-    Node* getMaxNodeExceptLockNodes(unordered_set<Node*>& lockSet,
-        unordered_map<Node*, double>& probMap) {
-
-        Node* maxNode = nullptr;
-        double maxProb = -1;
-        for (auto it : probMap) {
-            Node* node = it.first;
-            double prob = it.second;
-            if (lockSet.count(node) == 0 && prob > maxProb) {
-                maxNode = node;
-                maxProb = prob;
-            }
-        }
-
-        return maxNode;
-    }
-
     unordered_map<int, Node*> nodes;       //顶点集合<id, Node_Addr>
     unordered_set<Edge*> edges;            //边集合
 };
