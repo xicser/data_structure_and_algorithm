@@ -32,13 +32,15 @@ public:
 //        return dp[n];
 //    }
 
+    //转换成排列完全背包问题
     int climbStairs(int n) {
-
         vector<int> things = {1, 2};
-        vector<int> dp(n + 1, 0);
+        int bagSize = n;
+
+        vector<int> dp(bagSize + 1, 0);
         dp[0] = 1;
 
-        for (int j = 1; j <= n; j++) {
+        for (int j = 0; j <= bagSize; j++) {
             for (int i = 0; i < things.size(); i++) {
                 if (j >= things[i]) {
                     dp[j] += dp[j - things[i]];
@@ -46,7 +48,7 @@ public:
             }
         }
 
-        return dp[n];
+        return dp[bagSize];
     }
 };
 
