@@ -15,6 +15,7 @@ public:
 		// B数组中j位置(含)之前
 		// 把word1变成word2的最小步数
 		// 并且在word1前面和word2前面加一个相等的字符, 且该字符和任何一直字符都不相等
+		// 加入的这个字符不影响结果
         vector< vector<int> > dp(len1 + 1, vector<int>(len2 + 1, 0) );
 
         //dp数组初始化

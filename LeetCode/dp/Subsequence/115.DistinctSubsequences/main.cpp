@@ -23,7 +23,8 @@ public:
             for (unsigned int j = 1; j < len2 + 1; j++) {
 
                 if (s[i - 1] == t[j - 1]) {
-                    dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
+                    dp[i][j] = dp[i - 1][j - 1] +  //ÓÃs[i]
+                               dp[i - 1][j];       //²»ÓÃs[i]
                 } else {
                     dp[i][j] = dp[i - 1][j];
                 }

@@ -16,6 +16,8 @@ public:
 		// 和
 		// B数组中j位置(含)之前, 必须以nums1[i]结尾的子数组
 		// 最长重复子数组的长度
+		//想象一下, 给nums1[0]前面加一个特殊字符A, 给nums2[0]前面加一个特殊字符B
+		//A, B与任何一直字符不相等, 且A != B
         vector< vector<int> > dp(len1 + 1, vector<int> (len2 + 1, 0) );
 
         for (int i = 1; i < len1 + 1; i++) {

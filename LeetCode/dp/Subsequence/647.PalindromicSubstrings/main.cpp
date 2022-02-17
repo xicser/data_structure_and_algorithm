@@ -30,7 +30,7 @@ public:
                         result++;
                         dp[i][j] = true;
                     }
-                    //两头相等, 看看中间是否相等
+                    //两头相等, 还要看中间是否相等
                     else {
                         if (dp[i + 1][j - 1] == true) {
                             result++;
