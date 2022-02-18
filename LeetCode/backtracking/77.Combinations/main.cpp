@@ -26,7 +26,7 @@ private:
 
         for (int i = start; i <= n; i++) {
 
-            //剪纸优化: 如果剩余的元素个数已经小于需要的个数了, 就没有必要搜索了
+            //剪枝优化: 如果剩余的元素个数已经小于需要的个数了, 就没有必要搜索了
             int restNeed = k - path.size();
             if (n - i + 1 < restNeed) {
                 continue;

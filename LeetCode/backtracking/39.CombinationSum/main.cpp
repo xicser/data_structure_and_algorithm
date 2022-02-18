@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -9,6 +10,7 @@ public:
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
 
         pathSum = 0;
+        sort(candidates.begin(), candidates.end());
         backtracking(candidates, target, 0);
 
         return result;
@@ -29,7 +31,8 @@ private:
             return;
         }
 
-        for (unsigned int i = startIndex; i < candidates.size(); i++) {
+        for (unsigned int i = startIndex; i < candidates.size()
+            && pathSum + candidates[i] <= target; i++) {
 
             path.push_back(candidates[i]);
             pathSum += candidates[i];

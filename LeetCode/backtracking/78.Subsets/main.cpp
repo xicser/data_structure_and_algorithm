@@ -7,7 +7,7 @@ class Solution {
 public:
     vector<vector<int>> subsets(vector<int>& nums) {
 
-        backtracking(0, nums);
+        backtracking(nums, 0);
         result.push_back({});
         return result;
     }
@@ -17,19 +17,19 @@ private:
     vector<vector<int>> result;
     vector<int> path;
 
-    void backtracking(int startIdx, vector<int>& nums) {
+    void backtracking(vector<int>& nums, int startIndex) {
 
-        if (startIdx == nums.size()) {
+        if (startIndex == nums.size()) {
             return;
         }
 
-        for (int i = startIdx; i < nums.size(); i++) {
+        for (int i = startIndex; i < nums.size(); i++) {
+
             path.push_back(nums[i]);
 
-            //收集结果
             result.push_back(path);
 
-            backtracking(i + 1, nums);
+            backtracking(nums, i + 1);
 
             path.pop_back();
         }

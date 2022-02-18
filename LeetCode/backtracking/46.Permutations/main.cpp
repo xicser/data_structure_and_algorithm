@@ -19,20 +19,17 @@ private:
     void backtracking(vector<int>& nums, vector<bool> &used) {
 
         if (path.size() == nums.size()) {
-
             result.push_back(path);
             return;
         }
 
         for (unsigned int i = 0; i < nums.size(); i++) {
-
-            if (used[i] == false) {
-                path.push_back(nums[i]);
-                used[i] = true;  //标记当前这个数已经用过了
-            }
-            else {
+            if (used[i] == true) {
                 continue;
             }
+
+            path.push_back(nums[i]);
+            used[i] = true;
 
             backtracking(nums, used);
 

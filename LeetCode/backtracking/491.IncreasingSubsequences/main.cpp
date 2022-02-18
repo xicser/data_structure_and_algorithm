@@ -19,35 +19,33 @@ private:
 
     void backtracking(int startIdx, vector<int>& nums) {
 
-        if (startIdx == nums.size()) {
+        if (nums.size() == startIdx) {
             return;
         }
 
-        unordered_set<int> hasUsed;  //同层去重
+        unordered_set<int> levelUsed;
         for (int i = startIdx; i < nums.size(); i++) {
 
-            //同层去重
-            if (hasUsed.find(nums[i]) == hasUsed.end()) {
-                hasUsed.insert(nums[i]);
+            if (levelUsed.count(nums[i]) == 0) {
+                levelUsed.insert(nums[i]);
             }
             else {
                 continue;
             }
 
-            //第一个肯定是要放进来的
+            //第一个无论如何都是要放进去的
             if (path.size() == 0) {
                 path.push_back(nums[i]);
             }
+            //后面的要保证递增顺序
+            else if (path[path.size() - 1] <= nums[i]) {
+                path.push_back(nums[i]);
+            }
+            //其他的直接剪枝
             else {
-                if (path[path.size() - 1] <= nums[i]) {
-                    path.push_back(nums[i]);
-                }
-                else {
-                    continue;
-                }
+                continue;
             }
 
-            //收集结果
             if (path.size() >= 2) {
                 result.push_back(path);
             }

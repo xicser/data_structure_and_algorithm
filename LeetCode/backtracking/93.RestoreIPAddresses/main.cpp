@@ -11,93 +11,86 @@ using namespace std;
 class Solution {
 public:
     vector<string> restoreIpAddresses(string s) {
-
         vector<string> res;
-        backtracing(0, s.size() - 1, s);
+        backtracing(s, 0);
 
-        //加工结果
-        for (unsigned int i = 0 ; i < result.size(); i++) {
-            string tmpStr;
-            for (unsigned int j = 0; j < result[i].size(); j++) {
-                if (j != result[i].size() - 1) {
-                    tmpStr += result[i][j] + ".";
-                }
-                else {
-                    tmpStr += result[i][j];
+        for (int i = 0; i < result.size(); i++) {
+            vector<string>& path = result[i];
+
+            string resTemp;
+            for (int j = 0; j < path.size(); j++) {
+                resTemp += path[j];
+                if (j != path.size() - 1) {
+                    resTemp += ".";
                 }
             }
-            res.push_back(tmpStr);
+
+            res.push_back(resTemp);
         }
 
         return res;
     }
 
 private:
-    vector<vector<string>> result;
+    vector< vector<string> > result;
     vector<string> path;
 
-    void backtracing(int startPos, int endPos, string& str) {
+    void backtracing(string& str, int startIndex) {
 
-        //切割了3个了, 把最后那个直接放进去就行了
         if (path.size() == 3) {
-
-            //但是要保证是合法的
-            string subStr = str.substr(startPos, endPos - startPos + 1);
-            if (checkNumStr(subStr) == true) {
-                path.push_back(subStr);
-                result.push_back(path);
-                path.pop_back();
+            string strLast = str.substr(startIndex, str.size() - startIndex);
+            if (isValid(strLast) == false) {
+                return;
             }
+
+            path.push_back(strLast);
+            result.push_back(path);
+            path.pop_back();
+
             return;
         }
 
-        for (int i = startPos; i <= endPos; i++) {
+        for (int i = startIndex; i < str.size(); i++) {
 
-            string subStr = str.substr(startPos, i - startPos + 1);
-
-            //剪枝: 如果这次切割的不合法, 就舍弃
-            if (checkNumStr(subStr) == false) {
+            string subStr = str.substr(startIndex, i - startIndex + 1);
+            if (isValid(subStr) == false) {
                 continue;
             }
 
             path.push_back(subStr);
 
-            backtracing(i + 1, endPos, str);
+            backtracing(str, i + 1);
 
             path.pop_back();
         }
     }
 
-    //检测数字是否合法
-    bool checkNumStr(const string& str) {
+    //判断给定str是否合法
+    bool isValid(string& str) {
 
-        //空串
         if (str.size() == 0) {
             return false;
         }
 
-        //含有前导0
-        if (str[0] == '0' && str.size() != 1) {
+        if (str.size() >= 2 && str[0] == '0') {
             return false;
         }
 
-        int value;
-        sscanf(str.data(), "%d", &value);
+        int val;
+        sscanf(str.c_str(), "%d", &val);
 
-        if (0 <= value && value <= 255) {
+        if (0 <= val && val <= 255) {
             return true;
         }
-        else {
-            return false;
-        }
 
+        return false;
     }
 };
 
 int main()
 {
     Solution sol;
-    vector<string> result = sol.restoreIpAddresses("25525511135");
+    vector<string> result = sol.restoreIpAddresses("101023");
     for (int i = 0; i < result.size(); i++) {
         cout << result[i] << endl;
     }

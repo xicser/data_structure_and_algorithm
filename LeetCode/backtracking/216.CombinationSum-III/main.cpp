@@ -22,13 +22,7 @@ private:
             return;
         }
 
-        for (int i = index; i <= 9; i++) {
-
-            //¼ôÖ¦ÓÅ»¯:
-            int rest = k - path.size();
-            if (9 - i + 1 < rest) {
-                continue;
-            }
+        for (int i = index; i <= 9 && pathSum + i <= n; i++) {
 
             path.push_back(i);
             pathSum += i;
@@ -49,7 +43,7 @@ int main()
 {
     Solution sol;
 
-    vector<vector<int>> result = sol.combinationSum3(9, 45);
+    vector<vector<int>> result = sol.combinationSum3(3, 9);
 
     for (int i = 0; i < result.size(); i++) {
         for (int j = 0; j < result[i].size(); j++) {
