@@ -7,18 +7,14 @@ class Solution {
 public:
     int removeDuplicates(vector<int>& nums) {
 
-        if (nums.size() == 1) {
-            return 1;
-        }
-        if (nums.size() == 0) {
-            return 0;
+        if (nums.size() <= 1) {
+            return nums.size();
         }
 
-        int slow = 1;  // == 1表示长度至少都是1
-        for (unsigned int fast = 1; fast < nums.size(); fast++) {
+        int slow = 1;
+        for (int fast = 1; fast < nums.size(); fast++) {
             if (nums[fast] != nums[fast - 1]) {
-                nums[slow] = nums[fast];
-                slow++;
+                nums[slow++] = nums[fast];
             }
         }
 
@@ -29,7 +25,7 @@ public:
 int main()
 {
     Solution sol;
-    vector<int> nums = {1, 1, 1};
+    vector<int> nums = {0,0};
     int len = sol.removeDuplicates(nums);
 
     cout << "size = " << len << endl;

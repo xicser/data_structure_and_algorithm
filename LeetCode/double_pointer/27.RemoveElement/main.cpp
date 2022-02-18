@@ -7,25 +7,15 @@ class Solution {
 public:
     int removeElement(vector<int>& nums, int val) {
 
-        int left = 0, right = nums.size() - 1;
-
-        //当左指针不大于右指针, 循环执行
-        while (left <= right) {
-            //若左指针指向的元素不为val, 左指针右移
-            if (nums[left] != val) {
-                left++;
-            }
-            else {
-                // 否则将右指针和左指针数值交换, 右指针左移
-                int temp = nums[left];
-                nums[left] = nums[right];
-                nums[right] = temp;
-
-                right--;
+        int slow = 0;
+        for (int fast = 0; fast < nums.size(); fast++) {
+            if (nums[fast] != val) {
+                nums[slow] = nums[fast];
+                slow++;
             }
         }
 
-        return left;
+        return slow;
     }
 };
 

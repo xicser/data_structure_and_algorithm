@@ -27,7 +27,7 @@ public:
 
             //mid落在nums的左半段
             if (nums[mid] >= nums[left]) {
-                if (nums[left] <= target && target <= nums[mid]) {
+                if (nums[left] <= target && target < nums[mid]) {
                     right = mid - 1;
                 }
                 else {
@@ -36,7 +36,7 @@ public:
             }
             //mid落在nums的右半段
             else {
-                if (nums[mid] <= target && target <= nums[right]) {
+                if (nums[mid] < target && target <= nums[right]) {
                     left = mid + 1;
                 }
                 else {
