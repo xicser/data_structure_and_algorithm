@@ -12,15 +12,15 @@ class Solution {
 public:
     ListNode *detectCycle(ListNode *head) {
 
-        if (head == nullptr || head->next == nullptr || head->next->next == nullptr) {
+        if (head == nullptr || head->next == nullptr) {
             return nullptr;
         }
 
         ListNode* slow = head->next;
         ListNode* fast = head->next->next;
-        while (fast != slow) {
+        while (slow != fast) {
 
-            if (slow->next == nullptr || fast->next == nullptr  || fast->next->next == nullptr) {
+            if (fast == nullptr || fast->next == nullptr) {
                 return nullptr;
             }
 
@@ -28,10 +28,11 @@ public:
             fast = fast->next->next;
         }
 
+        //让fast回到开始位置
         fast = head;
         while (fast != slow) {
-            fast = fast->next;
             slow = slow->next;
+            fast = fast->next;
         }
 
         return fast;

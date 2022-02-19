@@ -4,42 +4,30 @@
 
 using namespace std;
 
-// -1 -1 0 -1 -1 2
+// -1, -1, 0, 1, 2
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
 
-        if (nums.size() == 0) {
-            return {};
-        }
-
-        vector< vector<int> > result;
+        vector<vector<int>> result;
         sort(nums.begin(), nums.end());
 
-        for (unsigned int i = 0; i < nums.size() - 1; i++) {
+        for (int i = 0; i < nums.size(); i++) {
 
-            //当前这个nums[i]已经大于0, 后面不可能出现结果了
+            //排序之后如果第一个元素已经大于0, 则后面的不可能出现结果
             if (nums[i] > 0) {
                 return result;
             }
 
-            //去重
             if (i > 0 && nums[i] == nums[i - 1]) {
                 continue;
             }
 
             int left = i + 1;
             int right = nums.size() - 1;
-
             while (left < right) {
-
-                if (nums[i] + nums[left] + nums[right] > 0) {
-                    right--;
-                }
-                else if (nums[i] + nums[left] + nums[right] < 0) {
-                    left++;
-                }
-                else {
+                int sum = nums[i] + nums[left] + nums[right];
+                if (sum == 0) {
                     result.push_back({nums[i], nums[left], nums[right]});
 
                     //去重
@@ -48,6 +36,12 @@ public:
 
                     left++;
                     right--;
+                }
+                else if (sum > 0) {
+                    right--;
+                }
+                else {
+                    left++;
                 }
             }
         }
@@ -59,7 +53,7 @@ public:
 int main()
 {
     Solution sol;
-    vector<int> nums = {0};
+    vector<int> nums = {-1,0,1,2,-1,-4};
     vector<vector<int>> result = sol.threeSum(nums);
 
     for (int i = 0; i < result.size(); i++) {

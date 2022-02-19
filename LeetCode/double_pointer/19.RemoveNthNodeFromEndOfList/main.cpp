@@ -14,35 +14,31 @@ class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
 
+        if (head->next == nullptr) {
+            return nullptr;
+        }
+
+        ListNode dummy(-1, head);
+
         //先让fast走n步
         ListNode* fast = head;
-        int step = n;
-        while (step--) {
+        int steps = n;
+        while (steps--) {
             fast = fast->next;
         }
 
-        //如果删除的是第一个节点(倒数最后一个)
-        if (fast == nullptr) {
-            ListNode* ret = head->next;
-            delete head;
-            return ret;
-        }
-
-        //然后slow和fast一块走, 直到fast指向空
+        //然后让slow和fast一块走, 直到fast到达链表末尾
+        ListNode* pre = &dummy;
         ListNode* slow = head;
-        while (fast->next != nullptr) {
+        while (fast != nullptr) {
+            pre = pre->next;
             slow = slow->next;
             fast = fast->next;
         }
+        pre->next = slow->next;
+        delete slow;
 
-        //此时slow指向下一个的就是要删除的节点
-        ListNode* toBeDelete = slow->next;
-        ListNode* toBeDeleteNext = toBeDelete->next;
-        slow->next = toBeDeleteNext;
-
-        delete toBeDelete;
-
-        return head;
+        return dummy.next;
     }
 };
 

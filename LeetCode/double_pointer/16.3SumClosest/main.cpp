@@ -27,6 +27,7 @@ public:
                 int val = nums[i] + nums[left] + nums[right];
                 int deltaCur = abs(val - target);
 
+                //记录与target差值的最小值
                 if (deltaCur < deltaMin) {
                     deltaMin = deltaCur;
                     result = val;
