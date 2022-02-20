@@ -8,49 +8,54 @@ using namespace std;
 class Solution {
 private:
     //检查当前的window能否满足need的要求
-    bool checkWindow(unordered_map<char, int>& window,
-                     unordered_map<char, int>& need) {
-        for (auto it : need) {
+    bool check(unordered_map<char, int>& needWin,
+               unordered_map<char, int>& curWin) {
+        for (auto& it : needWin) {
             char c = it.first;
             int cnt = it.second;
 
-            if (window.count(c) == 0 || //当前窗口不存在need中的某个字符
-                window[c] < cnt) {      //或者数量不够
+            if (curWin.count(c) == 0 || curWin[c] < cnt) {
                 return false;
             }
         }
+
         return true;
     }
+
 public:
     string minWindow(string s, string t) {
-
+        
         int left = 0, right = 0;
-        string result;   //记录结果
-        int resultSize = INT_MAX; //结果长度
+        int minLen = INT_MAX;
+        string strRes;
 
-        unordered_map<char, int> window;  //当前窗口中每个字符出现的次数
-        unordered_map<char, int> need;    //根据t计算的需要的字符个数
+        unordered_map<char, int> needWin;
+        unordered_map<char, int> curWin;
+
         for (char c : t) {
-            need[c]++;
+            needWin[c]++;
         }
 
+        //求“最小”，右指针最开始先一直往右找到第一个满足条件的，然后开始缩小左指针，直到不满足条件
+        //期间记录最小满足条件的str
         while (right < s.size()) {
-            window[ s[right] ]++;
+            curWin[ s[right] ]++;
             right++;
 
-            //当前窗口满足条件
-            while (checkWindow(window, need) == true) {
+            while (check(needWin, curWin) == true) {
+
                 int winSize = right - left;
-                if (winSize < resultSize) {
-                    resultSize = winSize;
-                    result = s.substr(left, winSize);
+                if (winSize < minLen) {
+                    minLen = winSize;
+                    strRes = s.substr(left, winSize);
                 }
-                window[ s[left] ]--;
+
+                curWin[ s[left] ]--;
                 left++;
             }
         }
 
-        return result;
+        return strRes;
     }
 };
 

@@ -10,28 +10,30 @@ using namespace std;
 class Solution {
 public:
     int longestOnes(vector<int>& nums, int k) {
-        int left = 0, right = 0;
-        int winZeroCnt = 0;  //记录当前窗口中0的个数
-        int result = INT_MIN;
 
+        //记录当前窗口中0的个数
+        int winZeroCnt = 0;
+
+        int result = 0;
+        int left = 0, right = 0;
         while (right < nums.size()) {
             if (nums[right] == 0) {
                 winZeroCnt++;
             }
             right++;
 
+            //等待第一个不满足的
             while (winZeroCnt > k) {
+
                 if (nums[left] == 0) {
                     winZeroCnt--;
                 }
                 left++;
             }
+
+            //记录最大的那个
             int winSize = right - left;
             result = max(result, winSize);
-        }
-
-        if (result == INT_MIN) {
-            return nums.size();
         }
 
         return result;

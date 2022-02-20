@@ -10,22 +10,21 @@ public:
     //t = "bcdf"    down
     //maxCost = 3
     int equalSubstring(string s, string t, int maxCost) {
-        int up = 0, down = 0;
-        int winCnt = 0;  //当前窗口中的开销
-        int result = 0;
-        while (up < s.size()) {
-            int costUp = abs(s[up] - t[up]);
-            winCnt += costUp;
-            up++;
 
-            while (winCnt > maxCost) {
-                int costDown = abs(s[down] - t[down]);
-                winCnt -= costDown;
-                down++;
+        int up = 0, down = 0;
+        int result = 0;
+        int winCost = 0;        //记录当前窗口的花费
+
+        while (down < t.size()) {
+            winCost += abs(s[down] - t[down]);
+            down++;
+
+            while (winCost > maxCost) {
+                winCost -= abs(s[up] - t[up]);
+                up++;
             }
 
-            //获取最大窗口长度
-            int winSize = up - down;
+            int winSize = down - up;
             result = max(result, winSize);
         }
 

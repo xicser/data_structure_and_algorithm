@@ -6,50 +6,45 @@ using namespace std;
 
 class Solution {
 private:
-    //判断window中, 出现次数较少的字符的个数是否大于k
-    bool check(unordered_map<char, int>& winMap, int k) {
+    //检查窗口中出现次数较少的字符能否
+    bool check(unordered_map<char, int>& windowCnt, int k) {
+        int allCnt = 0;
+        int maxCnt = 0;
 
-        //记录出现次数最多的字符
-        char c;
-        int cnt = INT_MIN;
-        int cntAll = 0;
-        for (auto it : winMap) {
-            char cTmp = it.first;
-            int cntTmp = it.second;
-            cntAll += cntTmp;
+        for (auto &it : windowCnt) {
+            char c = it.first;
+            int cnt = it.second;
+            allCnt += cnt;
 
-            if (cnt < cntTmp) {
-                cnt = cntTmp;
-                c = cTmp;
-            }
+            maxCnt = max(maxCnt, cnt);
         }
-        int resCnt = cntAll - cnt;
 
-        return resCnt > k;
+        int rest = allCnt - maxCnt;
+
+        return k >= rest;
     }
 
 public:
     //"ABABCDEFG", k = 2
     int characterReplacement(string s, int k) {
 
-        int result = 0;
-        int left = 0, right = 0;
-        int winCnt = 0;
-        unordered_map<char, int> winMap;
+        int result = INT_MIN;
+        unordered_map<char, int> windowCnt;
 
+        int left = 0, right = 0;
         while (right < s.size()) {
-            winMap[ s[right] ]++;
+            windowCnt[ s[right] ]++;
             right++;
 
-            //如果窗口出现次数较少的字符的个数已经超过了k
-            while (check(winMap, k) == true) {
-                winMap[ s[left] ]--;
+            //如果窗口不满足了, 移动left, 直到窗口重新满足
+            while (check(windowCnt, k) == false) {
+                windowCnt[ s[left] ]--;
                 left++;
             }
 
-            //记录最大的
+            //记录最大那个窗口
             int winSize = right - left;
-            result = max(winSize, result);
+            result = max(result, winSize);
         }
 
         return result;

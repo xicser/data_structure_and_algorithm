@@ -1,53 +1,55 @@
 ﻿#include <iostream>
 #include <string>
 #include <unordered_map>
-#include <unordered_set>
 #include <algorithm>
 
 using namespace std;
 
 class Solution {
 public:
-    //s = "ababbc aacbbb", k = 3
+    //s = "ababbaacbbb", k = 3
     int longestSubstring(string s, int k) {
 
+        //s长度小于k, 必然不存在
         if (s.size() < k) {
             return 0;
         }
 
         //统计s中每个字符出现的次数
-        unordered_map<char, int> charCntMap;
+        unordered_map<char, int> charCnt;
         for (char c : s) {
-            charCntMap[c]++;
+            charCnt[c]++;
         }
-        //先检查传入的字符是否满足要求
-        bool isAll = true;
-        for (auto it : charCntMap) {
+
+        //检查每个字符出现次数是否已经>=k
+        bool allBig = true;
+        for (auto it : charCnt) {
             if (it.second < k) {
-                isAll = false;
+                allBig = false;
                 break;
             }
         }
-        if (isAll == true) {
-            return s.size();  //满足的话, 直接返回长度
+        if (allBig == true) {
+            return s.size();
         }
 
-        int result = -1;
         int startPos = 0;
+        int result = -1;
         for (int i = 0; i < s.size(); i++) {
+            
             char c = s[i];
-            if (charCntMap[c] < k) {
-                string sub = s.substr(startPos, i - startPos);
+            if (charCnt[c] < k) {
+                string substr = s.substr(startPos, i - startPos);
                 startPos = i + 1;
 
-                result = max(longestSubstring(sub, k), result);
+                result = max(result, longestSubstring(substr, k));
             }
         }
-        //防止如果结尾的字串, 直接就满足要求（尾部没有出现次数小于k的字符了）, 那么要加进来
-        //bbaaa,  k = 3
+
+        //如果最后一个字符不是c
         if (startPos != s.size()) {
-            string sub = s.substr(startPos, s.size() - startPos);
-            result = max(longestSubstring(sub, k), result);
+            string substr = s.substr(startPos, s.size() - startPos);
+            result = max(result, longestSubstring(substr, k));
         }
 
         return result;
