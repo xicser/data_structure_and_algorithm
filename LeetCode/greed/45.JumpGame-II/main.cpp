@@ -7,29 +7,30 @@ class Solution {
 public:
     int jump(vector<int>& nums) {
 
-        int lastIndex = nums.size() - 1;
-        int steps = 0;
-        for (int i = 0; i < nums.size() - 1; ) {
+        if (nums.size() == 1) {
+            return 0;
+        }
 
-            // 当前所能覆盖的最远位置
-            int farestAvailable = i + nums[i];
-            if (farestAvailable >= lastIndex) {
-                // 再跳最后那一步
-                steps++;
-                break;
+        int steps = 0;
+        for (int i = 0; i < nums.size(); ) {
+
+            //从当前位置能到的最远位置
+            int farestPos = i + nums[i];
+            if (farestPos >= nums.size() - 1) {
+                return steps + 1;
             }
 
-            // 在这个覆盖范围内, 找出能去到最远的那个位置, 然后跳到那里
+            //在所及范围内, 找能去的最远的那个位置
+            int farestIndex = -1;
             int nextIndex;
-            int goFarestIndex = -1;
-            for (int j = i + 1; j <= farestAvailable; j++) {
-                if (nums[j] + j > goFarestIndex) {
-                    goFarestIndex = nums[j] + j;
+            for (int j = i; j <= farestPos; j++) {
+                if (farestIndex < j + nums[j]) {
+                    farestIndex = j + nums[j];
                     nextIndex = j;
                 }
             }
 
-            //跳到这个位置, 步数+1
+            //然后去到那个位置
             i = nextIndex;
             steps++;
         }

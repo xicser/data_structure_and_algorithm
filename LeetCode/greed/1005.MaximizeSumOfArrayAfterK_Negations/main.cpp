@@ -1,30 +1,60 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <algorithm>
 
 using namespace std;
+
+//class Solution {
+//public:
+//    int largestSumAfterKNegations(vector<int>& nums, int k) {
+//        priority_queue<int, vector<int>, greater<int>> heap;  //小根堆
+//        for (unsigned int i = 0; i < nums.size(); i++) {
+//            heap.push(nums[i]);
+//        }
+//
+//        while (k > 0) {
+//            int t = heap.top();
+//            heap.pop();
+//            t = -t;
+//            heap.push(t);
+//
+//            k--;
+//        }
+//
+//        int sum = 0;
+//        while (heap.size() > 0) {
+//            sum += heap.top();
+//            heap.pop();
+//        }
+//
+//        return sum;
+//    }
+//};
 
 class Solution {
 public:
     int largestSumAfterKNegations(vector<int>& nums, int k) {
-        priority_queue<int, vector<int>, greater<int>> heap;  //小根堆
-        for (unsigned int i = 0; i < nums.size(); i++) {
-            heap.push(nums[i]);
+
+        sort(nums.begin(), nums.end(), [=](int a, int b) {
+            return abs(a) > abs(b);
+        });
+
+        for (int i = 0; i < nums.size(); i++) {
+            if (k > 0 && nums[i] < 0) {
+                nums[i] *= -1;
+                k--;
+            }
         }
 
-        while (k > 0) {
-            int t = heap.top();
-            heap.pop();
-            t = -t;
-            heap.push(t);
-
-            k--;
+        k %= 2;
+        if (k > 0) {
+            nums[nums.size() - 1] *= -1;
         }
 
         int sum = 0;
-        while (heap.size() > 0) {
-            sum += heap.top();
-            heap.pop();
+        for (int i : nums) {
+            sum += i;
         }
 
         return sum;

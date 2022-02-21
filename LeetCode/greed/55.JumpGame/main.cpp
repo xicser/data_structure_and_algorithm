@@ -14,21 +14,22 @@ public:
             return false;
         }
 
-        int lastIndex = nums.size() - 1;
         int farestIndex = -1;
-        for (int i = 0; i < nums.size() - 1; i++) {
+        for (int i = 0; i < nums.size(); i++) {
 
+            //记录能够到达的最远位置
             farestIndex = max(farestIndex, i + nums[i]);
 
-            //如果当前最远能到的位置就是i位置, 且i位置上, 能走的步数为0, 那就没法走了
-            if (i + nums[i] == i && farestIndex == i) {
+            //如果当前能够到达的最远位置就是i, 且nums[i]没有可以走的步子了
+            if (farestIndex == i && nums[i] == 0) {
                 break;
             }
         }
 
-        if (farestIndex >= lastIndex) {
+        if (farestIndex >= nums.size() - 1) {
             return true;
         }
+
         return false;
     }
 };

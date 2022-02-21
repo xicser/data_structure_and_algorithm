@@ -7,27 +7,26 @@ class Solution {
 public:
     int candy(vector<int>& ratings) {
 
-        vector<int> candyVec(ratings.size(), 1);
+        vector<int> candies(ratings.size(), 1);
 
-        //先统计右大于左
-        for (unsigned int i = 1; i < ratings.size(); i++) {
-            if (ratings[i] > ratings[i - 1]) {
-                candyVec[i] = candyVec[i - 1] + 1;
+        //只考虑左边
+        for (int i = 1; i < ratings.size(); i++) {
+            if (ratings[i - 1] < ratings[i]) {
+                candies[i] = candies[i - 1] + 1;
             }
         }
 
-        //再统计左大于右
+        //只考虑右边
         for (int i = ratings.size() - 2; i >= 0; i--) {
             if (ratings[i] > ratings[i + 1]) {
-                candyVec[i] = max(candyVec[i + 1] + 1,  //既要保证左大于右
-                                  candyVec[i]);         //还要保证之前计算的右大于左
+                candies[i] = max(candies[i + 1] + 1, candies[i]);
             }
         }
 
-        //统计结果
+        //求和
         int result = 0;
-        for (unsigned int i = 0; i < candyVec.size(); i++) {
-            result += candyVec[i];
+        for (int i : candies) {
+            result += i;
         }
 
         return result;

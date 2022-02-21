@@ -8,16 +8,19 @@ class Solution {
 public:
     int maxSubArray(vector<int>& nums) {
 
-        int result = INT_MIN;
-        int count = 0;
-        for (unsigned int i = 0; i < nums.size(); i++) {
+        if (nums.size() == 1) {
+            return nums[0];
+        }
 
-            count += nums[i];
+        // dp[i]表示[0...i]之间, 最大子序和
+        vector<int> dp(nums.size(), 0);
+        dp[0] = nums[0];
+        int result = nums[0];
 
-            result = max(result, count);
-            if (count < 0) {
-                count = 0;
-            }
+        for (int i = 1; i < nums.size(); i++) {
+            dp[i] = max(dp[i - 1] + nums[i], nums[i]);
+
+            result = max(result, dp[i]);
         }
 
         return result;
@@ -26,6 +29,9 @@ public:
 
 int main()
 {
-    cout << "Hello world!" << endl;
+    vector<int> nums = {-2,1,-3,4,-1,2,1,-5,4};
+    Solution sol;
+    cout << sol.maxSubArray(nums) << endl;
+
     return 0;
 }

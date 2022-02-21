@@ -8,23 +8,22 @@ class Solution {
 public:
     int findMinArrowShots(vector<vector<int>>& points) {
 
-        sort(points.begin(), points.end(), [=](const vector<int> &I1, const vector<int> &I2){
-            //先按照左端点从大到小
-            if (I1[0] > I2[0]) {
-                return true;
-            }
-            //若左端点相同, 则按照右端点从小到大
-            else if (I1[0] == I2[0] && I1[1] < I2[1]) {
-                return true;
-            }
-            return false;
+        //先按照左端点由大到小, 左端点相同则按照右端点由小到大
+        sort(points.begin(), points.end(), [](const vector<int>& left, const vector<int>& right) {
+
+             if (left[0] != right[0]) {
+                return left[0] > right[0];
+             }
+             else {
+                return left[1] < right[1];
+             }
         });
 
-        int result = 1; //至少需要一支箭
+        int result = 1;
         int lastLeft = points[0][0];
-        for (unsigned int i = 1; i < points.size(); i++) {
-            int right = points[i][1];
-            if (right < lastLeft) {
+
+        for (int i = 1; i < points.size(); i++) {
+            if (points[i][1] < lastLeft) {
                 result++;
                 lastLeft = points[i][0];
             }
@@ -33,6 +32,7 @@ public:
         return result;
     }
 };
+
 
 int main()
 {

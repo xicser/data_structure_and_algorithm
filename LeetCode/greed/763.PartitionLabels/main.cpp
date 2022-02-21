@@ -11,22 +11,34 @@ public:
     vector<int> partitionLabels(string s) {
 
         //先统计每个字符出现的最远位置
-        unordered_map<char, int> farestIndex;
+        unordered_map<char, int> farestPosMap;
         for (int i = 0; i < s.size(); i++) {
-            farestIndex[s[i]] = i;
+
+            if (farestPosMap.count(s[i]) == 0) {
+                farestPosMap[s[i]] = i;
+            }
+            else {
+                int pos = farestPosMap[ s[i] ];
+                if (pos < i) {
+                    farestPosMap[s[i]] = i;
+                }
+            }
         }
 
-        vector<int> result;
-        int left, right;
-        left = right = 0;
-        for (int i = 0; i < s.size(); i++) {
-            right = max(right, farestIndex[s[i]]);
+//        for (auto& it : farestPosMap) {
+//            printf("%c %d\n", it.first, it.second);
+//        }
 
-            //如果之前遍历过的字符, 能到达的最远位置等于当前位置i, 说明是分割点
-            if (right == i) {
-                result.push_back(right - left + 1);
-                left = i + 1;
-                right = left;
+        vector<int> result;
+
+        //遍历字符串
+        int far = 0;
+        int start = 0;
+        for (int i = 0; i < s.size(); i++) {
+            far = max(farestPosMap[ s[i] ], far);
+            if (far == i) {
+                result.push_back(i - start + 1);
+                start = i + 1;
             }
         }
 

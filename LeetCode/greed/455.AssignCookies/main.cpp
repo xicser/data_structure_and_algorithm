@@ -4,29 +4,35 @@
 
 using namespace std;
 
+/*
+g = [1,2],
+s = [1,2,3]
+
+*/
 class Solution {
 public:
     int findContentChildren(vector<int>& g, vector<int>& s) {
 
+        int result = 0;
         sort(g.begin(), g.end());
         sort(s.begin(), s.end());
-
         int lenG = g.size();
         int lenS = s.size();
-        int cnt = 0;
+
         int i = 0, j = 0;
         while (i < lenG && j < lenS) {
-            if (g[i] <= s[j]) {
-                cnt++;
+
+            if (s[j] >= g[i]) {
+                result++;
                 i++;
                 j++;
             }
             else {
-                j++; //看一下下一块饼干能满足当前这个孩子的胃口
+                j++;
             }
         }
 
-        return cnt;
+        return result;
     }
 };
 
