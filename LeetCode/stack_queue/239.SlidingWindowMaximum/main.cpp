@@ -4,65 +4,42 @@
 
 using namespace std;
 
-
-class IncreasingQueue {
-public:
-    void pop(int val) {
-        if (dque.empty() == false && dque.front() == val) {
-            dque.pop_front();
-        }
-    }
-
-    void push(int val) {
-
-        while (dque.empty() == false && val > dque.back()) {
-            dque.pop_back();
-        }
-
-        dque.push_back(val);
-    }
-
-    int getMax() {
-        return dque.front();
-    }
-
-private:
-    deque<int> dque;
-};
-
-
+//[-7,-8,7,5,7,1,6,0]
 class Solution {
 public:
     vector<int> maxSlidingWindow(vector<int>& nums, int k) {
         vector<int> result;
+        deque<int> que;
 
-        for (int i = 0; i < k; i++) {
-            increasingQueue.push(nums[i]);
-        }
-        result.push_back(increasingQueue.getMax());
+        int left = 0, right = 0;
+        while (right < nums.size()) {
+            //保持队列的单调递减
+            while (que.empty() == false && que.back() < nums[right]) {
+                que.pop_back();
+            }
+            que.push_back(nums[right]);
 
-        for (unsigned int i = 1, j = k; j < nums.size(); ) {
-            increasingQueue.pop(nums[i - 1]);
-            increasingQueue.push(nums[j]);
-            result.push_back(increasingQueue.getMax());
+            right++;
 
-            i++;
-            j++;
+            if (right - left == k) {
+                result.push_back(que.front());
+
+                if (nums[left] == que.front()) {
+                    que.pop_front();
+                }
+                left++;
+            }
         }
 
         return result;
     }
-
-
-private:
-    IncreasingQueue increasingQueue;
 };
 
 int main()
 {
     Solution sol;
-    vector<int> nums = {4,-2};
-    vector<int> result = sol.maxSlidingWindow(nums, 2);
+    vector<int> nums = {-7,-8,7,5,7,1,6,0};
+    vector<int> result = sol.maxSlidingWindow(nums, 4);
     for (unsigned int i = 0; i < result.size(); i++) {
         cout << result[i] << " ";
     }

@@ -6,8 +6,7 @@ using namespace std;
 class MinStack {
 private:
     stack<int> stk;
-    stack<int> minStk;
-
+    stack<int> stkMin;
 public:
     MinStack() {
 
@@ -17,23 +16,20 @@ public:
 
         stk.push(val);
 
-        if (minStk.size() > 0) {
-            int topMin = minStk.top();
-            if (topMin < val) {
-                minStk.push(topMin);
-            }
-            else {
-                minStk.push(val);
-            }
+        if (stkMin.size() > 0) {
+            //看看minStk顶部元素的值是否小于val, 把较小的那个push进去
+            int topValue = stkMin.top();
+            topValue < val ? stkMin.push(topValue) : stkMin.push(val);
         }
         else {
-            minStk.push(val);
+            stkMin.push(val);
         }
+
     }
 
     void pop() {
         stk.pop();
-        minStk.pop();
+        stkMin.pop();
     }
 
     int top() {
@@ -41,7 +37,7 @@ public:
     }
 
     int getMin() {
-        return minStk.top();
+        return stkMin.top();
     }
 };
 

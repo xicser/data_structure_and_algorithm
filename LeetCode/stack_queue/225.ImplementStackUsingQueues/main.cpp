@@ -15,24 +15,24 @@ public:
     }
 
     int pop() {
-
-        if (empty() == true) {
+        if (que.size() == 0) {
             return -1;
         }
 
+        int val = que.back();
+
         int cnt = que.size() - 1;
         while (cnt--) {
-            int val = que.front();
+            que.push(que.front());
             que.pop();
-            que.push(val);
         }
-        int val = que.front();
         que.pop();
+
         return val;
     }
 
     int top() {
-        if (empty() == true) {
+        if (que.size() == 0) {
             return -1;
         }
 
@@ -46,6 +46,15 @@ public:
 private:
     queue<int> que;
 };
+
+/**
+ * Your MyStack object will be instantiated and called as such:
+ * MyStack* obj = new MyStack();
+ * obj->push(x);
+ * int param_2 = obj->pop();
+ * int param_3 = obj->top();
+ * bool param_4 = obj->empty();
+ */
 
 int main()
 {

@@ -4,41 +4,45 @@
 
 using namespace std;
 
+/* ¿®∫≈∆•≈‰ */
 class Solution {
 public:
     bool isValid(string s) {
 
         for (unsigned int i = 0; i < s.size(); i++) {
 
-            if (s[i] == '(' || s[i] == '[' || s[i] == '{') {
-                stk.push(s[i]);
-            }
-            else {
-                if (stk.empty() == true) {
-                    return false;
-                }
-
-                switch (s[i]) {
-                case ')':
-                    if (stk.top() == '(') {
-                        stk.pop();
-                    }
-                    else return false;
-                    break;
-                case ']':
-                    if (stk.top() == '[') {
-                        stk.pop();
-                    }
-                    else return false;
-                    break;
-                case '}':
-                    if (stk.top() == '{') {
-                        stk.pop();
-                    }
-                    else return false;
+            char c = s[i];
+            switch (c) {
+                case '(':
+                case '[':
+                case '{':
+                    stk.push(c);
                     break;
 
-                default: break;
+                default: {
+                    if (stk.empty() == true) {
+                        return false;
+                    }
+                    if (c == ')') {
+                        if (stk.top() == '(') {
+                            stk.pop();
+                        }
+                        else return false;
+                    }
+                    else if (c == ']') {
+                        if (stk.top() == '[') {
+                            stk.pop();
+                        }
+                        else return false;
+                    }
+                    else if (c == '}') {
+                        if (stk.top() == '{') {
+                            stk.pop();
+                        }
+                        else return false;
+                    }
+
+                    break;
                 }
             }
         }

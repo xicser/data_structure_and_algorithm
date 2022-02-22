@@ -10,21 +10,26 @@ public:
     }
 
     void push(int x) {
-        inputStack.push(x);
+        inStk.push(x);
     }
 
     int pop() {
-        if (outputStack.empty() == true) {
-            while (inputStack.empty() == false) {
-                outputStack.push(inputStack.top());
-                inputStack.pop();
+
+        if (empty() == true) {
+            return -1;
+        }
+
+        //只要发现out栈空了, 就把in栈里的所有元素导进去
+        if (outStk.empty() == true) {
+            while (inStk.empty() == false) {
+                outStk.push(inStk.top());
+                inStk.pop();
             }
         }
 
-        int result = outputStack.top();
-        outputStack.pop();
-
-        return result;
+        int ret = outStk.top();
+        outStk.pop();
+        return ret;
     }
 
     int peek() {
@@ -33,22 +38,24 @@ public:
             return -1;
         }
 
-        if (outputStack.empty() == true) {
-            while (inputStack.empty() == false) {
-                outputStack.push(inputStack.top());
-                inputStack.pop();
+        //只要发现out栈空了, 就把in栈里的所有元素导进去
+        if (outStk.empty() == true) {
+            while (inStk.empty() == false) {
+                outStk.push(inStk.top());
+                inStk.pop();
             }
         }
-        return outputStack.top();
+
+        return outStk.top();
     }
 
     bool empty() {
-        return inputStack.empty() && outputStack.empty();
+        return inStk.empty() == true && outStk.empty() == true;
     }
 
 private:
-    stack<int> inputStack;
-    stack<int> outputStack;
+    stack<int> inStk;
+    stack<int> outStk;
 };
 
 /**

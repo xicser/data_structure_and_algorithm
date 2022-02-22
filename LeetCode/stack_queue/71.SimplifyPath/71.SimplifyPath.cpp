@@ -7,6 +7,7 @@ using namespace std;
 
 class Solution {
 private:
+    //stk中不存放 /
     stack<string> stk;
 
 public:
@@ -43,7 +44,7 @@ public:
                     i = index;
                     break;
                 }
-
+                //其他字符
                 default: {
                     int index = i;
                     string tmpStr;
@@ -72,6 +73,8 @@ public:
         for (string& tmpStr: resultStr) {
             result += tmpStr;
         }
+
+        //回到了根目录
         if (result.size() == 0) {
             result.push_back('/');
         }

@@ -8,48 +8,43 @@ using namespace std;
 class Solution {
 public:
     int evalRPN(vector<string>& tokens) {
-
         string result;
-        for (unsigned int i = 0; i < tokens.size(); i++) {
-            string token = tokens[i];
-            if (token == "+") {
+
+        for (string& str : tokens) {
+            if (str == "+") {
                 int value1 = atoi(stk.top().c_str());
                 stk.pop();
                 int value2 = atoi(stk.top().c_str());
                 stk.pop();
 
-                result = to_string(value1 + value2);
-                stk.push(result);
+                stk.push(to_string(value1 + value2));
             }
-            else if (token == "-") {
+            else if (str == "-") {
                 int value1 = atoi(stk.top().c_str());
                 stk.pop();
                 int value2 = atoi(stk.top().c_str());
                 stk.pop();
 
-                result = to_string(value2 - value1);
-                stk.push(result);
+                stk.push(to_string(value2 - value1));
             }
-            else if (token == "*") {
+            else if (str == "*") {
                 int value1 = atoi(stk.top().c_str());
                 stk.pop();
                 int value2 = atoi(stk.top().c_str());
                 stk.pop();
 
-                result = to_string(value1 * value2);
-                stk.push(result);
+                stk.push(to_string(value1 * value2));
             }
-            else if (token == "/") {
+            else if (str == "/") {
                 int value1 = atoi(stk.top().c_str());
                 stk.pop();
                 int value2 = atoi(stk.top().c_str());
                 stk.pop();
 
-                result = to_string(value2 / value1);
-                stk.push(result);
+                stk.push(to_string(value2 / value1));
             }
             else {
-                stk.push(token);
+                stk.push(str);
             }
         }
 

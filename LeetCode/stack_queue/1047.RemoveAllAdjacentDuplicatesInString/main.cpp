@@ -9,28 +9,27 @@ class Solution {
 public:
     string removeDuplicates(string s) {
 
-        string result;
-        for (unsigned int i = 0; i < s.size(); i++) {
-
-            if (stk.empty() == false) {
-                if (s[i] == stk.top()) {
+        for (char c : s) {
+            if (stk.empty() == true) {
+                stk.push(c);
+            }
+            else {
+                if (stk.top() == c) {
                     stk.pop();
                 }
                 else {
-                    stk.push(s[i]);
+                    stk.push(c);
                 }
-            }
-            else {
-                stk.push(s[i]);
             }
         }
 
+        string result;
         while (stk.empty() == false) {
             result.push_back(stk.top());
             stk.pop();
         }
-
         reverse(result.begin(), result.end());
+
         return result;
     }
 
@@ -42,6 +41,6 @@ int main()
 {
     Solution sol;
 
-    cout << sol.removeDuplicates("azxxzy") << endl;
+    cout << sol.removeDuplicates("abbaca") << endl;
     return 0;
 }
