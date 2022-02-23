@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <vector>
+#include <unordered_map>
 
 using namespace std;
 
@@ -8,22 +8,17 @@ class Solution {
 public:
     bool isAnagram(string s, string t) {
 
-        vector<int> times(26, 0);
-        for (unsigned int i = 0; i < s.size(); i++) {
-            times[s[i] - 'a']++;
+        unordered_map<char, int> sMap;
+        unordered_map<char, int> tMap;
+
+        for (char c : s) {
+            sMap[c]++;
+        }
+        for (char c : t) {
+            tMap[c]++;
         }
 
-        for (unsigned int i = 0; i < t.size(); i++) {
-            times[t[i] - 'a']--;
-        }
-
-        for (unsigned int i = 0; i < times.size(); i++) {
-            if (times[i] != 0) {
-                return false;
-            }
-        }
-
-        return true;
+        return sMap == tMap;
     }
 };
 

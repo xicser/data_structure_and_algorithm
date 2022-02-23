@@ -1,52 +1,40 @@
 #include <iostream>
 #include <vector>
 #include <stdio.h>
+#include <unordered_map>
 
 using namespace std;
 
+//s = "cbaebabacd", p = "abc"
 class Solution {
 public:
     vector<int> findAnagrams(string s, string p) {
 
-        int lenS = s.size();
-        int lenP = p.size();
-
-        if (lenP > lenS) {
-            return {};
-        }
-
+        int len = p.size();
         vector<int> result;
+        unordered_map<char, int> needMap;
+        unordered_map<char, int> winMap;
 
-        //先统计p中每个字母出现的次数
-        vector<int> times(26, 0);
-        for (int i = 0; i < lenP; i++) {
-            times[ p[i] - 'a' ]++;
+        for (char c : p) {
+            needMap[c]++;
         }
 
-        //直接先把第一个窗口计算一下
-        int left = 0, right = lenP - 1;
-        vector<int> win(26, 0);
-        for (int i = 0; i < lenP; i++) {
-            win[ s[i] - 'a' ]++;
-        }
-
-        while (right < lenS) {
-
-            //频次相等, 表明匹配到了一次异位词
-            if (times == win) {
-                result.push_back(left);
-            }
-            win[ s[left] - 'a' ]--;
-
-            //窗口在s上滑动
-            left++;
+        int left = 0, right = 0;
+        while (right < s.size()) {
+            winMap[ s[right] ]++;
             right++;
 
-            if (right >= lenS) {
-                break;
-            }
+            if (right - left == len) {
+                if (needMap == winMap) {
+                    result.push_back(left);
+                }
+                winMap[ s[left] ]--;
+                if (winMap[ s[left] ] == 0) {
+                    winMap.erase(s[left]);
+                }
 
-            win[ s[right] - 'a' ]++;
+                left++;
+            }
         }
 
         return result;

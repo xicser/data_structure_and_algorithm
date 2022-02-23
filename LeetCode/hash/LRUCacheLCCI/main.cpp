@@ -7,94 +7,79 @@
 using namespace std;
 
 class LRUCache {
+private:
+    int capacity;
+    list< pair<int, int> > listVal;                                  //<key, value>
+    unordered_map<int, list< pair<int, int> >::iterator> mapVal;     //<key, key对应value在list中的迭代器>
+
 public:
     LRUCache(int capacity) {
         this->capacity = capacity;
     }
 
     int get(int key) {
-        auto it = mapVal.find(key);
-        if (it != mapVal.end()) {
-
-            //把存在的这个元素拿下来, 然后放在头部
-            list<int>::iterator lit;
-            for (lit = listVal.begin(); lit != listVal.end(); lit++) {
-                if (*lit == key) {
-                    listVal.erase(lit);
-                    break;
-                }
-            }
-            //放在头部
-            listVal.push_front(key);
-
-            return mapVal[key];
+        if (mapVal.count(key) == 0) {
+            return -1;
         }
-        return -1;
+
+        //先把值取出来
+        list< pair<int, int> >::iterator it = mapVal[key];
+        int value = (*it).second;
+
+        //然后放在list最前面, 表示这个value刚用过
+        listVal.erase(it);
+        listVal.push_front(pair<int, int>(key, value));
+
+        //更新map
+        mapVal[key] = listVal.begin();
+
+        return value;
     }
 
     void put(int key, int value) {
 
-        auto it = mapVal.find(key);
+        //满了, 且要插入新值
+        if (mapVal.size() == this->capacity && mapVal.count(key) == 0) {
 
-        //在里面
-        if (it != mapVal.end()) {
-
-            //先把原来那个删掉
-            list<int>::iterator lit;
-            for (lit = listVal.begin(); lit != listVal.end(); lit++) {
-                if (*lit == key) {
-                    break;
-                }
-            }
-            listVal.erase(lit);
+            pair<int, int> last = listVal.back();
+            int key = last.first;
+            listVal.pop_back();
             mapVal.erase(key);
-
-            //再重新插入
-            listVal.push_front(key);
-            mapVal[key] = value;
         }
-        //不在里面
+
+        //插入
+        if (mapVal.count(key) == 0) {
+            listVal.push_front(pair<int, int>(key, value));
+            mapVal[key] = listVal.begin();
+        }
+        //更新
         else {
-            if (listVal.size() < capacity) {
-                listVal.push_front(key);
-                mapVal[key] = value;
-            }
-            else {
-                int key_back = listVal.back();
+            //先把原来那个值在链表中删除
+            list< pair<int, int> >::iterator it = mapVal[key];
+            listVal.erase(it);
 
-                //把尾部那个删了
-                listVal.pop_back();
-//                cout << listVal.size() << endl;
+            //新值放在最开始
+            listVal.push_front(pair<int, int>(key, value));
 
-                mapVal.erase(key_back);
-//                cout << mapVal.size() << endl;
-
-                //再插入
-                listVal.push_front(key);
-                mapVal[key] = value;
-            }
+            //更新map
+            mapVal[key] = listVal.begin();
         }
     }
 
     void transList() {
-        for(auto iter = listVal.begin(); iter != listVal.end(); iter++)
-        {
-            cout << *iter;
-        }
-        cout<<endl;
+//        for(auto iter = listVal.begin(); iter != listVal.end(); iter++)
+//        {
+//            cout << *iter;
+//        }
+//        cout<<endl;
     }
     void transMap() {
-        for(auto iter = mapVal.begin(); iter != mapVal.end(); iter++)
-        {
-            cout<< iter->first << " " << iter->second << endl;
-        }
-        cout<<endl;
+//        for(auto iter = mapVal.begin(); iter != mapVal.end(); iter++)
+//        {
+//            cout<< iter->first << " " << iter->second << endl;
+//        }
+//        cout<<endl;
     }
-
-private:
-    int capacity;
-    list<int> listVal;
-    unordered_map<int, int> mapVal;
 };
 
 int main()

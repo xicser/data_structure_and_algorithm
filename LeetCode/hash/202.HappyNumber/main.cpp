@@ -7,34 +7,33 @@ class Solution {
 public:
     bool isHappy(int n) {
 
-        unordered_set<int> valueSet;
-        while (1) {
+        unordered_set<int> s;
 
+        while (1) {
             int sum = calSum(n);
             n = sum;
             if (sum == 1) {
                 return true;
             }
 
-            if (valueSet.find(sum) != valueSet.end()) {
-                return false;
+            if (s.count(sum) == 0) {
+                s.insert(sum);
             }
             else {
-                valueSet.insert(sum);
+                return false;
             }
         }
     }
 
 private:
+    //计算n这个数每一位的平方和
     int calSum(int n) {
-
-        if (n == 0) {
-            return 0;
-        }
-
         int sum = 0;
-        while (n != 0) {
-            sum += (n % 10) * (n % 10);
+
+        while (n) {
+            int bit = n % 10;
+            sum += bit * bit;
+
             n /= 10;
         }
 

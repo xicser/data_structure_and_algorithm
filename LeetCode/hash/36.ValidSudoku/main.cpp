@@ -14,11 +14,9 @@ public:
         vector< unordered_set<char> > colSet(9);
         vector< unordered_set<char> > boxSet(9);
 
-        int globalIndex = -1;
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
 
-                globalIndex++;
                 char value = board[i][j];
                 if (value == '.') {
                     continue;
@@ -41,7 +39,7 @@ public:
                 }
 
                 //块
-                int boxIndex = getBoxIndex(globalIndex);
+                int boxIndex = getBoxIndex(i, j);
                 if (boxSet[boxIndex].find(value) == boxSet[boxIndex].end()) {
                     boxSet[boxIndex].insert(value);
                 }
@@ -54,17 +52,42 @@ public:
         return true;
     }
 
-    //根据全局索引计算box索引
-    int getBoxIndex(int globalIndex) {
+    //根据行列索引索引计算box索引
+    int getBoxIndex(int row, int col) {
 
-        //先计算行索引
-        int boxRowIndex = globalIndex / 27;
-
-        //再计算列索引
-        int rowIndex = globalIndex / 9;
-        int colIndex = (globalIndex - rowIndex * 9) / 3;
-
-        return boxRowIndex * 3 + colIndex;
+        if (0 <= row && row <= 2) {
+            if (0 <= col && col <= 2) {
+                return 0;
+            }
+            else if (3 <= col && col <= 5) {
+                return 1;
+            }
+            else {
+                return 2;
+            }
+        }
+        else if (3 <= row && row <= 5) {
+            if (0 <= col && col <= 2) {
+                return 3;
+            }
+            else if (3 <= col && col <= 5) {
+                return 4;
+            }
+            else {
+                return 5;
+            }
+        }
+        else {
+            if (0 <= col && col <= 2) {
+                return 6;
+            }
+            else if (3 <= col && col <= 5) {
+                return 7;
+            }
+            else {
+                return 8;
+            }
+        }
     }
 };
 

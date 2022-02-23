@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <vector>
+#include <unordered_map>
 
 using namespace std;
 
@@ -8,23 +8,16 @@ class Solution {
 public:
     bool canConstruct(string ransomNote, string magazine) {
 
-        vector<int> times(26, 0);
-
-        for (int i = 0; i < ransomNote.size(); i++) {
-            times[ransomNote[i] - 'a']++;
+        unordered_map<char, int> magMap;
+        for (char c : magazine) {
+            magMap[c]++;
         }
 
-        for (int i = 0; i < magazine.size(); i++) {
-
-            //只判断ransomNote里面出现过的字母
-            if (times[magazine[i] - 'a'] != 0) {
-                times[magazine[i] - 'a']--;
+        for (char c : ransomNote) {
+            if (magMap[c] > 0) {
+                magMap[c]--;
             }
-        }
-
-
-        for (int i = 0; i < 26; i++) {
-            if (times[i] != 0) {
+            else {
                 return false;
             }
         }

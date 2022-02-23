@@ -13,12 +13,7 @@ public:
         // 先统计nums1和nums2里面每种 a + b 的结果出现的次数
         for (int a : nums1) {
             for (int b : nums2) {
-                if (mapSumCount.find(a + b) != mapSumCount.end()) {
-                    mapSumCount[ a + b ]++;
-                }
-                else {
-                    mapSumCount[ a + b ] = 1;
-                }
+                mapSumCount[ a + b ]++;
             }
         }
 
@@ -26,8 +21,8 @@ public:
         //再统计nums3和nums4里面每种 == 0 - (c + d) 的
         for (int c : nums3) {
             for (int d : nums4) {
-                if (mapSumCount.find( 0 - (c + d) ) != mapSumCount.end()) {
-                    cnt += mapSumCount[ 0 - (c + d) ];
+                if (mapSumCount.count(0 - (c + d)) != 0) {
+                    cnt += mapSumCount[0 - (c + d)];
                 }
             }
         }

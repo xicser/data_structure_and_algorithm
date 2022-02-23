@@ -6,6 +6,7 @@
 
 using namespace std;
 
+
 class Solution {
 private:
     typedef struct Node_t {

@@ -8,22 +8,22 @@ class Solution {
 public:
     bool containsNearbyDuplicate(vector<int>& nums, int k) {
 
-        //滑动窗口
         unordered_set<int> winSet;
 
-        for (int i = 0; i < nums.size(); i++) {
+        int left = 0, right = 0;
 
-            //count查询winSet是否存在nums[i]
-            if (!winSet.count(nums[i])) {
-                winSet.insert(nums[i]);
-            }
-            else {
+        while (right < nums.size()) {
+
+            if (winSet.count(nums[right]) != 0) {
                 return true;
             }
 
-            //窗口超范围了, 去除窗口最开始那个元素
-            if (winSet.size() > k) {
-                winSet.erase(nums[i - k]);
+            winSet.insert(nums[right]);
+            right++;
+
+            if (right - left == k + 1) {
+                winSet.erase(nums[left]);
+                left++;
             }
         }
 
