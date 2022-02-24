@@ -12,18 +12,16 @@ public:
         }
 
         string result;
-        int Tlen = numRows + (numRows - 2);     //周期长度2n - 2
-        int Tcnt = s.size() / Tlen + 1;         //周期个数
-        int index;
 
-        //遍历每一行
-        for (int i = 0; i < numRows; i++) {
+        int Tlen = 2 * numRows - 2;
+        int Tcnt = s.size() / Tlen + 1;
 
-            //第一行和最后一行
-            if (i == 0 || i == numRows - 1) {
-                //遍历周期个数
-                for (int j = 0; j < Tcnt; j++) {
-                    index = i + j * Tlen;
+        for (int row = 0; row < numRows; row++) {
+
+            //第一行 和 最后一行
+            if (row == 0 || row == numRows - 1) {
+                for (int t = 0; t < Tcnt; t++) {
+                    int index = row + Tlen * t;
                     if (index < s.size()) {
                         result.push_back(s[index]);
                     }
@@ -31,19 +29,15 @@ public:
             }
             //中间的行
             else {
-                int indexLeft = i;
-                int indexRight = 2 * numRows - 2 - i;
+                for (int t = 0; t < Tcnt; t++) {
+                    int indexLeft = row + Tlen * t;
+                    int indexRight = Tlen - row + Tlen * t;
 
-                //遍历周期个数
-                for (int j = 0; j < Tcnt; j++) {
-                    int index1 = indexLeft + j * Tlen;
-                    int index2 = indexRight + j * Tlen;
-
-                    if (index1 < s.size()) {
-                        result.push_back(s[index1]);
+                    if (indexLeft < s.size()) {
+                        result.push_back(s[indexLeft]);
                     }
-                    if (index2 < s.size()) {
-                        result.push_back(s[index2]);
+                    if (indexRight < s.size()) {
+                        result.push_back(s[indexRight]);
                     }
                 }
             }

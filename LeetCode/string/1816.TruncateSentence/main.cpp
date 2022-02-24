@@ -3,6 +3,7 @@
 
 using namespace std;
 
+
 //s = "Hello how are you Contestant ", k = 4
 class Solution {
 public:

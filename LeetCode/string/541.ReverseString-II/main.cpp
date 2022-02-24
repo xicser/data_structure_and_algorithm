@@ -3,12 +3,13 @@
 
 using namespace std;
 
+//s = "abcd efg", k = 2
 class Solution {
 public:
     string reverseStr(string s, int k) {
 
         for (int i = 0; i < s.size(); ) {
-            reverseSubStr(s, i, i + k - 1);
+            reverseString(s, i, i + k - 1);
             i += 2 * k;
         }
 
@@ -16,20 +17,21 @@ public:
     }
 
 private:
-    void reverseSubStr(string &s, int i, int j) {
+    void reverseString(string& str, int i, int j) {
 
-        if (j >= s.size()) {
-            j = s.size() - 1;
+        if (j >= str.size()) {
+            j = str.size() - 1;
         }
 
-        while (i <= j) {
-            char tmpC = s[i];
-            s[i] = s[j];
-            s[j] = tmpC;
+        while (i < j) {
+            char tmp = str[i];
+            str[i] = str[j];
+            str[j] = tmp;
 
             i++;
             j--;
         }
+
     }
 };
 
