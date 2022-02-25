@@ -17,38 +17,24 @@ public:
         if (head == nullptr) {
             return nullptr;
         }
-        if (head->next == nullptr) {
-            if (head->val == val) {
-                delete head;
-                return nullptr;
-            }
-            else {
-                return head;
-            }
-        }
 
-        ListNode* pPrev = head;
-        ListNode* pCur = head->next;
+        ListNode dummy(-1, head);
+        ListNode* pPrev = &dummy;
+        ListNode* pCur = head;
         while (pCur != nullptr) {
-
             if (pCur->val == val) {
-                pPrev->next = pCur->next;
+                ListNode* next = pCur->next;
                 delete pCur;
-                pCur = pPrev->next;
+                pPrev->next = next;
+                pCur = next;
             }
             else {
-                pPrev = pCur;
+                pPrev = pPrev->next;
                 pCur = pCur->next;
             }
         }
 
-        if (head->val == val) {
-            ListNode* headNext = head->next;
-            delete head;
-            return headNext;
-        }
-
-        return head;
+        return dummy.next;
     }
 };
 

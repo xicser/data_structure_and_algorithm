@@ -40,16 +40,17 @@ public:
             int valResult = pCur1->val + pCur2->val + carry;
 
             //头插法
-            ListNode* newNode = new ListNode(valResult % 10);
+            ListNode* newNode = new ListNode(valResult % 10);  //个位数
             newNode->next = pNew;
             pNew = newNode;
 
-            carry = valResult / 10;
+            carry = valResult / 10;  //进位
 
             pCur1 = pCur1->next;
             pCur2 = pCur2->next;
         }
 
+        //判断谁走到末尾
         ListNode* pCur;
         if (pCur1 == nullptr) {
             pCur = pCur2;

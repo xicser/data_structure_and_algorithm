@@ -25,7 +25,6 @@ public:
 
         int val1 = l1->val;
         int val2 = l2->val;
-
         if (val1 < val2) {
             l1->next = mergeTwoLists(l1->next, l2);
             return l1;

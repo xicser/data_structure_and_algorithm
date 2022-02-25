@@ -19,27 +19,33 @@ public:
             return nullptr;
         }
 
-        ListNode* odd = head;   //指向第一个
-        ListNode* even = head->next, *evenOrigin = head->next;  //指向第二个
+        int cnt = 1;
+        ListNode* pCur = head;
 
-        while (odd != nullptr && even != nullptr) {
-            odd->next = even->next;
-            if (odd->next == nullptr) {
-                odd->next = evenOrigin;
-                even->next = nullptr;
-                break;
+        ListNode listOdd, *pOdd;           //奇数
+        ListNode listEven, *pEven;         //偶数
+        pOdd = &listOdd;
+        pEven = &listEven;
+        while (pCur != nullptr) {
+
+            //奇数
+            if (cnt % 2 != 0) {
+                pOdd->next = pCur;
+                pOdd = pCur;
+            }
+            //偶数
+            else {
+                pEven->next = pCur;
+                pEven = pCur;
             }
 
-            even->next = even->next->next;
-            if (even->next == nullptr) {
-                odd = odd->next;
-                odd->next = evenOrigin;
-                break;
-            }
-
-            odd = odd->next;
-            even = even->next;
+            cnt++;
+            pCur = pCur->next;
         }
+
+        //连接起来
+        pOdd->next = listEven.next;
+        pEven->next = nullptr;
 
         return head;
     }

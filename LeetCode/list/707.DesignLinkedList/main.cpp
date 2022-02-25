@@ -3,14 +3,34 @@
 using namespace std;
 
 class MyLinkedList {
+private:
+    typedef struct Node_t {
+        int val;
+        Node_t *next, *prev;
+        Node_t(int _val) {
+            val = _val;
+        }
+    } Node_t;
+
+    Node_t* fakeHead, *fakeTail;
+    int listLen;
+
 public:
     MyLinkedList() {
         this->fakeHead = new Node_t(-1);
-        this->fakeHead->next = nullptr;
+        this->fakeTail = new Node_t(-1);
+
+        this->fakeHead->next = fakeTail;
+        this->fakeHead->prev = nullptr;
+
+        this->fakeTail->prev = fakeHead;
+        this->fakeTail->next = nullptr;
+
         this->listLen = 0;
     }
     ~MyLinkedList() {
         delete this->fakeHead;
+        delete this->fakeTail;
     }
 
     int get(int index) {
@@ -34,38 +54,26 @@ public:
 
     void addAtHead(int val) {
         Node_t* newNode = new Node_t(val);
-        newNode->next = fakeHead->next;
+        Node_t* next = fakeHead->next;
+
         fakeHead->next = newNode;
+        newNode->prev = fakeHead;
+        newNode->next = next;
+        next->prev = newNode;
+
         this->listLen++;
     }
 
     void addAtTail(int val) {
+        Node_t* newNode = new Node_t(val);
+        Node_t* prev = fakeTail->prev;
 
-        Node_t* pCur = fakeHead->next;
+        prev->next = newNode;
+        newNode->prev = prev;
+        newNode->next = fakeTail;
+        fakeTail->prev = newNode;
 
-        while (pCur != nullptr) {
-
-            Node_t* pNext = pCur->next;
-            if (pNext == nullptr) {
-                break;
-            }
-            else {
-                pCur = pCur->next;
-            }
-        }
-
-        if (pCur != nullptr) {
-            Node_t* newNode = new Node_t(val);
-            newNode->next = nullptr;
-            pCur->next = newNode;
-            this->listLen++;
-        }
-        else {
-            Node_t* newNode = new Node_t(val);
-            newNode->next = fakeHead->next;
-            fakeHead->next = newNode;
-            this->listLen++;
-        }
+        this->listLen++;
     }
 
     void addAtIndex(int index, int val) {
@@ -83,19 +91,21 @@ public:
         }
 
         int pos = 0;
-        Node_t* prev = fakeHead;
         Node_t* pCur = fakeHead->next;
         while (pCur != nullptr) {
 
             if (pos == index) {
                 Node_t* newNode = new Node_t(val);
-                newNode->next = pCur;
+                Node_t* prev = pCur->prev;
                 prev->next = newNode;
+                newNode->prev = prev;
+                newNode->next = pCur;
+                pCur->prev = newNode;
+
                 this->listLen++;
                 return;
             }
             pos++;
-            prev = pCur;
             pCur = pCur->next;
         }
     }
@@ -106,19 +116,21 @@ public:
         }
 
         int pos = 0;
-        Node_t* prev = fakeHead;
         Node_t* pCur = fakeHead->next;
         while (pCur != nullptr) {
 
             if (pos == index) {
-                Node_t* nodeNext = pCur->next;
+                Node_t* prev = pCur->prev;
+                Node_t* next = pCur->next;
                 delete pCur;
-                prev->next = nodeNext;
+
+                prev->next = next;
+                next->prev = prev;
+
                 this->listLen--;
                 return;
             }
             pos++;
-            prev = pCur;
             pCur = pCur->next;
         }
     }
@@ -131,18 +143,6 @@ public:
         }
         cout << endl;
     }
-
-private:
-    typedef struct Node_t {
-        int val;
-        Node_t *next;
-        Node_t(int _val) {
-            val = _val;
-        }
-    } Node_t;
-
-    Node_t* fakeHead;
-    int listLen;
 };
 
 int main()

@@ -13,23 +13,27 @@ struct ListNode {
 
 class Solution {
 private:
-    //获取链表长度
-    int getListLen(ListNode* head) {
-        int len = 0;
-
-        while (head != nullptr) {
-            len++;
-            head = head->next;
+    //获取链表长度, 并返回最后一个节点的地址
+    ListNode* getListLen(ListNode* head, int* len) {
+        *len = 0;
+        ListNode* pCur = head;
+        ListNode* last;
+        while (pCur != nullptr) {
+            (*len)++;
+            pCur = pCur->next;
+            if (pCur != nullptr && pCur->next == nullptr) {
+                last = pCur;
+            }
         }
 
-        return len;
+        return last;
     }
 public:
     ListNode* rotateRight(ListNode* head, int k) {
 
-        ListNode* oldHead = head;
-        ListNode* newHead;
-        int len = getListLen(head);
+        int len;
+        ListNode* lastNode = getListLen(head, &len);
+
         if (len == 0) {
             return nullptr;
         }
@@ -43,28 +47,17 @@ public:
             return head;
         }
 
-        int preCnt = len - k;
-        int curCnt = 0;
-        while (head != nullptr) {
-            curCnt++;
-            if (curCnt == preCnt) {
-                newHead = head->next;
-                head->next = nullptr;
-                break;
-            }
-            head = head->next;
-        }
+        //链表首尾相连
+        lastNode->next = head;
 
-        ListNode* pCur = newHead;
-        while (pCur != nullptr) {
-            //最后一个节点
-            if (pCur->next == nullptr) {
-                //最后一个节点指向头节点
-                pCur->next = oldHead;
-                break;
-            }
+        int preCnt = len - k - 1;
+        ListNode* pCur = head;
+        while (preCnt != 0) {
             pCur = pCur->next;
+            preCnt--;
         }
+        ListNode* newHead = pCur->next;
+        pCur->next = nullptr;
 
         return newHead;
     }

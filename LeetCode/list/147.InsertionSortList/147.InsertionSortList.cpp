@@ -3,6 +3,7 @@
 
 using namespace std;
 
+
 struct ListNode {
     int val;
     ListNode *next;
@@ -28,7 +29,7 @@ public:
         ListNode dummy(-9999, head);  //伪头节点(默认值最小)
 
         ListNode* pTail = head;
-        while (pTail != nullptr && pTail->next != nullptr) {
+        while (pTail->next != nullptr) {  //如果pTail->next == nullptr, 表示tail当前指向最后一个, 即所有节点都有序了
 
             ListNode* pNextSave = pTail->next;
             int val = pNextSave->val;

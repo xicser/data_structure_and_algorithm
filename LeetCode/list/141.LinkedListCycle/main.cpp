@@ -1,7 +1,7 @@
 #include <iostream>
-#include <unordered_set>
 
 using namespace std;
+
 
 struct ListNode {
     int val;
@@ -13,22 +13,24 @@ class Solution {
 public:
     bool hasCycle(ListNode *head) {
 
-        unordered_set<ListNode *> nodeSet;
-
-        ListNode *pCur = head;
-        while (pCur != nullptr) {
-
-            if (nodeSet.find(pCur) != nodeSet.end()) {
-                return true;
-            }
-            else {
-                nodeSet.insert(pCur);
-            }
-
-            pCur = pCur->next;
+        //空链表, 或者只有一个节点的链表
+        if (head == nullptr || head->next == nullptr) {
+            return false;
         }
 
-        return false;
+        ListNode* slow = head->next;
+        ListNode* fast = head->next->next;
+        while (slow != fast) {
+
+            if (fast == nullptr || fast->next == nullptr || fast->next->next == nullptr) {
+                return false;
+            }
+
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+
+        return true;
     }
 };
 

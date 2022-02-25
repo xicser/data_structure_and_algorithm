@@ -25,11 +25,11 @@ public:
             head->next = deleteDuplicates(head->next);
         }
         else {
-            ListNode* move = head;
-            while (move->next != nullptr && move->val == move->next->val) {
+            ListNode* move = head->next;
+            while (move != nullptr && move->val == head->val) {
                 move = move->next;
             }
-            return deleteDuplicates(move);
+            head->next = deleteDuplicates(move);
         }
 
         return head;
