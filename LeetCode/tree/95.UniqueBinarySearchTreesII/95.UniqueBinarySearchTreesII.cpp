@@ -11,38 +11,38 @@ struct TreeNode {
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
-
+// 1 2 3 4 5 6 7
 class Solution {
 private:
-    //函数含义：获取区间[start, end]之间，能构成二叉搜索树的集合
     vector<TreeNode*> buildTree(int start, int end) {
 
         if (start > end) {
             return { nullptr };
         }
-        if (start == end) {
-            TreeNode* rootNode = new TreeNode(start);
-            rootNode->left = rootNode->right = nullptr;
-            return { rootNode };
+
+        if (end == start) {
+            return { new TreeNode(start, nullptr, nullptr) };
         }
 
-        vector<TreeNode*> resultTrees;
+        vector<TreeNode*> result;
         for (int pos = start; pos <= end; pos++) {
-            vector<TreeNode*> leftTrees = buildTree(start, pos - 1);   //获取左侧子区间的树
-            vector<TreeNode*> rightTrees = buildTree(pos + 1, end);    //获取右侧子区间的树
 
-            //两两相乘获取所有的结果
-            for (int i = 0; i < leftTrees.size(); i++) {
-                for (int j = 0; j < rightTrees.size(); j++) {
-                    TreeNode* rootNode = new TreeNode(pos);
-                    rootNode->left = leftTrees[i];
-                    rootNode->right = rightTrees[j];
-                    resultTrees.push_back(rootNode);
+            vector<TreeNode*> resultLeft = buildTree(start, pos - 1);
+            vector<TreeNode*> resultRight = buildTree(pos + 1, end);
+
+            //构造
+            for (auto treeLeft : resultLeft) {
+                for (auto treeRight : resultRight) {
+                    TreeNode* root = new TreeNode(pos);
+                    root->left = treeLeft;
+                    root->right = treeRight;
+
+                    result.push_back(root);
                 }
             }
         }
 
-        return resultTrees;
+        return result;
     }
 public:
     vector<TreeNode*> generateTrees(int n) {
@@ -62,7 +62,7 @@ public:
 int main()
 {
     Solution sol;
-    vector<TreeNode*> result = sol.generateTrees(3);
+    vector<TreeNode*> result = sol.generateTrees(9);
     for (int i = 0; i < result.size(); i++) {
         sol.printTree(result[i]);
         cout << endl;

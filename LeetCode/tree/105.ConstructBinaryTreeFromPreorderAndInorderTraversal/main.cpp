@@ -13,52 +13,47 @@ struct TreeNode {
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
+//preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]
 class Solution {
 public:
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        int inSize = inorder.size();
-        int preSize = preorder.size();
 
-        if (inSize == 0 || preSize == 0) {
+        if (preorder.size() == 0) {
             return nullptr;
         }
-        if (inSize == 1 || preSize == 1) {
-            TreeNode *root = new TreeNode(inorder[0]);
-            root->left = nullptr;
-            root->right = nullptr;
-            return root;
+        if (preorder.size() == 1) {
+            return new TreeNode(preorder[0], nullptr, nullptr);
         }
 
-        int preFirst = preorder[0];
-        int rootIndex = findElemtIndex(inorder, preFirst);
+        int pre = preorder[0];
+        int index = findElemInOrder(inorder, pre);
 
-        //切割中序数组
-        vector<int> inArrayLeft(inorder.begin(), inorder.begin() + rootIndex);
-        vector<int> inArrayRight(inorder.begin() + rootIndex + 1, inorder.end());
+        TreeNode* root = new TreeNode(pre);
 
-        //切割先序数组
-        vector<int> preArrayLeft(preorder.begin() + 1, preorder.begin() + 1 + inArrayLeft.size());
-        vector<int> preArrayRight(preorder.begin() + 1 + inArrayLeft.size(), preorder.end());
+        //切割先序
+        vector<int> preLeft(preorder.begin() + 1, preorder.begin() + index + 1);
+        vector<int> preRight(preorder.begin() + index + 1, preorder.end());
 
-        //创建根节点
-        TreeNode *root = new TreeNode(inorder[rootIndex]);
-        root->left = buildTree(preArrayLeft, inArrayLeft);
-        root->right = buildTree(preArrayRight, inArrayRight);
+        //切割中序
+        vector<int> inLeft(inorder.begin(), inorder.begin() + index);
+        vector<int> inRight(inorder.begin() + index + 1, inorder.end());
+
+        root->left = buildTree(preLeft, inLeft);
+        root->right = buildTree(preRight, inRight);
 
         return root;
     }
 
 private:
-    //查找val在数组array中的下标
-    int findElemtIndex(vector<int>& array, int val) {
-
-        for (unsigned int i = 0; i < array.size(); i++) {
-            if (array[i] == val) {
+    //在inorder中查找val的位置
+    int findElemInOrder(vector<int>& inorder, int val) {
+        for (int i = 0; i < inorder.size(); i++) {
+            if (inorder[i] == val) {
                 return i;
             }
         }
 
-        return array[array.size() - 1];
+        return -1;
     }
 };
 

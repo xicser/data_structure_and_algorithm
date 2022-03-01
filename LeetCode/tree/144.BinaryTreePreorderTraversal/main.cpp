@@ -1,4 +1,6 @@
 #include <iostream>
+#include <stack>
+#include <vector>
 
 using namespace std;
 
@@ -15,23 +17,31 @@ struct TreeNode {
 class Solution {
 public:
     vector<int> preorderTraversal(TreeNode* root) {
-        process(root);
-        return result;
-    }
-
-private:
-    void process(TreeNode* root) {
 
         if (root == nullptr) {
-            return;
+            return {};
+        }
+        vector<int> result;
+        stack<TreeNode*> stk;
+
+        TreeNode* pCur = root;
+        stk.push(pCur);
+
+        while (stk.empty() == false) {
+            pCur = stk.top();
+            result.push_back(pCur->val);
+            stk.pop();
+
+            if (pCur->right != nullptr) {
+                stk.push(pCur->right);
+            }
+            if (pCur->left != nullptr) {
+                stk.push(pCur->left);
+            }
         }
 
-        result.push_back(root->val);
-        process(root->left);
-        process(root->right);
+        return result;
     }
-
-    vector<int> result;
 };
 
 int main()

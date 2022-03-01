@@ -11,14 +11,14 @@ struct TreeNode {
 
 class Solution {
 private:
-
-    //判断一棵树root，是否为全是0的树
+    //判断一棵树root，是否为全是0的树，同时剪枝
     bool process(TreeNode* root) {
+        
         if (root == nullptr) {
             return true;
         }
-        int val = root->val;
 
+        int val = root->val;
         bool left = process(root->left);
         bool right = process(root->right);
 
@@ -29,13 +29,14 @@ private:
             root->right = nullptr;
         }
 
-        //左右子树均为0, 且当前节点也是0, 则整个子树都是全0
-        if (val == 0 && left == true && right == true) {
+        //左右子树均全为0且当前根节点的值为0, 则表明本树也是全为0的树
+        if (left == true && right == true && val == 0) {
             return true;
         }
 
         return false;
     }
+
 public:
     TreeNode* pruneTree(TreeNode* root) {
         return process(root) == true ? nullptr : root;

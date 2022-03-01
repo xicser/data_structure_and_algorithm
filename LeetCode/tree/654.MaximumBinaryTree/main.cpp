@@ -20,31 +20,32 @@ public:
     }
 
 private:
+    TreeNode* process(vector<int>& nums, int left, int right) {
 
-    TreeNode* process(vector<int>& nums, int s, int e) {
-
-        if (e < s) {
+        if (left > right) {
             return nullptr;
         }
 
-        int maxIndex = findMaxIndex(nums, s, e);
+        if (left == right) {
+            return new TreeNode(nums[left], nullptr, nullptr);
+        }
+
+        int maxIndex = findMaxNumIndex(nums, left, right);
 
         TreeNode* root = new TreeNode(nums[maxIndex]);
-
-        root->left = process(nums, s, maxIndex - 1);
-        root->right = process(nums, maxIndex + 1, e);
+        root->left = process(nums, left, maxIndex - 1);
+        root->right = process(nums, maxIndex + 1, right);
 
         return root;
     }
 
+    int findMaxNumIndex(vector<int>& nums, int left, int right) {
 
-    int findMaxIndex(vector<int>& nums, int start, int end) {
-
-        int max = nums[start];
-        int index = start;
-        for (int i = start + 1; i <= end; i++) {
-            if (max < nums[i]) {
-                max = nums[i];
+        int maxVal = INT_MIN;
+        int index;
+        for (int i = left; i <= right; i++) {
+            if (nums[i] > maxVal) {
+                maxVal = nums[i];
                 index = i;
             }
         }
@@ -66,7 +67,7 @@ void traverse(TreeNode *root)
 
 int main()
 {
-    vector<int> nums = {3,2,1,6,0,5};
+    vector<int> nums = {3,2,1};
     Solution sol;
     TreeNode* root = sol.constructMaximumBinaryTree(nums);
 

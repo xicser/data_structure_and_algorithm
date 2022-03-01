@@ -1,8 +1,9 @@
 #include <iostream>
 #include <vector>
+#include <stack>
+#include <stdio.h>
 
 using namespace std;
-
 
 struct TreeNode {
     int val;
@@ -29,13 +30,26 @@ public:
     }
 
     void process(TreeNode* root) {
+
         if (root == nullptr) {
             return;
         }
 
-        process(root->left);
-        nums.push_back(root->val);
-        process(root->right);
+        stack<TreeNode* > stk;
+        TreeNode* pCur = root;
+        while (pCur || !stk.empty()) {
+            if (pCur) {
+                stk.push(pCur);
+                pCur = pCur->left;
+            }
+            else {
+                pCur = stk.top();
+                stk.pop();
+                printf("%d ", pCur->val);
+                nums.push_back(pCur->val);
+                pCur = pCur->right;
+            }
+        }
     }
 
 private:

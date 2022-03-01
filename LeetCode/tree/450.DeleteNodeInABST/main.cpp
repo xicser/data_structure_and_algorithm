@@ -15,33 +15,41 @@ struct TreeNode {
 class Solution {
 public:
     TreeNode* deleteNode(TreeNode* root, int key) {
-        process(root, key);
+        processDelete(root, key);
         return root;
     }
 
 private:
 
-    //找到root树中, 中序遍历下根节点在的前驱
-    TreeNode* findPrev(TreeNode* root) {
-        TreeNode* node = root->left;
-        while (node->right != nullptr) {
-            node = node->right;
+    //寻找中序遍历中, node节点的前一个元素
+    TreeNode* findInorderPrevNode(TreeNode* node) {
+        TreeNode* pCur = node;
+        while (1) {
+            if (pCur->right == nullptr) {
+                break;
+            }
+            pCur = pCur->right;
         }
-        return node;
+
+        return pCur;
     }
 
-    //找到root树中, 中序遍历下根节点在的后继
-    TreeNode* findNext(TreeNode* root) {
-        TreeNode* node = root->right;
-        while (node->left != nullptr) {
-            node = node->left;
+    //寻找中序遍历中, node节点的后一个元素
+    TreeNode* findInorderNextNode(TreeNode* node) {
+        TreeNode* pCur = node;
+        while (1) {
+            if (pCur->left == nullptr) {
+                break;
+            }
+            pCur = pCur->left;
         }
-        return node;
+
+        return pCur;
     }
 
-    void process(TreeNode*& root, int val) {
+    void processDelete(TreeNode*& root, int val) {
 
-        //待删除的节点不存在
+        //待删除的元素不存在
         if (root == nullptr) {
             return;
         }
@@ -49,34 +57,27 @@ private:
         //找到了
         if (root->val == val) {
 
-            //如果是叶子节点
+            //叶子节点, 可以直接删
             if (root->left == nullptr && root->right == nullptr) {
-                //直接删
                 delete root;
                 root = nullptr;
             }
-            //左子树不为空
             else if (root->left != nullptr) {
-                TreeNode* prev = findPrev(root);
+                TreeNode* prev = findInorderPrevNode(root->left);
                 root->val = prev->val;
-
-                //在左子树中删除prev节点
-                process(root->left, prev->val);
+                processDelete(root->left, prev->val);
             }
-            //右子树不为空
             else {
-                TreeNode* next = findNext(root);
+                TreeNode* next = findInorderNextNode(root->right);
                 root->val = next->val;
-
-                //在右子树中删除next节点
-                process(root->right, next->val);
+                processDelete(root->right, next->val);
             }
         }
         else if (root->val > val) {
-            process(root->left, val);
+            processDelete(root->left, val);
         }
         else {
-            process(root->right, val);
+            processDelete(root->right, val);
         }
     }
 };

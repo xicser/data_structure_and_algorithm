@@ -30,17 +30,16 @@ private:
     int equalCnt;
 
     void find(TreeNode* root, int val) {
-
-        if (val == this->targetSum) {
-            this->equalCnt++;
+        if (root == nullptr) {
+            return;
         }
 
-        if (root->left != nullptr) {
-            find(root->left, root->left->val + val);
+        val += root->val;
+        if (val == targetSum) {
+            equalCnt++;
         }
-        if (root->right != nullptr) {
-            find(root->right, root->right->val + val);
-        }
+        find(root->left, val);
+        find(root->right, val);
     }
 
 public:
@@ -51,7 +50,7 @@ public:
         this->equalCnt = 0;
 
         for (int i = 0; i < nodes.size(); i++) {
-            find(nodes[i], nodes[i]->val);
+            find(nodes[i], 0);
         }
 
         return this->equalCnt;

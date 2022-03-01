@@ -18,35 +18,31 @@ public:
     vector<TreeNode*> allPossibleFBT(int n) {
 
         if (n % 2 == 0) {
-            return {};
+            return { };
         }
-
-        //如果只有一个节点, 那么直接new出来就行了
         if (n == 1) {
             return { new TreeNode(0, nullptr, nullptr) };
         }
 
         vector<TreeNode*> result;
+        int leftNodeCnt = 1;
+        while (leftNodeCnt <= n - 2) {
+            int rightNodeCnt = n - 1 - leftNodeCnt;
 
-        int leftCnt = 1;
-        while (leftCnt <= n - 2)   //以此遍历节点个数, 从小到大
-        {
-            int rightCnt = n - leftCnt - 1;
-            vector<TreeNode*> leftTrees = allPossibleFBT(leftCnt);      //构建左子树的列表
-            vector<TreeNode*> rightTrees = allPossibleFBT(rightCnt);    //构建右子树的列表
+            vector<TreeNode*> leftTrees = allPossibleFBT(leftNodeCnt);
+            vector<TreeNode*> rightTrees = allPossibleFBT(rightNodeCnt);
 
-            for (int i = 0; i < leftTrees.size(); i++) {
-                for (int j = 0; j < rightTrees.size(); j++) {
-                    TreeNode* rootNode = new TreeNode(0);
-                    rootNode->left = leftTrees[i];
-                    rootNode->right = rightTrees[j];
+            for (TreeNode* treeLeft : leftTrees) {
+                for (TreeNode* treeRight : rightTrees) {
+                    TreeNode* node = new TreeNode(0);
+                    node->left = treeLeft;
+                    node->right = treeRight;
 
-                    result.push_back(rootNode);
+                    result.push_back(node);
                 }
             }
 
-            //+2, 因为奇数节点不可能创建满二叉树
-            leftCnt += 2;
+            leftNodeCnt += 2;
         }
 
         return result;

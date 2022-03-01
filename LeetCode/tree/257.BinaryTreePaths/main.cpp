@@ -27,13 +27,16 @@ public:
             return;
         }
 
+        //叶子节点
         if (root->left == nullptr && root->right == nullptr) {
-            path += (to_string(root->val));
+            //收集路径
+            path += to_string(root->val);
             vec.push_back(path);
             return;
         }
 
-        path += (to_string(root->val) + "->" );
+        path += to_string(root->val);
+        path += "->";
 
         process(root->left, path);
         process(root->right, path);

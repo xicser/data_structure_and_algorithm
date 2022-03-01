@@ -1,8 +1,8 @@
 #include <iostream>
 #include <vector>
+#include <stack>
 
 using namespace std;
-
 
 struct TreeNode {
     int val;
@@ -16,23 +16,28 @@ struct TreeNode {
 class Solution {
 public:
     vector<int> inorderTraversal(TreeNode* root) {
-        process(root);
-        return result;
-    }
 
-private:
-    void process(TreeNode* root) {
+        vector<int> result;
 
-        if (root == nullptr) {
-            return;
+        stack<TreeNode*> stk;
+        TreeNode* pCur = root;
+
+        while (pCur != nullptr || stk.empty() == false) {
+
+            if (pCur != nullptr) {
+                stk.push(pCur);
+                pCur = pCur->left;
+            }
+            else {
+                TreeNode* node = stk.top();
+                stk.pop();
+                result.push_back(node->val);
+                pCur = node->right;
+            }
         }
 
-        process(root->left);
-        result.push_back(root->val);
-        process(root->right);
+        return result;
     }
-
-    vector<int> result;
 };
 
 int main()

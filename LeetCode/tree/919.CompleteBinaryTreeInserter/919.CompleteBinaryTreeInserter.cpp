@@ -15,64 +15,46 @@ struct TreeNode {
 
 class CBTInserter {
 private:
-    queue<TreeNode *> que;
     TreeNode* root;
 public:
     CBTInserter(TreeNode* root) {
-
         this->root = root;
-        if (root != nullptr) que.push(root);
-
-        while (!que.empty()) {
-
-            int size = que.size();
-            for (int i = 0; i < size; i++) {
-                TreeNode* node = que.front();
-
-                //找到了第一个可以插入的位置(父节点)
-                if (node->left == nullptr || node->right == nullptr) {
-                    return;
-                }
-
-                que.pop();
-
-                if (node->left) que.push(node->left);
-                if (node->right) que.push(node->right);
-            }
-        }
     }
 
     int insert(int val) {
 
-        TreeNode* nodeNew = new TreeNode(val, nullptr, nullptr);
-        TreeNode* nodeParent = que.front();
+        queue<TreeNode *> que;
 
-        if (nodeParent->left == nullptr) {
-            nodeParent->left = nodeNew;
-        }
-        else if (nodeParent->right == nullptr) {
-            nodeParent->right = nodeNew;
+        if (root != nullptr) {
+            que.push(root);
         }
 
-        //继续层序遍历的流程，找到下一个可以插入的位置(父节点)
-        while (!que.empty()) {
-
+        while (que.empty() == false) {
             int size = que.size();
+
             for (int i = 0; i < size; i++) {
                 TreeNode* node = que.front();
-
-                if (node->left == nullptr || node->right == nullptr) {
-                    return nodeParent->val;
-                }
-
                 que.pop();
 
-                if (node->left) que.push(node->left);
-                if (node->right) que.push(node->right);
+                if (node->left == nullptr) {
+                    node->left = new TreeNode(val, nullptr, nullptr);
+                    return node->val;
+                }
+                if (node->right == nullptr) {
+                    node->right = new TreeNode(val, nullptr, nullptr);
+                    return node->val;
+                }
+
+                if (node->left != nullptr) {
+                    que.push(node->left);
+                }
+                if (node->right != nullptr) {
+                    que.push(node->right);
+                }
             }
         }
 
-        return nodeParent->val;
+        return val;
     }
 
     TreeNode* get_root() {

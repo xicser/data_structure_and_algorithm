@@ -15,28 +15,25 @@ struct TreeNode {
 class Solution {
 public:
     TreeNode* insertIntoBST(TreeNode* root, int val) {
-        this->val = val;
-        process(root);
+
+        process(root, val);
         return root;
     }
 
 private:
-    int val;
-    void process(TreeNode*& root) {
+    void process(TreeNode*& root, int val) {
+
+        //指针为空的位置, 恰好就是要插入的位置
         if (root == nullptr) {
-            TreeNode* node = new TreeNode(val);
-            root = node;
+            root = new TreeNode(val);
             return;
         }
 
-        if (val > root->val) {
-            process(root->right);
-        }
-        else if (val < root->val) {
-            process(root->left);
+        if (root->val > val) {
+            process(root->left, val);
         }
         else {
-            return;
+            process(root->right, val);
         }
     }
 };

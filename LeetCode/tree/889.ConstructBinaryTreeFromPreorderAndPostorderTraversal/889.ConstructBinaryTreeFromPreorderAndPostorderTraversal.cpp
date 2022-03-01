@@ -12,6 +12,7 @@ struct TreeNode {
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
+//preorder = [1,2,4,5,3,6,7], postorder = [4,5,2,6,7,3,1]
 class Solution {
 private:
     //寻找val在array中的位置
@@ -24,40 +25,43 @@ private:
         return -1;
     }
 
-    TreeNode* buildTree(vector<int>& preorder, int preStart, int preEnd,
-                        vector<int>& postorder, int postStart, int postEnd) {
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& postorder) {
 
-        if (preStart == preEnd) {
-            return new TreeNode(preorder[preStart], nullptr, nullptr);
-        }
-        if (preStart > preEnd) {
+        if (preorder.size() == 0) {
             return nullptr;
         }
+        if (preorder.size() == 1) {
+            return new TreeNode(preorder[0], nullptr, nullptr);
+        }
 
-        int rootVal = preorder[preStart];
-        int rootNextVal = preorder[preStart + 1];
+        int rootVal = preorder[0];
+        int rootNextVal = preorder[1];
 
         //寻找根节点下一个元素在后序遍历序列里的位置
         int pos = findPos(postorder, rootNextVal);
-        int len = pos - postStart + 1;
 
         TreeNode* root = new TreeNode(rootVal);
 
+        //切割先序
+        vector<int> leftPre(preorder.begin() + 1, preorder.begin() + 1 + pos + 1);
+        vector<int> rightPre(preorder.begin() + 1 + pos + 1, preorder.end());
+
+        //切割后序
+        vector<int> leftPost(postorder.begin(), postorder.begin() + pos + 1);
+        vector<int> rightPost(postorder.begin() + pos + 1, postorder.end() - 1);
+
         //构造左子树
-        root->left = buildTree(preorder, preStart + 1, preStart + len,
-                               postorder, postStart, pos);
+        root->left = buildTree(leftPre, leftPost);
 
         //构造右子树
-        root->right = buildTree(preorder, preStart + len + 1, preEnd,
-                                postorder, postStart + len, postEnd - 1);
+        root->right = buildTree(rightPre, rightPost);
 
         return root;
     }
 
 public:
     TreeNode* constructFromPrePost(vector<int>& preorder, vector<int>& postorder) {
-        return buildTree(preorder, 0, preorder.size() - 1,
-                         postorder, 0, postorder.size() - 1);
+        return buildTree(preorder, postorder);
     }
 };
 

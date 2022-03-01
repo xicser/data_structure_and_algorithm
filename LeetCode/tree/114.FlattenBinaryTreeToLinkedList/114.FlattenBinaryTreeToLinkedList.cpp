@@ -13,26 +13,26 @@ struct TreeNode {
 class Solution {
 public:
     void flatten(TreeNode* root) {
+        
         while (root != nullptr) {
-            //如果左子树为空, 说明当前根节点已经成链
+
             if (root->left == nullptr) {
-                //则直接进到下一个节点
                 root = root->right;
             }
             else {
-                //先找到左子树的最右侧节点
-                TreeNode* leftTreeRightestNode = root->left;
-                while (leftTreeRightestNode->right != nullptr) {
-                    leftTreeRightestNode = leftTreeRightestNode->right;
+                //得到左子树的最右侧节点
+                TreeNode* nodeRightest = root->left;
+                while (1) {
+                    if (nodeRightest->right == nullptr) {
+                        break;
+                    }
+                    nodeRightest = nodeRightest->right;
                 }
 
-                //把右子树接到左子树最右节点的右边
-                leftTreeRightestNode->right = root->right;
-                
-                //把左子树挪到右子树
+                //右子树接到nodeRightest右侧
+                nodeRightest->right = root->right;
+
                 root->right = root->left;
-                
-                //左子树变成空
                 root->left = nullptr;
 
                 root = root->right;

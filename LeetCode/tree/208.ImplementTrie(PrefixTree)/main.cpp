@@ -80,10 +80,9 @@ public:
     }
 
 private:
-
     typedef struct Node_t {
-        int pass;
-        int end;
+        int pass;           //pass表示有几个string经过过
+        int end;            //end不等于0, 表示有以end结尾的string
         Node_t *nexts[26];  //最多有26个小写英文字母
         Node_t(int _pass, int _end) {
             pass = _pass;
@@ -94,13 +93,11 @@ private:
         }
     } Node_t;
 
-    Node_t root;
+    Node_t root;        //根节点的pass表示当前前缀树中加入了几个string
     vector<Node_t *> allNodes;
 };
 
 int main()
 {
-
-
     return 0;
 }

@@ -38,7 +38,9 @@ public:
                 vec.push_back(node->val);
 
                 for (unsigned int i = 0; i < node->children.size(); i++) {
-                    que.push(node->children[i]);
+                    if (node->children[i] != nullptr) {
+                        que.push(node->children[i]);
+                    }
                 }
             }
             result.push_back(vec);

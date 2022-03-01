@@ -14,6 +14,7 @@ struct TreeNode {
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
+// inorder = [9,3,15,20,7], postorder = [9,15,7,20,3]
 class Solution {
 public:
     TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
@@ -39,16 +40,8 @@ public:
         vector<int> inArrayRight(inorder.begin() + rootIndex + 1, inorder.end());
 
         //切割后序数组
-        vector<int> postArrayLeft(postorder.begin(), postorder.begin() + inArrayLeft.size());
-        vector<int> postArrayRight(postorder.begin() + inArrayLeft.size(), postorder.end() - 1);
-//        for (int i = 0; i < postSize - 1; i++) {
-//            if (isLeft(postorder[i], rootIndex, inorder) == true) {
-//                postArrayLeft.push_back(postorder[i]);
-//            }
-//            else {
-//                postArrayRight.push_back(postorder[i]);
-//            }
-//        }
+        vector<int> postArrayLeft(postorder.begin(), postorder.begin() + rootIndex);
+        vector<int> postArrayRight(postorder.begin() + rootIndex, postorder.end() - 1);
 
         //创建根节点
         TreeNode *root = new TreeNode(inorder[rootIndex]);
@@ -68,19 +61,7 @@ private:
             }
         }
 
-        return array[array.size() - 1];
-    }
-
-    //判断elemt是不是在array数组index下标的左边
-    bool isLeft(int elemt, int index, vector<int>& array) {
-
-        for (int i = 0; i < index; i++) {
-            if (elemt == array[i]) {
-                return true;
-            }
-        }
-
-        return false;
+        return -1;
     }
 };
 

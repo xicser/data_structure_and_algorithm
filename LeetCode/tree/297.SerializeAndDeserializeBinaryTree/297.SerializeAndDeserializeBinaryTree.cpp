@@ -65,7 +65,7 @@ private:
     }
 
     //用先序遍历反序列化
-    int index = 0;
+    int index;
     TreeNode* deserializeProcess(vector<int> &result) {
         int val = result[index++];
         if (val == EMPTY_TREE_VAL) {

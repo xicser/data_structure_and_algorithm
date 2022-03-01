@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -16,47 +17,31 @@ class Solution {
 public:
     int sumNumbers(TreeNode* root) {
 
-        backtraking(root);
-        int result = 0;
-
-        for (int pathSum : resultPath) {
-            result += pathSum;
-        }
-
+        result = 0;
+        process(root, "");
         return result;
     }
 
 private:
-    vector<int> resultPath;
-    string path;
-    void backtraking(TreeNode* root) {
+    int result;
+    void process(TreeNode* root, string path) {
 
         if (root == nullptr) {
             return;
         }
 
+        //只有在叶子节点的地方收集结果
         if (root->left == nullptr && root->right == nullptr) {
-            
-            path.push_back(root->val + 48);
-            
-            int pathSum = atoi(path.c_str());
-            //cout << pathSum << endl;
-            resultPath.push_back(pathSum);
-            
-            path.pop_back();
+            string strNum = to_string(root->val);
+            path += strNum;
+            // cout << path << endl;
+            result += atoi(path.c_str());
             return;
         }
 
-        char val = root->val + 48;
-
-        //回溯的流程
-        path.push_back(val);
-        backtraking(root->left);
-        path.pop_back();
-
-        path.push_back(val);
-        backtraking(root->right);
-        path.pop_back();
+        string strNum = to_string(root->val);
+        process(root->left, path + strNum);
+        process(root->right, path + strNum);
     }
 };
 
