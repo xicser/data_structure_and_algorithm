@@ -29,13 +29,13 @@ private:
             return 0;
         }
 
-        //如果已经被访问过
-        if (grid[row][col] != 1) {
+        if (grid[row][col] == 2 ||         //如果已经被访问过
+            grid[row][col] == 0)           //如果是海洋
+        {
             return 0;
         }
 
         grid[row][col] = 2;
-
         int areaUp = getArea(grid, row - 1, col);
         int areaDown = getArea(grid, row + 1, col);
         int areaLeft = getArea(grid, row, col - 1);
