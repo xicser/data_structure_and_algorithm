@@ -27,10 +27,9 @@ public:
         int i = 0, j = 0;  //i指向text, j指向pattern
         while (i < text.size()) {
 
-            //找到一个
-            if (j == pattern.size() - 1 && text[i] == pattern[j]) {
+            if (j == pattern.size() - 1 && pattern[j] == text[i]) {
                 index = i - j;
-                break;  //只用找到一个就行
+                break;
             }
 
             if (text[i] == pattern[j]) {
@@ -38,11 +37,12 @@ public:
                 j++;
             }
             else {
-                if (j != 0) {
-                    j = next[j - 1];
+                //得先找到第一个位置
+                if (j == 0) {
+                    i++;
                 }
                 else {
-                    i++;
+                    j = next[j - 1];
                 }
             }
         }
@@ -53,15 +53,17 @@ public:
 private:
     //计算next数组
     void makeNext(const string &pattern, vector<int> &next) {
-        int len = 0;
+        int len = 0;  //len表示index之前的最长相等前后缀的长度
         next[0] = 0;
         for (int index = 1; index < pattern.size(); index++) {
-            while(len > 0 && pattern[index] != pattern[len]) {
+
+            while (len > 0 && pattern[len] != pattern[index]) {
                 len = next[len - 1];
             }
-            if (pattern[index] == pattern[len]) {
+            if (pattern[len] == pattern[index]) {
                 len++;
             }
+
             next[index] = len;
         }
     }
