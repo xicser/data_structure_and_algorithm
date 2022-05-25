@@ -33,11 +33,13 @@ private:
         int tmp = nums[left];
 
         while (left < right) {
+            //右边的都>主元
             while (left < right && nums[right] > tmp) {
                 right--;
             }
             nums[left] = nums[right];
 
+            //左边的都<=主元
             while (left < right && nums[left] <= tmp) {
                 left++;
             }
@@ -48,15 +50,47 @@ private:
 
         return left;
     }
+
+public:
+    //求第k小的数
+    int minK(vector<int>& nums, int left, int right, int k) {
+
+        if (left == right) {
+            return nums[left];
+        }
+
+        int index = partition(nums, left, right);
+        
+        //index + 1表示当前位置(含)之前一共有几个数
+        int leftCnt = index - left + 1;
+
+        //index的位置恰好是第k小的数
+        if (leftCnt == k) {
+            return nums[index];
+        }
+        else if (leftCnt > k) {
+            //在左侧找第k小的数
+            return minK(nums, left, index - 1, k);
+        }
+        else {
+            //在右侧找找(k - index - 1)小的数
+            return minK(nums, index + 1, right, k - index - 1);
+        }
+    }
 };
 
 int main()
 {
     Solution sol;
-    vector<int> nums = { 5,1,1,2,0,0 };
-    vector<int> result = sol.sortArray(nums);
+    //vector<int> nums1 = { 5,1,1,2,0,0 };
+    //vector<int> result = sol.sortArray(nums1);
 
-    for (int i : result) {
-        cout << i << endl;
-    }
+    //for (int i : result) {
+    //    cout << i << endl;
+    //}
+
+    vector<int> nums2 = { 1, 2, 2, 3, 4, 5, 6, 7, 8 };
+    cout << sol.minK(nums2, 0, nums2.size() - 1, 9) << endl;
+
+    return 0;
 }
