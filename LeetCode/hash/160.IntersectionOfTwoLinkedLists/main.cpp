@@ -26,10 +26,7 @@ public:
         //然后从第二个里面找
         while (pCurB != nullptr) {
 
-            if (!setNodes.count(pCurB)) {
-                setNodes.insert(pCurB);
-            }
-            else {
+            if (setNodes.count(pCurB) != 0) {
                 return pCurB;
             }
 

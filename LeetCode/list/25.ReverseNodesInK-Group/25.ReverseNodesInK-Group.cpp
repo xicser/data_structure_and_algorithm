@@ -13,31 +13,28 @@ public:
     ListNode* reverseKGroup(ListNode* head, int k) {
 
         ListNode dummy(-1, head);   //伪头节点
-        ListNode* newList = &dummy;
+        ListNode* pPre = &dummy;
         ListNode* pCur = head;
+
         while (pCur != nullptr) {
 
-            ListNode* pCount = pCur;
-            int cnt = k - 1;
-            while (cnt > 0) {
-                cnt--;
-                pCount = pCount->next;
+            ListNode* from = pCur;
 
-                //最后一段不足k个
-                if (pCount == nullptr) {
+            int cnt = k;
+            while (--cnt) {
+                pCur = pCur->next;
+                if (pCur == nullptr) {
                     return dummy.next;
                 }
             }
+            ListNode* to = pCur->next;
+            ListNode* newList = reverseList(from, to);
 
-            ListNode* pNext = pCount->next;
+            pPre->next = newList;
+            from->next = to;
 
-            //反转
-            ListNode* rList = reverseList(pCur, pNext);
-
-            newList->next = pCount;
-            newList = pCur;
-
-            pCur = pNext;
+            pPre = from;
+            pCur = to;
         }
 
         return dummy.next;

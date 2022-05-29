@@ -28,15 +28,13 @@ public:
         if (root == nullptr) {
             return 0;
         }
+        
+        int left = max(0, process(root->left));
+        int right = max(0, process(root->right));
 
-        int rootVal = root->val;
-        int leftVal = max(process(root->left), 0);    //如果子树返回了负数, 那会越加越小, 那还不如不加, 即取0
-        int rightVal = max(process(root->right), 0);
+        this->maxSum = max(this->maxSum, root->val + left + right);
 
-        //在遍历过程中更新maxSum
-        this->maxSum = max(this->maxSum, rootVal + leftVal + rightVal);
-
-        return max(leftVal + rootVal, rightVal + rootVal);
+        return max(left, right) + root->val;
     }
 };
 

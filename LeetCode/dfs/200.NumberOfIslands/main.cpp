@@ -30,8 +30,13 @@ private:
             return;
         }
 
-        //如果已经被访问过
-        if (grid[row][col] != '1') {
+        //海
+        if (grid[row][col] == '0') {
+            return;
+        }
+
+        //已经被访问过
+        if (grid[row][col] == '2') {
             return;
         }
 

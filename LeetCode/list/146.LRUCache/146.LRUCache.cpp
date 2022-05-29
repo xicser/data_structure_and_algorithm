@@ -2,62 +2,75 @@
 #include <list>
 #include <unordered_map>
 
-
 using namespace std;
 
 class LRUCache {
 private:
+
+    typedef struct Node_t {
+        int key;
+        int value;
+        Node_t(int k, int v) {
+            key = k;
+            value = v;
+        }
+    } Node_t;
+
+    list<Node_t> lst;
+    unordered_map<int, list<Node_t>::iterator> map;
     int capacity;
-    unordered_map<int, list<pair<int, int>>::iterator> map; //key, value是list中元素的迭代器
-    list<pair<int, int>> list;  //pair<key, value>
+    int size;
 
 public:
     LRUCache(int capacity) {
         this->capacity = capacity;
+        this->size = 0;
     }
 
     int get(int key) {
-        if (map.count(key) != 0) {
-            
-            //map[key]是对应值再list中的迭代器位置
-            auto pos = map[key];
-            int value = (*pos).second;
-
-            //更新
-            list.erase(pos);
-            list.push_front(pair<int, int>(key, value));
-            map[key] = list.begin();
-
-            return value;
+        if (map.count(key) == 0) {
+            return -1;
         }
-        return -1;
+
+        list<Node_t>::iterator it = map[key];
+        key = it->key;
+        int value = it->value;
+        
+        lst.erase(it);
+        lst.push_front(Node_t(key, value));
+
+        map[key] = lst.begin();
+
+        return value;
     }
 
     void put(int key, int value) {
 
-        //如果key已经存在
+        //已经存在
         if (map.count(key) != 0) {
-            auto pos = map[key];
-            list.erase(pos);
+            list<Node_t>::iterator it = map[key];
+            int key = it->key;
 
-            list.push_front(pair<int, int>(key, value));
-            map[key] = list.begin();
+            lst.erase(it);
+            lst.push_front(Node_t(key, value));
+
+            map[key] = lst.begin();
         }
         else {
-            if (map.size() == capacity) {
-                pair<int, int> last = list.back();
-                
-                //先把最后那个删除
-                list.pop_back();
-                map.erase(last.first);
+            //满了
+            if (this->size == this->capacity) {
 
-                list.push_front(pair<int, int>(key, value));
-                map[key] = list.begin();
+                Node_t last = lst.back();
+                int k = last.key;
+                lst.pop_back();
+                map.erase(k);
+
+                this->size--;
             }
-            else {
-                list.push_front(pair<int, int>(key, value));
-                map[key] = list.begin();
-            }
+
+            lst.push_front(Node_t(key, value));
+            map[key] = lst.begin();
+            this->size++;
         }
     }
 };
@@ -66,4 +79,3 @@ int main()
 {
     std::cout << "Hello World!\n";
 }
-

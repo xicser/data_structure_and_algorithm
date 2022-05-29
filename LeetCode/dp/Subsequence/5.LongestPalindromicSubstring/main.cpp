@@ -10,10 +10,9 @@ public:
     string longestPalindrome(string s) {
 
         int len = s.size();
-        int resultLen = -1;
-        int startPos, endPos;
 
-        //dp[i][j]表示 从[i]开始 -> 至[j]结束 的 回文子串 的长度
+        int resultLen = -1;
+        int start, end;
         vector< vector<int> > dp(len, vector<int>(len, 0));
 
         for (int i = len - 1; i >= 0; i--) {
@@ -23,6 +22,7 @@ public:
                     dp[i][j] = 0;
                 }
                 else {
+                    //对角线
                     if (i == j) {
                         dp[i][j] = 1;
                     }
@@ -30,8 +30,7 @@ public:
                         dp[i][j] = 2;
                     }
                     else {
-
-                        if (dp[i + 1][j - 1] == j - i - 1) {
+                        if (dp[i + 1][j - 1] != 0) {
                             dp[i][j] = dp[i + 1][j - 1] + 2;
                         }
                         else {
@@ -40,16 +39,15 @@ public:
                     }
                 }
 
-                //记录长最长的那个回文子串
                 if (resultLen < dp[i][j]) {
-                    startPos = i;
-                    endPos = j;
                     resultLen = dp[i][j];
+                    start = i;
+                    end = j;
                 }
             }
         }
 
-        return s.substr(startPos, endPos - startPos + 1);;
+        return s.substr(start, end - start + 1);
     }
 };
 
@@ -57,6 +55,6 @@ int main()
 {
     Solution sol;
 
-    cout << sol.longestPalindrome("babad") << endl;
+    cout << sol.longestPalindrome("a") << endl;
     return 0;
 }

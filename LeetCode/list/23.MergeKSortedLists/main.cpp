@@ -56,7 +56,7 @@ class Solution {
 private:
     struct cmp {
         //Ð¡¸ù¶Ñ
-        bool operator()(ListNode* l1, ListNode* l2) {
+        bool operator()(const ListNode* l1, const ListNode* l2) {
             return l1->val > l2->val;
         }
     };

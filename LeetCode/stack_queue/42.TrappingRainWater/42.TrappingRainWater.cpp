@@ -6,40 +6,33 @@ using namespace std;
 
 class Solution {
 private:
-    //柱子
-    typedef struct Pillar_t {
+    struct Pillar_t {
         int index;
         int height;
-        Pillar_t() {
+        Pillar_t(int i, int h) {
+            this->index = i;
+            this->height = h;
         }
-        Pillar_t(int _index, int _height) {
-            index = _index;
-            height = _height;
-        }
-    } Pillar_t;
-
-    stack<Pillar_t> stk;
+    };
 
 public:
     int trap(vector<int>& height) {
 
         int result = 0;
+        stack<Pillar_t> stk;
         for (int i = 0; i < height.size(); i++) {
 
             int h = height[i];
-
-            //保持栈的单调性
             while (stk.empty() == false && stk.top().height < h) {
 
-                Pillar_t pillarRight = stk.top();
+                Pillar_t right = stk.top();
                 stk.pop();
 
                 if (stk.empty() == false) {
 
-                    Pillar_t pillarLeft = stk.top();
+                    Pillar_t left = stk.top();
 
-                    int S = (min(pillarLeft.height, h) - pillarRight.height) *      //高
-                                        (i - pillarLeft.index - 1);                 //底
+                    int S = (min(h, left.height) - right.height) * (i - left.index - 1);
                     result += S;
                 }
             }

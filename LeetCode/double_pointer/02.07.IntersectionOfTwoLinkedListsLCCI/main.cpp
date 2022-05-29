@@ -12,44 +12,14 @@ class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
 
-        int lenA = getListLen(headA);
-        int lenB = getListLen(headB);
-
-        ListNode *pA = headA;
-        ListNode *pB = headB;
-
-        if (lenA > lenB) {
-            int delta = lenA - lenB;
-            while (delta--) {
-                pA = pA->next;
-            }
-        }
-        else if (lenA < lenB) {
-            int delta = lenB - lenA;
-            while (delta--) {
-                pB = pB->next;
-            }
-        }
+        if (headA == nullptr || headB == nullptr) return nullptr;
+        ListNode* pA = headA, *pB = headB;
 
         while (pA != pB) {
-            pA = pA->next;
-            pB = pB->next;
+            pA = pA == nullptr ? headB : pA->next;
+            pB = pB == nullptr ? headA : pB->next;
         }
-
         return pA;
-    }
-
-private:
-    int getListLen(ListNode *head) {
-        int len = 0;
-
-        ListNode *pCur = head;
-        while (pCur != nullptr) {
-            len++;
-            pCur = pCur->next;
-        }
-
-        return len;
     }
 };
 
