@@ -16,35 +16,43 @@ struct TreeNode {
 class Solution {
 public:
     bool hasPathSum(TreeNode* root, int targetSum) {
+
+        if (root == nullptr) {
+            return false;
+        }
+
         this->targetSum = targetSum;
         hasPath = false;
-        int sum = 0;
-        process(root, sum);
+        process(root, 0);
 
         return hasPath;
     }
 
     void process(TreeNode* root, int sum) {
 
-        if (root == nullptr) {
+        if (hasPath == true) {
             return;
         }
+
+        int val = root->val;
+        sum += val;
 
         if (root->left == nullptr && root->right == nullptr) {
-            sum += root->val;
-            if (sum == this->targetSum) {
+            if (sum == targetSum) {
                 hasPath = true;
+                return;
             }
-            return;
         }
 
-        sum += root->val;
-        process(root->left, sum);
-        process(root->right, sum);
+        if (root->left != nullptr) {
+            process(root->left, sum);
+        }
+        if (root->right != nullptr) {
+            process(root->right, sum);
+        }
     }
 
 private:
-    vector<int> pathSums;
     int targetSum;
     bool hasPath;
 };

@@ -9,31 +9,25 @@ class Solution {
 public:
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
 
-        pathSum = 0;
         sort(candidates.begin(), candidates.end());
         backtracking(candidates, target, 0);
+        pathSum = 0;
 
         return result;
     }
 
 private:
-    vector<int> path;
-    vector<vector<int>> result;
-    int pathSum;
-
-    void backtracking(vector<int>& candidates, int target, int startIndex) {
+    void backtracking(vector<int>& candidates, int target, int index) {
 
         if (pathSum == target) {
             result.push_back(path);
             return;
         }
-        else if (pathSum > target) {
+        if (pathSum > target) {
             return;
         }
 
-        for (unsigned int i = startIndex; i < candidates.size()
-            && pathSum + candidates[i] <= target; i++) {
-
+        for (int i = index; i < candidates.size(); i++) {
             path.push_back(candidates[i]);
             pathSum += candidates[i];
 
@@ -43,6 +37,10 @@ private:
             pathSum -= candidates[i];
         }
     }
+
+    vector<vector<int>> result;
+    vector<int> path;
+    int pathSum;
 };
 
 int main()
