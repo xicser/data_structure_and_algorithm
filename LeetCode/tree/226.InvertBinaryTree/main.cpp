@@ -22,11 +22,12 @@ public:
             return nullptr;
         }
 
-        TreeNode *rootLeft = invertTree(root->left);
-        TreeNode *rootRight = invertTree(root->right);
+        TreeNode* left = invertTree(root->left);
+        TreeNode* right = invertTree(root->right);
 
-        root->left = rootRight;
-        root->right = rootLeft;
+        TreeNode* temp = root->left;
+        root->left = right;
+        root->right = temp;
 
         return root;
     }

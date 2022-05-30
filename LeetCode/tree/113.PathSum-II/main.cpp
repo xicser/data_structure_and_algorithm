@@ -17,37 +17,40 @@ class Solution {
 public:
     vector< vector<int> > pathSum(TreeNode* root, int targetSum) {
 
+        if (root == nullptr) {
+            return {};
+        }
+
         this->targetSum = targetSum;
 
         vector<int> path;
-        int sum;
-        process(root, path, sum);
+        int sum = 0;
+        dfs(root, path, sum);
+
         return paths;
     }
 
 private:
-    void process(TreeNode* root, vector<int> path, int sum) {
+    void dfs(TreeNode* root, vector<int> path, int sum) {
 
-        if (root == nullptr) {
-            return;
-        }
+        sum += root->val;
+        path.push_back(root->val);
 
+        //р╤вс╫з╣Ц
         if (root->left == nullptr && root->right == nullptr) {
-
-            path.push_back(root->val);
-            sum += root->val;
 
             if (sum == this->targetSum) {
                 paths.push_back(path);
             }
-
             return;
         }
 
-        path.push_back(root->val);
-        sum += root->val;
-        process(root->left, path, sum);
-        process(root->right, path, sum);
+        if (root->left != nullptr) {
+            dfs(root->left, path, sum);
+        }
+        if (root->right != nullptr) {
+            dfs(root->right, path, sum);
+        }
     }
 
     vector< vector<int> > paths;
