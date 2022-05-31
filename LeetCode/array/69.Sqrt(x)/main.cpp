@@ -8,30 +8,25 @@ class Solution {
 public:
     int mySqrt(int x) {
 
-        if (x == 0) {
-            return 0;
-        }
+        int left = 1;
+        int right = x;
 
-        if (x == 1) {
-            return 1;
-        }
-
-        int left = 0, right = x;  //在[0, 2]上二分
-
-        int root;
         while (left <= right) {
+            int mid = left + (right - left) / 2;
 
-            int mid = (left + right) / 2;
-            if ((long long)mid * mid <= x) {
-                root = mid;
-                left = mid + 1;
+            long long val = (long long)mid * (long long)mid;
+            if (val == x) {
+                return mid;
             }
-            else {
+            else if (val > x) {
                 right = mid - 1;
             }
+            else {
+                left = mid + 1;
+            }
         }
 
-        return root;
+        return left - 1;
     }
 };
 
@@ -39,6 +34,6 @@ int main()
 {
     Solution sol;
 
-    cout << sol.mySqrt(2) << endl;
+    cout << sol.mySqrt(4) << endl;
     return 0;
 }

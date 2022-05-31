@@ -18,7 +18,7 @@ public:
 		// 最长公共子序列的长度
         vector< vector<int> > dp(len1 + 1, vector<int>(len2 + 1, 1) );
 		//想象一下, 给nums1[0]前面加一个特殊字符A, 给nums2[0]前面加一个特殊字符A
-		//A与任何一直字符不相等
+		//A与任何已知字符不相等
         //dp数组初始化
 
         for (int i = 1; i < len1 + 1; i++) {
