@@ -35,6 +35,34 @@ public:
     }
 };
 
+/*
+class Solution {
+public:
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        vector<int> result;
+
+        multiset<int> st;
+
+        int left = 0, right = 0;
+        while (right < nums.size()) {
+            st.insert(nums[right]);
+            right++;
+
+            if (right - left == k) {
+                result.push_back(*(--st.end()));
+
+                auto it = st.find(nums[left]);
+
+                st.erase(it);
+                left++;
+            }
+        }
+
+        return result;
+    }
+};
+*/
+
 int main()
 {
     Solution sol;
