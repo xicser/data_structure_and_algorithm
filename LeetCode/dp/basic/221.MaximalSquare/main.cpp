@@ -11,7 +11,7 @@ public:
         int col = matrix[0].size();
 
         int maxSide = 0;
-        //dp[i][j]表示以[i][j]位置为右下角的的正方形的边长
+        //dp[i][j]表示以[i][j]位置为右下角的正方形的边长
         //为了方便处理, 加一行和一列 全是0
         vector< vector<int> > dp(row + 1, vector<int>(col + 1, 0));
 
