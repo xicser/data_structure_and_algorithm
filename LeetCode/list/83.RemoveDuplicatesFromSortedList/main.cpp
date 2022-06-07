@@ -17,22 +17,27 @@ public:
         if (head == nullptr) {
             return nullptr;
         }
+
         if (head->next == nullptr) {
             return head;
         }
 
-        if (head->val != head->next->val) {
+        int headVal = head->val;
+        int nextVal = head->next->val;
+
+        if (headVal != nextVal) {
             head->next = deleteDuplicates(head->next);
+            return head;
         }
         else {
             ListNode* move = head->next;
-            while (move != nullptr && move->val == head->val) {
+            while (move != nullptr && move->val == headVal) {
                 move = move->next;
             }
-            head->next = deleteDuplicates(move);
-        }
 
-        return head;
+            head->next = deleteDuplicates(move);
+            return head;
+        }
     }
 };
 
