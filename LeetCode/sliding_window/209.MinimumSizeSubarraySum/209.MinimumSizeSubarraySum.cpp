@@ -6,28 +6,25 @@ using namespace std;
 class Solution {
 public:
     int minSubArrayLen(int target, vector<int>& nums) {
-        
         int left = 0, right = 0;
+
+        int result = INT_MAX;
         int winSum = 0;
-
-        int minLen = INT_MAX;
-
         while (right < nums.size()) {
             winSum += nums[right];
             right++;
 
             while (winSum >= target) {
+
                 int winSize = right - left;
-                if (minLen > winSize) {
-                    minLen = winSize;
-                }
+                result = min(result, winSize);
 
                 winSum -= nums[left];
                 left++;
             }
         }
-
-        return minLen == INT_MAX ? 0 : minLen;
+        
+        return result == INT_MAX ? 0 : result;
     }
 };
 
