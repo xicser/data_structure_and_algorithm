@@ -19,20 +19,22 @@ public:
     int maxPathSum(TreeNode* root) {
         this->maxSum = INT_MIN;
         process(root);
+
         return this->maxSum;
     }
 
-    //函数含义: 返回一边包含root最大的
+    /* 返回root树一边包含root的最大值 */
     int process(TreeNode* root) {
 
         if (root == nullptr) {
             return 0;
         }
-        
+
         int left = max(0, process(root->left));
         int right = max(0, process(root->right));
 
-        this->maxSum = max(this->maxSum, root->val + left + right);
+        //在遍历过程中, 记录最大值
+        this->maxSum = max(this->maxSum, left + right + root->val);
 
         return max(left, right) + root->val;
     }

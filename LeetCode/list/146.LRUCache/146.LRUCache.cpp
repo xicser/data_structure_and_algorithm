@@ -6,7 +6,6 @@ using namespace std;
 
 class LRUCache {
 private:
-
     typedef struct Node_t {
         int key;
         int value;
@@ -39,6 +38,7 @@ public:
         lst.erase(it);
         lst.push_front(Node_t(key, value));
 
+        //更新map中的迭代器位置
         map[key] = lst.begin();
 
         return value;

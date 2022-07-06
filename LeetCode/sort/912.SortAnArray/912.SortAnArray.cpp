@@ -90,7 +90,7 @@ int main()
     //}
 
     vector<int> nums2 = { 1, 2, 2, 3, 4, 5, 6, 7, 8 };
-    cout << sol.minK(nums2, 0, nums2.size() - 1, 9) << endl;
+    cout << sol.minK(nums2, 0, nums2.size() - 1, 1) << endl;
 
     return 0;
 }

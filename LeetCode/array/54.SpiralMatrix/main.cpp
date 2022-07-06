@@ -25,8 +25,6 @@ public:
     }
 
     void printRound(vector<int> &result, vector<vector<int>>& matrix, int left, int top, int right, int bottom) {
-
-
         if (top == bottom) {
             for (int i = left; i <= right; i++) {
                 result.push_back(matrix[top][i]);

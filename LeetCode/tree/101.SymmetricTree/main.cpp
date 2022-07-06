@@ -14,28 +14,32 @@ struct TreeNode {
 
 class Solution {
 public:
-    //如果left和right互为镜像, 返回true
-    bool compare(TreeNode* left, TreeNode* right) {
-
-        if (left == nullptr && right == nullptr) {
+    bool isSymmetric(TreeNode* root) {
+        if (root == nullptr) {
             return true;
         }
-        if (left == nullptr && right != nullptr) {
-            return false;
-        }
-        if (left != nullptr && right == nullptr) {
-            return false;
-        }
-        if (left->val != right->val) {
+        return compare(root->left, root->right);
+    }
+
+    bool compare(TreeNode* root1, TreeNode* root2) {
+
+        if (root1 == nullptr && root2 != nullptr) {
             return false;
         }
 
-        return compare(left->left, right->right) == true &&
-               compare(left->right, right->left) == true;
-    }
-    bool isSymmetric(TreeNode* root) {
-        if (root == nullptr) return true;
-        return compare(root->left, root->right);
+        if (root1 != nullptr && root2 == nullptr) {
+            return false;
+        }
+
+        if (root1 == nullptr && root2 == nullptr) {
+            return true;
+        }
+
+        if (root1->val != root2->val) {
+            return false;
+        }
+
+        return compare(root1->left, root2->right) && compare(root1->right, root2->left);
     }
 };
 

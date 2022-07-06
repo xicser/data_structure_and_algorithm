@@ -24,7 +24,7 @@ private:
     string path;   //记录当前路径
     vector<string> result;  //最终结果
 
-    void backTracking(vector<char> &arr) {
+    void backTracking(const vector<char> &arr) {
 
         if (path.size() == allCnt) {
             result.push_back(path);
@@ -39,22 +39,22 @@ private:
                 }
                 path.push_back(arr[i]);
                 leftCnt++;
-
-                backTracking(arr);
-
-                leftCnt--;
-                path.pop_back();
             }
             else {
                 if (leftCnt <= rightCnt) {   //剪枝: 左括号个数小于右括号个数
                     continue;
                 }
-
                 path.push_back(arr[i]);
                 rightCnt++;
+            }
 
-                backTracking(arr);
+            backTracking(arr);
 
+            if (arr[i] == '(') {
+                leftCnt--;
+                path.pop_back();
+            }
+            else {
                 rightCnt--;
                 path.pop_back();
             }
@@ -65,7 +65,7 @@ private:
 int main()
 {
     Solution sol;
-    vector<string> result = sol.generateParenthesis(8);
+    vector<string> result = sol.generateParenthesis(3);
     for (int i = 0; i < result.size(); i++) {
         cout << result[i] << endl;
     }

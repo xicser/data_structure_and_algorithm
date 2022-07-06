@@ -22,7 +22,7 @@ public:
         ListNode* fast = head->next->next;
         while (slow != fast) {
 
-            if (fast == nullptr || fast->next == nullptr || fast->next->next == nullptr) {
+            if (fast == nullptr || fast->next == nullptr) {
                 return false;
             }
 

@@ -18,6 +18,8 @@ public:
             return len1;
         }
 
+        //为了方便处理,
+        //想象一下, 给word1和word2前面都加一个相同的字符A, 并且这个字符和任何已知的字符都不相等
         vector< vector<int> > dp(len1 + 1, vector<int>(len2 + 1, 0));
 
         for (int i = 0; i <= len1; i++) {
