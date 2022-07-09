@@ -11,20 +11,19 @@ public:
             return nums[0];
         }
 
-        int result = -1;
-
-        //dp[i][0]表示, 0到i之间, 以i结尾的子数组的最小乘积
-        //dp[i][1]表示, 0到i之间, 以i结尾的子数组的最大乘积
+        int result = INT_MIN;
+        //dp[i][0]表示最小乘积
+        //dp[i][1]表示最大乘积
         vector< vector<int> > dp(nums.size(), vector<int>(2, 0));
         dp[0][0] = nums[0];
         dp[0][1] = nums[0];
-        result = max(result, dp[0][1]);
+        result = max(max(dp[0][0], dp[0][1]), result);
+
         for (int i = 1; i < nums.size(); i++) {
+            dp[i][0] = min(min(dp[i - 1][0] * nums[i], dp[i - 1][1] * nums[i]), nums[i]);
+            dp[i][1] = max(max(dp[i - 1][0] * nums[i], dp[i - 1][1] * nums[i]), nums[i]);
 
-            dp[i][0] = min( dp[i - 1][0] * nums[i], min(dp[i - 1][1] * nums[i], nums[i]) );
-            dp[i][1] = max( dp[i - 1][0] * nums[i], max(dp[i - 1][1] * nums[i], nums[i]) );
-
-            result = max(result, dp[i][1]);
+            result = max(max(dp[i][0], dp[i][1]), result);
         }
 
         return result;
@@ -34,7 +33,7 @@ public:
 int main()
 {
     Solution sol;
-    vector<int> nums = {2,-1,1,1};
+    vector<int> nums = {2,3,-2,4};
 
     cout << sol.maxProduct(nums) << endl;
 

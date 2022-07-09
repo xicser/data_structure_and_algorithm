@@ -36,9 +36,8 @@ private:
         sum += root->val;
         path.push_back(root->val);
 
-        //叶子节点
+        //到了叶子节点
         if (root->left == nullptr && root->right == nullptr) {
-
             if (sum == this->targetSum) {
                 paths.push_back(path);
             }

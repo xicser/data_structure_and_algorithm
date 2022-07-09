@@ -19,14 +19,15 @@ private:
 
 public:
     string decodeString(string s) {
-        
+
         for (int i = s.size() - 1; i >= 0; ) {
 
+            // 往前找第一个左括号
             int j = i;
             while (j >= 0 && s[j] != '[') {
                 j--;
             }
-            if (j < 0) {
+            if (j < 0) { //没有左括号了, 说明解码完毕
                 break;
             }
 

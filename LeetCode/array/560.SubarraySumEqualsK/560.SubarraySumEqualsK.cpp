@@ -8,26 +8,25 @@ using namespace std;
 class Solution {
 public:
     int subarraySum(vector<int>& nums, int k) {
+        
+        int result = 0;
 
-        int count = 0;
-        unordered_map<int, int> mapPreSum;
+        unordered_map<int, int> preSumMap;  //记录每个前缀和数值出现的次数
 
         int preSum = 0;
-        mapPreSum[preSum] = 1;
-        
-        for (int i = 0; i < nums.size(); i++) {
-            preSum += nums[i]; //计算当前前缀和
+        preSumMap[preSum] = 1;
 
-            //如果之前有preSum - k的前缀和, 说明出现了和为k的子数组
-            if (mapPreSum.count(preSum - k) != 0) {
-                int val = mapPreSum[preSum - k];
-                count += val;
+        for (int i = 0; i < nums.size(); i++) {
+            preSum += nums[i];
+            //如果之前出现过preSum - k的前缀和, 说明出现了和为k的连续子数组
+            if (preSumMap.count(preSum - k) != 0) {
+                result += preSumMap[preSum - k];
             }
 
-            mapPreSum[preSum]++;
+            preSumMap[preSum]++;
         }
 
-        return count;
+        return result;
     }
 };
 

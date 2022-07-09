@@ -37,8 +37,9 @@ private:
 
         process(node->left);
 
+        //把第一个节点记下来
         if (pre == nullptr) {
-            first = node;           //把第一个节点记下来
+            first = node;
             pre = node;
         }
         else {
@@ -60,6 +61,7 @@ public:
 
         process(root);
 
+        //连接成循环链表
         pre->right = first;
         first->left = pre;
 

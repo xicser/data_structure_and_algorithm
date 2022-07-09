@@ -17,6 +17,7 @@ public:
             strs.push_back(to_string(nums[i]));
         }
 
+        // 重新排序
         sort(strs.begin(), strs.end(), [](const string& s1, const string& s2) {
             return s1 + s2 > s2 + s1;
         });
@@ -34,7 +35,7 @@ public:
         if (i == result.size()) {
             return "0";
         }
-        
+
         return result.substr(i, result.size() - i);
     }
 };

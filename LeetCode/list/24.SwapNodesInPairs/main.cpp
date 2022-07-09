@@ -12,25 +12,44 @@ struct ListNode {
 
 class Solution {
 public:
+//    ListNode* swapPairs(ListNode* head) {
+//
+//        ListNode fakeNode(-1, head);
+//        ListNode* pCur = &fakeNode;
+//
+//        while (pCur != nullptr && pCur->next != nullptr && pCur->next->next != nullptr) {
+//
+//            ListNode* first = pCur->next;
+//            ListNode* second = pCur->next->next;
+//            ListNode* third = pCur->next->next->next;
+//
+//            pCur->next = second;
+//            second->next = first;
+//            first->next = third;
+//
+//            pCur = first;
+//        }
+//
+//        return fakeNode.next;
+//    }
+
     ListNode* swapPairs(ListNode* head) {
 
-        ListNode fakeNode(-1, head);
-        ListNode* pCur = &fakeNode;
-
-        while (pCur != nullptr && pCur->next != nullptr && pCur->next->next != nullptr) {
-
-            ListNode* first = pCur->next;
-            ListNode* second = pCur->next->next;
-            ListNode* third = pCur->next->next->next;
-
-            pCur->next = second;
-            second->next = first;
-            first->next = third;
-
-            pCur = first;
+        if (head == nullptr) {
+            return nullptr;
+        }
+        if (head->next == nullptr) {
+            return head;
         }
 
-        return fakeNode.next;
+        ListNode* first = head;
+        ListNode* second = head->next;
+        ListNode* next = head->next->next;
+
+        second->next = first;
+        first->next = swapPairs(next);
+
+        return second;
     }
 };
 

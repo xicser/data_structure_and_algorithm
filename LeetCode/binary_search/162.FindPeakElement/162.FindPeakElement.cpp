@@ -8,12 +8,11 @@ class Solution {
 public:
     int findPeakElement(vector<int>& nums) {
 
-        int mid = 0;
-        int left = 0, right = nums.size() - 1;
-
         if (nums.size() == 1) {
             return 0;
         }
+
+        int left = 0, right = nums.size() - 1;
 
         //边界判断
         if (nums[0] > nums[1]) {
@@ -23,6 +22,7 @@ public:
             return right;
         }
 
+        int mid = 0;
         while (left < right) {
             mid = left + (right - left) / 2;
 
@@ -33,7 +33,7 @@ public:
                 left = mid;
             }
             else {
-                break;
+                return mid;
             }
         }
 
@@ -43,7 +43,7 @@ public:
 
 int main()
 {
-    vector<int> nums = { 1,2,3, 1};
+    vector<int> nums = {6, 5, 4, 3, 2, 3, 2};
     Solution sol;
     cout << sol.findPeakElement(nums) << endl;
 }

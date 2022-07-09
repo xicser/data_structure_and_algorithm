@@ -7,11 +7,15 @@ class Solution {
 public:
     string reverseWords(string s) {
 
+        //移除多余空格
         moveExtraSpace(s);
       //  cout << s << endl;
+
+        // 先把字符串整体反转
         reverseStr(s, 0, s.size() - 1);
       //  cout << s << endl;
 
+        //再把每个单词反转
         for (int i = 0; i < s.size(); ) {
             int j = i;
             while (j < s.size() && s[j] != ' ') {

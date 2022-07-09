@@ -9,6 +9,9 @@ public:
     int maxProfit(vector<int>& prices) {
 
         int pSize = prices.size();
+
+        //dp[i][0] 表示第i天不持有股票的最大利润
+        //dp[i][1] 表示第i天  持有股票的最大利润
         vector< vector<int> > dp(pSize, vector<int>(2, 0));
         dp[0][0] = 0;
         dp[0][1] = -prices[0];

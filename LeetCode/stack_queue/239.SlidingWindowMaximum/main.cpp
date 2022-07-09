@@ -5,6 +5,7 @@
 using namespace std;
 
 //[-7,-8,7,5,7,1,6,0]
+//单调栈做法
 class Solution {
 public:
     vector<int> maxSlidingWindow(vector<int>& nums, int k) {
@@ -36,6 +37,7 @@ public:
 };
 
 /*
+//滑动窗口做法
 class Solution {
 public:
     vector<int> maxSlidingWindow(vector<int>& nums, int k) {

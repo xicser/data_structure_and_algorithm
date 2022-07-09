@@ -194,7 +194,6 @@ public:
 
             //删除这个入度为0的点之后, 消除这个点临近的所有边
             unordered_set<int> nextNodes = adjMaxtrix[node];
-
             for (int next : nextNodes) {
                 inCntMap[next]--;
                 if (inCntMap[next] == 0) {
@@ -209,10 +208,10 @@ public:
 
 int main()
 {
-    vector<vector<int>> prerequisites = { {1, 4}, {2, 4}, {3, 1},{3, 2} };
+    vector<vector<int>> prerequisites = { {1,0}, {0,1} };
     Solution sol;
     
-    std::cout << sol.canFinish(5, prerequisites) << endl;
+    std::cout << sol.canFinish(2, prerequisites) << endl;
 
     return 0;
 }

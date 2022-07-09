@@ -35,7 +35,9 @@ private:
             return 0;
         }
 
+        //标记当前位置已经被访问过
         grid[row][col] = 2;
+
         int areaUp = getArea(grid, row - 1, col);
         int areaDown = getArea(grid, row + 1, col);
         int areaLeft = getArea(grid, row, col - 1);

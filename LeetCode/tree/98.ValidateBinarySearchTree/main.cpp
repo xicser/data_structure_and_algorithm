@@ -18,23 +18,11 @@ class Solution {
 public:
     bool isValidBST(TreeNode* root) {
 
-        process(root);
-
-        for (unsigned int i = 1; i < nums.size(); i++) {
-            if (nums[i] <= nums[i - 1]) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    void process(TreeNode* root) {
-
         if (root == nullptr) {
-            return;
+            return true;
         }
 
+        long long last = LONG_MIN;
         stack<TreeNode* > stk;
         TreeNode* pCur = root;
         while (pCur || !stk.empty()) {
@@ -45,15 +33,20 @@ public:
             else {
                 pCur = stk.top();
                 stk.pop();
-                printf("%d ", pCur->val);
-                nums.push_back(pCur->val);
+
+                if (pCur->val <= last) {
+                    return false;
+                }
+                else {
+                    last = pCur->val;
+                }
+
                 pCur = pCur->right;
             }
         }
-    }
 
-private:
-    vector<int> nums;
+        return true;
+    }
 };
 
 int main()

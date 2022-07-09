@@ -39,6 +39,7 @@ public:
             }
         }
 
+        //空节点只可能出现在最后
         for (int i = 0; i < vec.size(); i++) {
             TreeNode* node = vec[i];
             if (node == nullptr) {

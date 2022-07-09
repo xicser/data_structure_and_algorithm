@@ -13,12 +13,12 @@ private:
 
 public:
     int firstMissingPositive(vector<int>& nums) {
-        
+
         int len = nums.size();
         for (int i = 0; i < len; i++) {
-            while (1 <= nums[i] && nums[i] <= len &&
-                nums[i] != i + 1 &&
-                nums[nums[i] - 1] != nums[i]) {
+            while (1 <= nums[i] && nums[i] <= len &&    // 这个数必须在1到len之间，如果不在这个范围，根据hash规则，那么任何位置都放不了，就跳过了
+                nums[i] != i + 1 &&                     // 它不在改在的位置
+                nums[nums[i] - 1] != nums[i]) {         // 不用交换
 
                 swap(nums, nums[i] - 1, i);
             }

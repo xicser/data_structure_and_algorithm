@@ -37,6 +37,7 @@ public:
         int val = root->val;
         sum += val;
 
+        // р╤вс╫з╣Ц
         if (root->left == nullptr && root->right == nullptr) {
             if (sum == targetSum) {
                 hasPath = true;

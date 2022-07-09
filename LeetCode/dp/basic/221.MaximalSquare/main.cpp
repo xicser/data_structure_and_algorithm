@@ -19,7 +19,9 @@ public:
         for (int i = 1; i < row + 1; i++) {
             for (int j = 1; j < col + 1; j++) {
                 if (matrix[i - 1][j - 1] == '1') {
-                    dp[i][j] = min(min(dp[i - 1][j], dp[i][j - 1]), dp[i - 1][j - 1]) + 1;
+                    dp[i][j] = min(min(dp[i - 1][j],            //上面那个
+                                       dp[i][j - 1]),           //右边那个
+                                       dp[i - 1][j - 1]) + 1;   //左上角那个
                 }
                 maxSide = max(dp[i][j], maxSide);
             }
