@@ -4,6 +4,7 @@
 
 using namespace std;
 
+// nums = [2,7,11,15], target = 9
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
